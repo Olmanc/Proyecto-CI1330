@@ -1,0 +1,662 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Modelo.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CAMBIOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="CEDULA" Type="char" MaxLength="10" />
+          <Property Name="FECHA" Type="date" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="200" />
+          <Property Name="JUSTIFICACION" Type="varchar" MaxLength="700" />
+          <Property Name="REQUERIMIENTO_ID" Type="char" MaxLength="7" />
+          <Property Name="VERSION_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="CORREOS">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+            <PropertyRef Name="CORREO" />
+          </Key>
+          <Property Name="CEDULA" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="CORREO" Type="varchar" MaxLength="70" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CRIT_ACEPTACION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="200" />
+          <Property Name="REQUERIMIENTO_ID" Type="char" MaxLength="7" />
+          <Property Name="VERSION_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="MANEJA">
+          <Key>
+            <PropertyRef Name="ROL_ID" />
+            <PropertyRef Name="PERMISO_ID" />
+          </Key>
+          <Property Name="ROL_ID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PERMISO_ID" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PERMISOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="70" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="PROYECTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="70" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="200" />
+          <Property Name="FECHAINICIO" Type="date" />
+          <Property Name="FECHAFINAL" Type="date" />
+          <Property Name="DURACION" Type="int" />
+        </EntityType>
+        <EntityType Name="REQUERIMIENTOS">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="VERSION_ID" />
+          </Key>
+          <Property Name="ID" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="70" />
+          <Property Name="ESFUERZO" Type="int" />
+          <Property Name="IMAGEN" Type="image" />
+          <Property Name="DESCRIPCION" Type="varchar" MaxLength="200" />
+          <Property Name="PRIORIDAD" Type="int" />
+          <Property Name="OBSERVACIONES" Type="varchar" MaxLength="700" />
+          <Property Name="MODULO" Type="varchar" MaxLength="70" />
+          <Property Name="FECHAINCIO" Type="date" />
+          <Property Name="FECHAFINAL" Type="date" />
+          <Property Name="ESTADO" Type="char" MaxLength="1" />
+          <Property Name="ENCARGADO" Type="char" MaxLength="10" />
+          <Property Name="PRYCTOID" Type="char" MaxLength="7" />
+          <Property Name="VERSION_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TELEFONOS">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+            <PropertyRef Name="NUMERO" />
+          </Key>
+          <Property Name="CEDULA" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="NUMERO" Type="char" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USUARIOS">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+          </Key>
+          <Property Name="CEDULA" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="NOMBRE" Type="varchar" MaxLength="20" />
+          <Property Name="PRYCTOID" Type="char" MaxLength="7" />
+          <Property Name="LIDER" Type="bit" />
+        </EntityType>
+        <Association Name="FK__CAMBIOS__1ED998B2">
+          <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="0..1" />
+          <End Role="CAMBIOS" Type="Self.CAMBIOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REQUERIMIENTOS">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="VERSION_ID" />
+            </Principal>
+            <Dependent Role="CAMBIOS">
+              <PropertyRef Name="REQUERIMIENTO_ID" />
+              <PropertyRef Name="VERSION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CAMBIOS__CEDULA__1FCDBCEB">
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1" />
+          <End Role="CAMBIOS" Type="Self.CAMBIOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="CAMBIOS">
+              <PropertyRef Name="CEDULA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CORREOS__CEDULA__182C9B23">
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1" />
+          <End Role="CORREOS" Type="Self.CORREOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="CORREOS">
+              <PropertyRef Name="CEDULA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CRIT_ACEPTACION__22AA2996">
+          <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="0..1" />
+          <End Role="CRIT_ACEPTACION" Type="Self.CRIT_ACEPTACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REQUERIMIENTOS">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="VERSION_ID" />
+            </Principal>
+            <Dependent Role="CRIT_ACEPTACION">
+              <PropertyRef Name="REQUERIMIENTO_ID" />
+              <PropertyRef Name="VERSION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__REQUERIMI__ENCAR__1B0907CE">
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1" />
+          <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="REQUERIMIENTOS">
+              <PropertyRef Name="ENCARGADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__REQUERIMI__PRYCT__1BFD2C07">
+          <End Role="PROYECTO" Type="Self.PROYECTO" Multiplicity="0..1" />
+          <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="REQUERIMIENTOS">
+              <PropertyRef Name="PRYCTOID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TELEFONOS__CEDUL__15502E78">
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1" />
+          <End Role="TELEFONOS" Type="Self.TELEFONOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="TELEFONOS">
+              <PropertyRef Name="CEDULA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIOS__PRYCTO__1273C1CD">
+          <End Role="PROYECTO" Type="Self.PROYECTO" Multiplicity="0..1" />
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USUARIOS">
+              <PropertyRef Name="PRYCTOID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PermisoFK">
+          <End Role="PERMISOS" Type="Self.PERMISOS" Multiplicity="1" />
+          <End Role="MANEJA" Type="Self.MANEJA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERMISOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MANEJA">
+              <PropertyRef Name="PERMISO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModeloStoreContainer">
+          <EntitySet Name="CAMBIOS" EntityType="Self.CAMBIOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CORREOS" EntityType="Self.CORREOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CRIT_ACEPTACION" EntityType="Self.CRIT_ACEPTACION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MANEJA" EntityType="Self.MANEJA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERMISOS" EntityType="Self.PERMISOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PROYECTO" EntityType="Self.PROYECTO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="REQUERIMIENTOS" EntityType="Self.REQUERIMIENTOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TELEFONOS" EntityType="Self.TELEFONOS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__CAMBIOS__1ED998B2" Association="Self.FK__CAMBIOS__1ED998B2">
+            <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
+            <End Role="CAMBIOS" EntitySet="CAMBIOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CAMBIOS__CEDULA__1FCDBCEB" Association="Self.FK__CAMBIOS__CEDULA__1FCDBCEB">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="CAMBIOS" EntitySet="CAMBIOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CORREOS__CEDULA__182C9B23" Association="Self.FK__CORREOS__CEDULA__182C9B23">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="CORREOS" EntitySet="CORREOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CRIT_ACEPTACION__22AA2996" Association="Self.FK__CRIT_ACEPTACION__22AA2996">
+            <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
+            <End Role="CRIT_ACEPTACION" EntitySet="CRIT_ACEPTACION" />
+          </AssociationSet>
+          <AssociationSet Name="FK__REQUERIMI__ENCAR__1B0907CE" Association="Self.FK__REQUERIMI__ENCAR__1B0907CE">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__REQUERIMI__PRYCT__1BFD2C07" Association="Self.FK__REQUERIMI__PRYCT__1BFD2C07">
+            <End Role="PROYECTO" EntitySet="PROYECTO" />
+            <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TELEFONOS__CEDUL__15502E78" Association="Self.FK__TELEFONOS__CEDUL__15502E78">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="TELEFONOS" EntitySet="TELEFONOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIOS__PRYCTO__1273C1CD" Association="Self.FK__USUARIOS__PRYCTO__1273C1CD">
+            <End Role="PROYECTO" EntitySet="PROYECTO" />
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+          </AssociationSet>
+          <AssociationSet Name="PermisoFK" Association="Self.PermisoFK">
+            <End Role="PERMISOS" EntitySet="PERMISOS" />
+            <End Role="MANEJA" EntitySet="MANEJA" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Modelo" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CAMBIOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CEDULA" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="FECHA" Type="DateTime" Precision="0" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="JUSTIFICACION" Type="String" MaxLength="700" FixedLength="false" Unicode="false" />
+          <Property Name="REQUERIMIENTO_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="VERSION_ID" Type="Int32" />
+          <NavigationProperty Name="REQUERIMIENTOS" Relationship="Self.FK__CAMBIOS__1ED998B2" FromRole="CAMBIOS" ToRole="REQUERIMIENTOS" />
+          <NavigationProperty Name="USUARIOS" Relationship="Self.FK__CAMBIOS__CEDULA__1FCDBCEB" FromRole="CAMBIOS" ToRole="USUARIOS" />
+        </EntityType>
+        <EntityType Name="CORREOS">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+            <PropertyRef Name="CORREO" />
+          </Key>
+          <Property Name="CEDULA" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="CORREO" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="USUARIOS" Relationship="Self.FK__CORREOS__CEDULA__182C9B23" FromRole="CORREOS" ToRole="USUARIOS" />
+        </EntityType>
+        <EntityType Name="CRIT_ACEPTACION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="REQUERIMIENTO_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="VERSION_ID" Type="Int32" />
+          <NavigationProperty Name="REQUERIMIENTOS" Relationship="Self.FK__CRIT_ACEPTACION__22AA2996" FromRole="CRIT_ACEPTACION" ToRole="REQUERIMIENTOS" />
+        </EntityType>
+        <EntityType Name="MANEJA">
+          <Key>
+            <PropertyRef Name="ROL_ID" />
+            <PropertyRef Name="PERMISO_ID" />
+          </Key>
+          <Property Name="ROL_ID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PERMISO_ID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="PERMISOS" Relationship="Self.PermisoFK" FromRole="MANEJA" ToRole="PERMISOS" />
+        </EntityType>
+        <EntityType Name="PERMISOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="MANEJA" Relationship="Self.PermisoFK" FromRole="PERMISOS" ToRole="MANEJA" />
+        </EntityType>
+        <EntityType Name="PROYECTO">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FECHAINICIO" Type="DateTime" Precision="0" />
+          <Property Name="FECHAFINAL" Type="DateTime" Precision="0" />
+          <Property Name="DURACION" Type="Int32" />
+          <NavigationProperty Name="REQUERIMIENTOS" Relationship="Self.FK__REQUERIMI__PRYCT__1BFD2C07" FromRole="PROYECTO" ToRole="REQUERIMIENTOS" />
+          <NavigationProperty Name="USUARIOS" Relationship="Self.FK__USUARIOS__PRYCTO__1273C1CD" FromRole="PROYECTO" ToRole="USUARIOS" />
+        </EntityType>
+        <EntityType Name="REQUERIMIENTOS">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="VERSION_ID" />
+          </Key>
+          <Property Name="ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="ESFUERZO" Type="Int32" />
+          <Property Name="IMAGEN" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="PRIORIDAD" Type="Int32" />
+          <Property Name="OBSERVACIONES" Type="String" MaxLength="700" FixedLength="false" Unicode="false" />
+          <Property Name="MODULO" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="FECHAINCIO" Type="DateTime" Precision="0" />
+          <Property Name="FECHAFINAL" Type="DateTime" Precision="0" />
+          <Property Name="ESTADO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ENCARGADO" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="PRYCTOID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="VERSION_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CAMBIOS" Relationship="Self.FK__CAMBIOS__1ED998B2" FromRole="REQUERIMIENTOS" ToRole="CAMBIOS" />
+          <NavigationProperty Name="CRIT_ACEPTACION" Relationship="Self.FK__CRIT_ACEPTACION__22AA2996" FromRole="REQUERIMIENTOS" ToRole="CRIT_ACEPTACION" />
+          <NavigationProperty Name="PROYECTO" Relationship="Self.FK__REQUERIMI__PRYCT__1BFD2C07" FromRole="REQUERIMIENTOS" ToRole="PROYECTO" />
+          <NavigationProperty Name="USUARIOS" Relationship="Self.FK__REQUERIMI__ENCAR__1B0907CE" FromRole="REQUERIMIENTOS" ToRole="USUARIOS" />
+        </EntityType>
+        <EntityType Name="TELEFONOS">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+            <PropertyRef Name="NUMERO" />
+          </Key>
+          <Property Name="CEDULA" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NUMERO" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="USUARIOS" Relationship="Self.FK__TELEFONOS__CEDUL__15502E78" FromRole="TELEFONOS" ToRole="USUARIOS" />
+        </EntityType>
+        <EntityType Name="USUARIOS">
+          <Key>
+            <PropertyRef Name="CEDULA" />
+          </Key>
+          <Property Name="CEDULA" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="NOMBRE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PRYCTOID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
+          <Property Name="LIDER" Type="Boolean" />
+          <NavigationProperty Name="CAMBIOS" Relationship="Self.FK__CAMBIOS__CEDULA__1FCDBCEB" FromRole="USUARIOS" ToRole="CAMBIOS" />
+          <NavigationProperty Name="CORREOS" Relationship="Self.FK__CORREOS__CEDULA__182C9B23" FromRole="USUARIOS" ToRole="CORREOS" />
+          <NavigationProperty Name="PROYECTO" Relationship="Self.FK__USUARIOS__PRYCTO__1273C1CD" FromRole="USUARIOS" ToRole="PROYECTO" />
+          <NavigationProperty Name="REQUERIMIENTOS" Relationship="Self.FK__REQUERIMI__ENCAR__1B0907CE" FromRole="USUARIOS" ToRole="REQUERIMIENTOS" />
+          <NavigationProperty Name="TELEFONOS" Relationship="Self.FK__TELEFONOS__CEDUL__15502E78" FromRole="USUARIOS" ToRole="TELEFONOS" />
+        </EntityType>
+        <Association Name="FK__CAMBIOS__1ED998B2">
+          <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="0..1" />
+          <End Role="CAMBIOS" Type="Self.CAMBIOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REQUERIMIENTOS">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="VERSION_ID" />
+            </Principal>
+            <Dependent Role="CAMBIOS">
+              <PropertyRef Name="REQUERIMIENTO_ID" />
+              <PropertyRef Name="VERSION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CAMBIOS__CEDULA__1FCDBCEB">
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1" />
+          <End Role="CAMBIOS" Type="Self.CAMBIOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="CAMBIOS">
+              <PropertyRef Name="CEDULA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CORREOS__CEDULA__182C9B23">
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1" />
+          <End Role="CORREOS" Type="Self.CORREOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="CORREOS">
+              <PropertyRef Name="CEDULA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__CRIT_ACEPTACION__22AA2996">
+          <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="0..1" />
+          <End Role="CRIT_ACEPTACION" Type="Self.CRIT_ACEPTACION" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="REQUERIMIENTOS">
+              <PropertyRef Name="ID" />
+              <PropertyRef Name="VERSION_ID" />
+            </Principal>
+            <Dependent Role="CRIT_ACEPTACION">
+              <PropertyRef Name="REQUERIMIENTO_ID" />
+              <PropertyRef Name="VERSION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PermisoFK">
+          <End Role="PERMISOS" Type="Self.PERMISOS" Multiplicity="1" />
+          <End Role="MANEJA" Type="Self.MANEJA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERMISOS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="MANEJA">
+              <PropertyRef Name="PERMISO_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__REQUERIMI__PRYCT__1BFD2C07">
+          <End Role="PROYECTO" Type="Self.PROYECTO" Multiplicity="0..1" />
+          <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="REQUERIMIENTOS">
+              <PropertyRef Name="PRYCTOID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__USUARIOS__PRYCTO__1273C1CD">
+          <End Role="PROYECTO" Type="Self.PROYECTO" Multiplicity="0..1" />
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PROYECTO">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="USUARIOS">
+              <PropertyRef Name="PRYCTOID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__REQUERIMI__ENCAR__1B0907CE">
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1" />
+          <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="REQUERIMIENTOS">
+              <PropertyRef Name="ENCARGADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TELEFONOS__CEDUL__15502E78">
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1" />
+          <End Role="TELEFONOS" Type="Self.TELEFONOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="CEDULA" />
+            </Principal>
+            <Dependent Role="TELEFONOS">
+              <PropertyRef Name="CEDULA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BD_IngeGrupo2Entities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CAMBIOS" EntityType="Self.CAMBIOS" />
+          <EntitySet Name="CORREOS" EntityType="Self.CORREOS" />
+          <EntitySet Name="CRIT_ACEPTACION" EntityType="Self.CRIT_ACEPTACION" />
+          <EntitySet Name="MANEJA" EntityType="Self.MANEJA" />
+          <EntitySet Name="PERMISOS" EntityType="Self.PERMISOS" />
+          <EntitySet Name="PROYECTO" EntityType="Self.PROYECTO" />
+          <EntitySet Name="REQUERIMIENTOS" EntityType="Self.REQUERIMIENTOS" />
+          <EntitySet Name="TELEFONOS" EntityType="Self.TELEFONOS" />
+          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" />
+          <AssociationSet Name="FK__CAMBIOS__1ED998B2" Association="Self.FK__CAMBIOS__1ED998B2">
+            <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
+            <End Role="CAMBIOS" EntitySet="CAMBIOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CAMBIOS__CEDULA__1FCDBCEB" Association="Self.FK__CAMBIOS__CEDULA__1FCDBCEB">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="CAMBIOS" EntitySet="CAMBIOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CORREOS__CEDULA__182C9B23" Association="Self.FK__CORREOS__CEDULA__182C9B23">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="CORREOS" EntitySet="CORREOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__CRIT_ACEPTACION__22AA2996" Association="Self.FK__CRIT_ACEPTACION__22AA2996">
+            <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
+            <End Role="CRIT_ACEPTACION" EntitySet="CRIT_ACEPTACION" />
+          </AssociationSet>
+          <AssociationSet Name="PermisoFK" Association="Self.PermisoFK">
+            <End Role="PERMISOS" EntitySet="PERMISOS" />
+            <End Role="MANEJA" EntitySet="MANEJA" />
+          </AssociationSet>
+          <AssociationSet Name="FK__REQUERIMI__PRYCT__1BFD2C07" Association="Self.FK__REQUERIMI__PRYCT__1BFD2C07">
+            <End Role="PROYECTO" EntitySet="PROYECTO" />
+            <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__USUARIOS__PRYCTO__1273C1CD" Association="Self.FK__USUARIOS__PRYCTO__1273C1CD">
+            <End Role="PROYECTO" EntitySet="PROYECTO" />
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__REQUERIMI__ENCAR__1B0907CE" Association="Self.FK__REQUERIMI__ENCAR__1B0907CE">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TELEFONOS__CEDUL__15502E78" Association="Self.FK__TELEFONOS__CEDUL__15502E78">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="TELEFONOS" EntitySet="TELEFONOS" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModeloStoreContainer" CdmEntityContainer="BD_IngeGrupo2Entities2">
+          <EntitySetMapping Name="CAMBIOS">
+            <EntityTypeMapping TypeName="Modelo.CAMBIOS">
+              <MappingFragment StoreEntitySet="CAMBIOS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="FECHA" ColumnName="FECHA" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="JUSTIFICACION" ColumnName="JUSTIFICACION" />
+                <ScalarProperty Name="REQUERIMIENTO_ID" ColumnName="REQUERIMIENTO_ID" />
+                <ScalarProperty Name="VERSION_ID" ColumnName="VERSION_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CORREOS">
+            <EntityTypeMapping TypeName="Modelo.CORREOS">
+              <MappingFragment StoreEntitySet="CORREOS">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="CORREO" ColumnName="CORREO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CRIT_ACEPTACION">
+            <EntityTypeMapping TypeName="Modelo.CRIT_ACEPTACION">
+              <MappingFragment StoreEntitySet="CRIT_ACEPTACION">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="REQUERIMIENTO_ID" ColumnName="REQUERIMIENTO_ID" />
+                <ScalarProperty Name="VERSION_ID" ColumnName="VERSION_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MANEJA">
+            <EntityTypeMapping TypeName="Modelo.MANEJA">
+              <MappingFragment StoreEntitySet="MANEJA">
+                <ScalarProperty Name="ROL_ID" ColumnName="ROL_ID" />
+                <ScalarProperty Name="PERMISO_ID" ColumnName="PERMISO_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERMISOS">
+            <EntityTypeMapping TypeName="Modelo.PERMISOS">
+              <MappingFragment StoreEntitySet="PERMISOS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROYECTO">
+            <EntityTypeMapping TypeName="Modelo.PROYECTO">
+              <MappingFragment StoreEntitySet="PROYECTO">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="FECHAINICIO" ColumnName="FECHAINICIO" />
+                <ScalarProperty Name="FECHAFINAL" ColumnName="FECHAFINAL" />
+                <ScalarProperty Name="DURACION" ColumnName="DURACION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REQUERIMIENTOS">
+            <EntityTypeMapping TypeName="Modelo.REQUERIMIENTOS">
+              <MappingFragment StoreEntitySet="REQUERIMIENTOS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ESFUERZO" ColumnName="ESFUERZO" />
+                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="PRIORIDAD" ColumnName="PRIORIDAD" />
+                <ScalarProperty Name="OBSERVACIONES" ColumnName="OBSERVACIONES" />
+                <ScalarProperty Name="MODULO" ColumnName="MODULO" />
+                <ScalarProperty Name="FECHAINCIO" ColumnName="FECHAINCIO" />
+                <ScalarProperty Name="FECHAFINAL" ColumnName="FECHAFINAL" />
+                <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
+                <ScalarProperty Name="ENCARGADO" ColumnName="ENCARGADO" />
+                <ScalarProperty Name="PRYCTOID" ColumnName="PRYCTOID" />
+                <ScalarProperty Name="VERSION_ID" ColumnName="VERSION_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TELEFONOS">
+            <EntityTypeMapping TypeName="Modelo.TELEFONOS">
+              <MappingFragment StoreEntitySet="TELEFONOS">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NUMERO" ColumnName="NUMERO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIOS">
+            <EntityTypeMapping TypeName="Modelo.USUARIOS">
+              <MappingFragment StoreEntitySet="USUARIOS">
+                <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="PRYCTOID" ColumnName="PRYCTOID" />
+                <ScalarProperty Name="LIDER" ColumnName="LIDER" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

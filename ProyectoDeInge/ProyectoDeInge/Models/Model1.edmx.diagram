@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6c00b378b3d1427d8dfc4f6a788b3336" Name="Diagram1">
+        <EntityTypeShape EntityType="Modelo.CAMBIOS" Width="1.5" PointX="7.5" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.CORREOS" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.CRIT_ACEPTACION" Width="1.5" PointX="7.5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.MANEJA" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.PERMISOS" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.PROYECTO" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.REQUERIMIENTOS" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.TELEFONOS" Width="1.5" PointX="5.25" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="Modelo.USUARIOS" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <AssociationConnector Association="Modelo.FK__CAMBIOS__1ED998B2" ManuallyRouted="false" />
+        <AssociationConnector Association="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" ManuallyRouted="false" />
+        <AssociationConnector Association="Modelo.FK__CORREOS__CEDULA__182C9B23" ManuallyRouted="false" />
+        <AssociationConnector Association="Modelo.FK__CRIT_ACEPTACION__22AA2996" ManuallyRouted="false" />
+        <AssociationConnector Association="Modelo.PermisoFK" ManuallyRouted="false" />
+        <AssociationConnector Association="Modelo.FK__REQUERIMI__PRYCT__1BFD2C07" ManuallyRouted="false" />
+        <AssociationConnector Association="Modelo.FK__USUARIOS__PRYCTO__1273C1CD" ManuallyRouted="false" />
+        <AssociationConnector Association="Modelo.FK__REQUERIMI__ENCAR__1B0907CE" ManuallyRouted="false" />
+        <AssociationConnector Association="Modelo.FK__TELEFONOS__CEDUL__15502E78" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

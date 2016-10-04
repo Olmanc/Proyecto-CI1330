@@ -1,0 +1,43 @@
+﻿@model ProyectoDeInge.Models.USUARIOS
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>USUARIOS</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NOMBRE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOMBRE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LIDER)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LIDER)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PROYECTO.NOMBRE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PROYECTO.NOMBRE)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CEDULA }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
