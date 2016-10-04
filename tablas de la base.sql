@@ -82,9 +82,11 @@ CREATE TABLE PERMISOS(
 );
 
 CREATE TABLE MANEJA(
-	ID		NVARCHAR(128),
-	FOREIGN KEY	(ID) REFERENCES PERMISOS(ID),
+	ROL_ID		NVARCHAR(128) not null,
+	PERMISO_ID NVARCHAR(128) not null,
+	constraint RolFk FOREIGN KEY	(ROL_ID) REFERENCES AspNetRoles(Id),
+	constraint PermisoFK foreign key (PERMISO_ID) REFERENCES PERMISOS(ID)
 );
 
 ALTER TABLE MANEJA
-        ADD constraint manejaPk primary key (roleId, permisoId)
+    ADD CONSTRAINT manejaPk primary key (ROL_ID, PERMISO_ID)
