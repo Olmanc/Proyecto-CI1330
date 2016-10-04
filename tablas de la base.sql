@@ -85,3 +85,6 @@ CREATE TABLE MANEJA(
 	ID		NVARCHAR(128),
 	FOREIGN KEY	(ID) REFERENCES PERMISOS(ID),
 );
+
+ALTER TABLE MANEJA
+        ADD constraint manejaPk primary key (roleId, permisoId)
