@@ -71,7 +71,14 @@
                 }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => Model.modeloProyecto.ElementAt(i).NOMBRE)
+                @for (int j = 0; j < Model.listaProyecto.Count; j++)
+                {
+                    if (Model.listaUsuarios.ElementAt(i).PRYCTOID.Equals(Model.listaProyecto.ElementAt(j).ID))
+                    {
+                        @Html.DisplayFor(modelItem => Model.listaProyecto.ElementAt(j).NOMBRE)
+                        @Html.Raw(" ")
+                    }
+                }
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = Model.listaUsuarios.ElementAt(i).CEDULA }) |

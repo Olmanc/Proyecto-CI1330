@@ -15,5 +15,6 @@ namespace ProyectoDeInge.Models
         public List<USUARIOS> listaUsuarios = new List<USUARIOS>();
         public List<TELEFONOS> listaTelefonos = new List<TELEFONOS>();
         public List<CORREOS> listaCorreos = new List<CORREOS>();
+        public List<PROYECTO> listaProyecto = new List<PROYECTO>();
     }
 }

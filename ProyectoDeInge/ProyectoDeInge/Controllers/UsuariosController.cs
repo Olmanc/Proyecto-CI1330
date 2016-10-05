@@ -21,6 +21,7 @@ namespace ProyectoDeInge.Controllers
             modelo.listaUsuarios = db.USUARIOS.ToList();
             modelo.listaTelefonos = db.TELEFONOS.ToList();
             modelo.listaCorreos = db.CORREOS.ToList();
+            modelo.listaProyecto = db.PROYECTO.ToList();
             return View(modelo);
         }
 
