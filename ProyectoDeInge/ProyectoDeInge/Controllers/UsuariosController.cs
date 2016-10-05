@@ -71,7 +71,6 @@ namespace ProyectoDeInge.Controllers
     // GET: Usuarios/Create
     public ActionResult Create()
         {
-            ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE");
             return View();
         }
 

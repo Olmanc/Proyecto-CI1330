@@ -73,10 +73,13 @@
             <td>
                 @for (int j = 0; j < Model.listaProyecto.Count; j++)
                 {
-                    if (Model.listaUsuarios.ElementAt(i).PRYCTOID.Equals(Model.listaProyecto.ElementAt(j).ID))
+                    if (Model.listaUsuarios.ElementAt(i).PRYCTOID != null)
                     {
-                        @Html.DisplayFor(modelItem => Model.listaProyecto.ElementAt(j).NOMBRE)
-                        @Html.Raw(" ")
+                        if (Model.listaUsuarios.ElementAt(i).PRYCTOID.Equals(Model.listaProyecto.ElementAt(j).ID)) 
+                        { 
+                            @Html.DisplayFor(modelItem => Model.listaProyecto.ElementAt(j).NOMBRE)
+                         @Html.Raw(" ")
+                        }
                     }
                 }
             </td>

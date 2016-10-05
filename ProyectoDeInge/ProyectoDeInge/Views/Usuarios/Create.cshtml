@@ -51,14 +51,6 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => Model.modeloProyecto.ID, "PRYCTOID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PRYCTOID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => Model.modeloProyecto.ID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => Model.modeloCorreo.CORREO, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => Model.modeloCorreo.CORREO, new { htmlAttributes = new { @class = "form-control" } })
