@@ -27,6 +27,8 @@ namespace ProyectoDeInge.Models
         public string NOMBRE { get; set; }
         public string PRYCTOID { get; set; }
         public Nullable<bool> LIDER { get; set; }
+        public string APELLIDO1 { get; set; }
+        public string APELLIDO2 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CAMBIOS> CAMBIOS { get; set; }

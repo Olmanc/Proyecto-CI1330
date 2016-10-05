@@ -1,4 +1,4 @@
-﻿@model ProyectoDeInge.Models.USUARIOS
+﻿@model ProyectoDeInge.Models.ModeloIntermedio
 
 @{
     ViewBag.Title = "Details";
@@ -12,32 +12,40 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.NOMBRE)
+            @Html.DisplayNameFor(model => model.modeloUsuario.NOMBRE)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NOMBRE)
+            @Html.DisplayFor(model => model.modeloUsuario.NOMBRE)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.LIDER)
+            @Html.DisplayNameFor(model => model.modeloUsuario.LIDER)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.LIDER)
+            @Html.DisplayFor(model => model.modeloUsuario.LIDER)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PROYECTO.NOMBRE)
+            @Html.DisplayNameFor(model => model.modeloTelefono.NUMERO)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PROYECTO.NOMBRE)
+            @Html.DisplayFor(model => model.modeloTelefono.NUMERO)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.modeloCorreo.CORREO)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.modeloCorreo.CORREO)
+        </dd>
+
+
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CEDULA }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.modeloUsuario.CEDULA }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

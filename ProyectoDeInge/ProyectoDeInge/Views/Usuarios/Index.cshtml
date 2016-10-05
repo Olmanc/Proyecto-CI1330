@@ -1,46 +1,85 @@
-﻿@model IEnumerable<ProyectoDeInge.Models.USUARIOS>
+﻿@model ProyectoDeInge.Models.ModeloIntermedio
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
+<h2>Gestión de Usuarios</h2>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.NOMBRE)
+            Nombre
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LIDER)
+            Apellido
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PROYECTO.NOMBRE)
+            Apellido 2
         </th>
-        <th></th>
+        <th>
+            Cédula
+        </th>
+        <th>
+            Teléfonos
+        </th>
+        <th>
+            Correos
+        </th>
+        <th>
+            Proyecto
+        </th>
+
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.NOMBRE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LIDER)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PROYECTO.NOMBRE)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CEDULA }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CEDULA }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CEDULA })
-        </td>
-    </tr>
-}
-
+    @for (int i = 0; i < Model.listaUsuarios.Count; i++)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.listaUsuarios.ElementAt(i).NOMBRE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.listaUsuarios.ElementAt(i).APELLIDO1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.listaUsuarios.ElementAt(i).APELLIDO2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.listaUsuarios.ElementAt(i).CEDULA)
+            </td>
+            <td>
+                @for (int j = 0; j < Model.listaTelefonos.Count; j++)
+                {
+                    if (Model.listaUsuarios.ElementAt(i).CEDULA.Equals(Model.listaTelefonos.ElementAt(j).CEDULA))
+                    {
+                        @Html.DisplayFor(modelItem => Model.listaTelefonos.ElementAt(j).NUMERO)
+                        @Html.Raw(" ")
+                    }
+                }
+            </td>
+            <td>
+                @for (int j = 0; j < Model.listaCorreos.Count; j++)
+                {
+                    if (Model.listaUsuarios.ElementAt(i).CEDULA.Equals(Model.listaCorreos.ElementAt(j).CEDULA))
+                    {
+                        @Html.DisplayFor(modelItem => Model.listaCorreos.ElementAt(j).CORREO)
+                        @Html.Raw(" ")
+                    }
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.modeloProyecto.ElementAt(i).NOMBRE)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.listaUsuarios.ElementAt(i).CEDULA }) |
+                @Html.ActionLink("Details", "Details", new { id = Model.listaUsuarios.ElementAt(i).CEDULA }) |
+                @Html.ActionLink("Delete", "Delete", new { id = Model.listaUsuarios.ElementAt(i).CEDULA })
+            </td>
+        </tr>
+    }
 </table>
+
+

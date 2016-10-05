@@ -92,6 +92,8 @@
     <Property Name="NOMBRE" Type="varchar" MaxLength="20" />
     <Property Name="PRYCTOID" Type="char" MaxLength="7" />
     <Property Name="LIDER" Type="bit" />
+    <Property Name="APELLIDO1" Type="char" MaxLength="20" />
+    <Property Name="APELLIDO2" Type="char" MaxLength="20" />
   </EntityType>
   <Association Name="FK__CAMBIOS__1ED998B2">
     <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="0..1" />

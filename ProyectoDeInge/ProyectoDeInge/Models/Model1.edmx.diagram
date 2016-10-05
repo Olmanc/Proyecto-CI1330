@@ -5,24 +5,24 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="6c00b378b3d1427d8dfc4f6a788b3336" Name="Diagram1">
-        <EntityTypeShape EntityType="Modelo.CAMBIOS" Width="1.5" PointX="7.5" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Modelo.CORREOS" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Modelo.CRIT_ACEPTACION" Width="1.5" PointX="7.5" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="Modelo.MANEJA" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="Modelo.PERMISOS" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Modelo.PROYECTO" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Modelo.REQUERIMIENTOS" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Modelo.TELEFONOS" Width="1.5" PointX="5.25" PointY="12" IsExpanded="true" />
-        <EntityTypeShape EntityType="Modelo.USUARIOS" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
-        <AssociationConnector Association="Modelo.FK__CAMBIOS__1ED998B2" ManuallyRouted="false" />
-        <AssociationConnector Association="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" ManuallyRouted="false" />
-        <AssociationConnector Association="Modelo.FK__CORREOS__CEDULA__182C9B23" ManuallyRouted="false" />
-        <AssociationConnector Association="Modelo.FK__CRIT_ACEPTACION__22AA2996" ManuallyRouted="false" />
-        <AssociationConnector Association="Modelo.PermisoFK" ManuallyRouted="false" />
-        <AssociationConnector Association="Modelo.FK__REQUERIMI__PRYCT__1BFD2C07" ManuallyRouted="false" />
-        <AssociationConnector Association="Modelo.FK__USUARIOS__PRYCTO__1273C1CD" ManuallyRouted="false" />
-        <AssociationConnector Association="Modelo.FK__REQUERIMI__ENCAR__1B0907CE" ManuallyRouted="false" />
-        <AssociationConnector Association="Modelo.FK__TELEFONOS__CEDUL__15502E78" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Modelo.CAMBIOS" Width="1.5" PointX="7.5" PointY="5.25" />
+        <EntityTypeShape EntityType="Modelo.CORREOS" Width="1.5" PointX="5.25" PointY="9.625" />
+        <EntityTypeShape EntityType="Modelo.CRIT_ACEPTACION" Width="1.5" PointX="7.5" PointY="8.75" />
+        <EntityTypeShape EntityType="Modelo.MANEJA" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="Modelo.PERMISOS" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="Modelo.PROYECTO" Width="1.5" PointX="0.75" PointY="5.125" />
+        <EntityTypeShape EntityType="Modelo.REQUERIMIENTOS" Width="1.5" PointX="5.25" PointY="4" />
+        <EntityTypeShape EntityType="Modelo.TELEFONOS" Width="1.5" PointX="5.25" PointY="12" />
+        <EntityTypeShape EntityType="Modelo.USUARIOS" Width="1.5" PointX="3" PointY="10.125" />
+        <AssociationConnector Association="Modelo.FK__CAMBIOS__1ED998B2" />
+        <AssociationConnector Association="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" />
+        <AssociationConnector Association="Modelo.FK__CORREOS__CEDULA__182C9B23" />
+        <AssociationConnector Association="Modelo.FK__CRIT_ACEPTACION__22AA2996" />
+        <AssociationConnector Association="Modelo.PermisoFK" />
+        <AssociationConnector Association="Modelo.FK__REQUERIMI__PRYCT__1BFD2C07" />
+        <AssociationConnector Association="Modelo.FK__USUARIOS__PRYCTO__1273C1CD" />
+        <AssociationConnector Association="Modelo.FK__REQUERIMI__ENCAR__1B0907CE" />
+        <AssociationConnector Association="Modelo.FK__TELEFONOS__CEDUL__15502E78" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

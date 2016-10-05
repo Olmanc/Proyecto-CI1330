@@ -17,27 +17,58 @@ namespace ProyectoDeInge.Controllers
         // GET: Usuarios
         public ActionResult Index()
         {
-            var uSUARIOS = db.USUARIOS.Include(u => u.PROYECTO);
-            return View(uSUARIOS.ToList());
+            ModeloIntermedio modelo = new ModeloIntermedio();
+            modelo.listaUsuarios = db.USUARIOS.ToList();
+            modelo.listaTelefonos = db.TELEFONOS.ToList();
+            modelo.listaCorreos = db.CORREOS.ToList();
+            return View(modelo);
         }
 
         // GET: Usuarios/Details/5
         public ActionResult Details(string id)
         {
+            ModeloIntermedio modelo = new ModeloIntermedio();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            USUARIOS uSUARIOS = db.USUARIOS.Find(id);
-            if (uSUARIOS == null)
+            USUARIOS user = db.USUARIOS.Find(id);
+            if (user == null)
             {
                 return HttpNotFound();
             }
-            return View(uSUARIOS);
-        }
+            TELEFONOS tel = new TELEFONOS();
+            List<TELEFONOS> listaTelefs = db.TELEFONOS.ToList();
+            foreach (var item in listaTelefs)
+            {
+                if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA))
+                {
+                    tel.NUMERO = item.NUMERO;
+                    tel.CEDULA = id;
+                }
+            }
 
-        // GET: Usuarios/Create
-        public ActionResult Create()
+            CORREOS email = new CORREOS();
+            List<CORREOS> listaEmails = db.CORREOS.ToList();
+            foreach (var item in listaEmails)
+            {
+                if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA))
+                {
+                    email.CORREO = item.CORREO;
+                    email.CEDULA = id;
+                }
+            }
+
+
+            modelo.modeloUsuario = user;
+            modelo.modeloTelefono = tel;
+            modelo.modeloCorreo = email;
+            return View(modelo);
+        }
+    
+
+    // GET: Usuarios/Create
+    public ActionResult Create()
         {
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE");
             return View();
