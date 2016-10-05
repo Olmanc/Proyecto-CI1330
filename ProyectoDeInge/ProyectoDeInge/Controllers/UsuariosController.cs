@@ -75,24 +75,47 @@ namespace ProyectoDeInge.Controllers
             return View();
         }
 
+
         // POST: Usuarios/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CEDULA,NOMBRE,PRYCTOID,LIDER")] USUARIOS uSUARIOS)
+        public ActionResult Create(/*[Bind(Include = "CEDULA,NOMBRE,APELLIDO1,APELLIDO2,PRYCTOID,LIDER,TELEFONO,TELEFONO2,CORREO,CORREOS2")]*/ ModeloIntermedio modelo)
         {
             if (ModelState.IsValid)
             {
-                db.USUARIOS.Add(uSUARIOS);
+                db.USUARIOS.Add(modelo.modeloUsuario);
+                db.SaveChanges();
+                if(modelo.modeloCorreo != null)
+                {
+                    modelo.modeloCorreo.CEDULA = modelo.modeloUsuario.CEDULA;
+                    db.CORREOS.Add(modelo.modeloCorreo);
+                }
+
+                if (modelo.modeloCorreo2 != null)
+                {
+                    modelo.modeloCorreo2.CEDULA = modelo.modeloUsuario.CEDULA;
+                    db.CORREOS.Add(modelo.modeloCorreo2);
+                }
+
+                if (modelo.modeloTelefono != null)
+                {
+                    modelo.modeloTelefono.CEDULA = modelo.modeloUsuario.CEDULA;
+                    db.TELEFONOS.Add(modelo.modeloTelefono);
+                }
+
+                if (modelo.modeloTelefono2 != null)
+                {
+                    modelo.modeloTelefono2.CEDULA = modelo.modeloUsuario.CEDULA;
+                    db.TELEFONOS.Add(modelo.modeloTelefono2);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", uSUARIOS.PRYCTOID);
-            return View(uSUARIOS);
+            ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", modelo.modeloUsuario.PRYCTOID);
+            return View(modelo);
         }
-
         // GET: Usuarios/Edit/5
         public ActionResult Edit(string id)
         {

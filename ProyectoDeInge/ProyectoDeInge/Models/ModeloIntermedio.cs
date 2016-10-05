@@ -10,7 +10,9 @@ namespace ProyectoDeInge.Models
     {
         public USUARIOS modeloUsuario { get; set; }
         public TELEFONOS modeloTelefono { get; set; }
+        public TELEFONOS modeloTelefono2 { get; set; }
         public CORREOS modeloCorreo { get; set; }
+        public CORREOS modeloCorreo2 { get; set; }
         public PROYECTO modeloProyecto { get; set; }
         public List<USUARIOS> listaUsuarios = new List<USUARIOS>();
         public List<TELEFONOS> listaTelefonos = new List<TELEFONOS>();
