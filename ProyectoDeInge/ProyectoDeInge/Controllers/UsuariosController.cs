@@ -50,6 +50,16 @@ namespace ProyectoDeInge.Controllers
                 }
             }
 
+            TELEFONOS tel2 = new TELEFONOS();
+            foreach (var item in listaTelefs)
+            {
+                if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA) && (item.NUMERO != tel.NUMERO))
+                {
+                    tel2.NUMERO = item.NUMERO;
+                    tel2.CEDULA = id;
+                }
+            }
+
             CORREOS email = new CORREOS();
             List<CORREOS> listaEmails = db.CORREOS.ToList();
             foreach (var item in listaEmails)
@@ -61,25 +71,28 @@ namespace ProyectoDeInge.Controllers
                 }
             }
 
-
-
-            /*ApplicationUser usuario = db..Where(u => u.CEDULA.Equals(id, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-            var account = new AccountController();
-
-            ViewBag.RolesForThisUser = account.UserManager.GetRoles(usuario.Id);*/
-            //String.Join(",", Roles.GetRolesForUser());
-
-
-
+            CORREOS email2 = new CORREOS();
+            foreach (var item in listaEmails)
+            {
+                if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA) && (item.CORREO != email.CORREO))
+                {
+                    email2.CORREO = item.CORREO;
+                    email2.CEDULA = id;
+                }
+            }                  
+            
             modelo.modeloUsuario = user;
             modelo.modeloTelefono = tel;
+            modelo.modeloTelefono2 = tel2;
             modelo.modeloCorreo = email;
+            modelo.modeloCorreo2 = email2;
             return View(modelo);
         }
-    
 
-    // GET: Usuarios/Create
-    public ActionResult Create()
+       
+
+        // GET: Usuarios/Create
+        public ActionResult Create()
         {
             return View();
         }
