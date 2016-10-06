@@ -18,7 +18,7 @@ namespace ProyectoDeInge.Models
         public string CEDULA { get; set; }
 
         [StringLength(8)]
-        [Display(Name = "Teléfonos:")]
+        [Display(Name = "Teléfono:")]
         [RegularExpression(@"^[0-9]+$", ErrorMessage = "El teléfono solo puede estar compuesta por números")]
         public string NUMERO { get; set; }
     
