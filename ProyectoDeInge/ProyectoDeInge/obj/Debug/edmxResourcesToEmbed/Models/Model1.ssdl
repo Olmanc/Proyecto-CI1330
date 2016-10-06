@@ -110,7 +110,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__CAMBIOS__CEDULA__1FCDBCEB">
-    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1" />
+    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="CAMBIOS" Type="Self.CAMBIOS" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USUARIOS">
@@ -122,7 +124,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__CORREOS__CEDULA__182C9B23">
-    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1" />
+    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="CORREOS" Type="Self.CORREOS" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USUARIOS">
@@ -148,7 +152,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__REQUERIMI__ENCAR__1B0907CE">
-    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1" />
+    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USUARIOS">
@@ -172,7 +178,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__TELEFONOS__CEDUL__15502E78">
-    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1" />
+    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="TELEFONOS" Type="Self.TELEFONOS" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USUARIOS">

@@ -193,5 +193,48 @@ namespace ProyectoDeInge.Controllers
             }
             base.Dispose(disposing);
         }
+
+        // Método get para la vista unificada
+        public ActionResult Unificado(string id)
+        {
+            ModeloIntermedio modelo = new ModeloIntermedio();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            USUARIOS user = db.USUARIOS.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            modelo.listaCorreos = db.CORREOS.ToList();
+            modelo.listaTelefonos = db.TELEFONOS.ToList();
+            modelo.modeloUsuario = user;
+            return View(modelo);
+        }
+
+        //Método para Javascript para eliminar una persona, se llama en el jquery
+
+        public ActionResult eliminarPersona(string id)
+        {
+            USUARIOS persona = db.USUARIOS.Find(id);
+            db.USUARIOS.Remove(persona);
+            db.SaveChanges();
+            return Json(new { success = true });
+        }
+
+        // Método post de la vista Unificada, se llama unicamente en el botón Guardar de la sección modificar
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Unificado(ModeloIntermedio modelo)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(modelo.modeloUsuario).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(modelo);
+        }
     }
 }
