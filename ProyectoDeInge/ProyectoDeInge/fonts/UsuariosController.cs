@@ -50,6 +50,17 @@ namespace ProyectoDeInge.Controllers
                 }
             }
 
+            TELEFONOS tel2 = new TELEFONOS();
+            //List<TELEFONOS> listaTelefs2 = db.TELEFONOS.ToList();
+            foreach (var item in listaTelefs)
+            {
+                if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA) && (item.NUMERO != tel.NUMERO))
+                {
+                    tel2.NUMERO = item.NUMERO;
+                    tel2.CEDULA = id;
+                }
+            }
+
             CORREOS email = new CORREOS();
             List<CORREOS> listaEmails = db.CORREOS.ToList();
             foreach (var item in listaEmails)
@@ -58,6 +69,17 @@ namespace ProyectoDeInge.Controllers
                 {
                     email.CORREO = item.CORREO;
                     email.CEDULA = id;
+                }
+            }
+
+            CORREOS email2 = new CORREOS();
+            //List<CORREOS> listaEmails2 = db.CORREOS.ToList();
+            foreach (var item in listaEmails)
+            {
+                if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA) && (item.CORREO != email.CORREO))
+                {
+                    email2.CORREO = item.CORREO;
+                    email2.CEDULA = id;
                 }
             }
 
@@ -73,7 +95,9 @@ namespace ProyectoDeInge.Controllers
 
             modelo.modeloUsuario = user;
             modelo.modeloTelefono = tel;
+            modelo.modeloTelefono2 = tel2;
             modelo.modeloCorreo = email;
+            modelo.modeloCorreo2 = email2;
             return View(modelo);
         }
     
