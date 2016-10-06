@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using ProyectoDeInge.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.Web.Security;
 
 namespace ProyectoDeInge.Controllers
 {
@@ -59,6 +60,15 @@ namespace ProyectoDeInge.Controllers
                     email.CEDULA = id;
                 }
             }
+
+
+
+            /*ApplicationUser usuario = db..Where(u => u.CEDULA.Equals(id, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            var account = new AccountController();
+
+            ViewBag.RolesForThisUser = account.UserManager.GetRoles(usuario.Id);*/
+            //String.Join(",", Roles.GetRolesForUser());
+
 
 
             modelo.modeloUsuario = user;
@@ -115,6 +125,7 @@ namespace ProyectoDeInge.Controllers
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", modelo.modeloUsuario.PRYCTOID);
             return View(modelo);
         }
+
         // GET: Usuarios/Edit/5
         public ActionResult Edit(string id)
         {
