@@ -17,7 +17,7 @@ namespace ProyectoDeInge.Models
     {
         public string CEDULA { get; set; }
 
-        [StringLength(20)]
+        //[StringLength(20)]
         [EmailAddress]
         [Required(ErrorMessage = "El correo electrónico es un campo requerido.")]
         [Display(Name = "Correo electrónico:")]

@@ -82,7 +82,7 @@ namespace ProyectoDeInge.Controllers
                 }
             }
 
-            ViewBag.Rol = GetRolesForUser(id);
+            //ViewBag.Rol = GetRolesForUser(id);
 
             modelo.modeloUsuario = user;
             modelo.modeloTelefono = tel;
@@ -234,9 +234,53 @@ namespace ProyectoDeInge.Controllers
             {
                 return HttpNotFound();
             }
-            modelo.listaCorreos = db.CORREOS.ToList();
-            modelo.listaTelefonos = db.TELEFONOS.ToList();
+            TELEFONOS tel = new TELEFONOS();
+            List<TELEFONOS> listaTelefs = db.TELEFONOS.ToList();
+            foreach (var item in listaTelefs)
+            {
+                if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA))
+                {
+                    tel.NUMERO = item.NUMERO;
+                    tel.CEDULA = id;
+                }
+            }
+
+            TELEFONOS tel2 = new TELEFONOS();
+            foreach (var item in listaTelefs)
+            {
+                if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA) && (item.NUMERO != tel.NUMERO))
+                {
+                    tel2.NUMERO = item.NUMERO;
+                    tel2.CEDULA = id;
+                }
+            }
+
+            CORREOS email = new CORREOS();
+            List<CORREOS> listaEmails = db.CORREOS.ToList();
+            foreach (var item in listaEmails)
+            {
+                if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA))
+                {
+                    email.CORREO = item.CORREO;
+                    email.CEDULA = id;
+                }
+            }
+
+            CORREOS email2 = new CORREOS();
+            foreach (var item in listaEmails)
+            {
+                if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA) && (item.CORREO != email.CORREO))
+                {
+                    email2.CORREO = item.CORREO;
+                    email2.CEDULA = id;
+                }
+            }
+            
             modelo.modeloUsuario = user;
+            modelo.modeloTelefono = tel;
+            modelo.modeloTelefono2 = tel2;
+            modelo.modeloCorreo = email;
+            modelo.modeloCorreo2 = email2;
             return View(modelo);
         }
 
