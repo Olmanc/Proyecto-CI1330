@@ -5,6 +5,38 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Modelo.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
         <EntityType Name="CAMBIOS">
           <Key>
             <PropertyRef Name="ID" />
@@ -208,6 +240,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="PermisoFK">
           <End Role="PERMISOS" Type="Self.PERMISOS" Multiplicity="1" />
           <End Role="MANEJA" Type="Self.MANEJA" Multiplicity="*" />
@@ -220,7 +280,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="RolFk">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
+          <End Role="MANEJA" Type="Self.MANEJA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MANEJA">
+              <PropertyRef Name="ROL_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModeloStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CAMBIOS" EntityType="Self.CAMBIOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CORREOS" EntityType="Self.CORREOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CRIT_ACEPTACION" EntityType="Self.CRIT_ACEPTACION" Schema="dbo" store:Type="Tables" />
@@ -262,8 +337,20 @@
             <End Role="PROYECTO" EntitySet="PROYECTO" />
             <End Role="USUARIOS" EntitySet="USUARIOS" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
           <AssociationSet Name="PermisoFK" Association="Self.PermisoFK">
             <End Role="PERMISOS" EntitySet="PERMISOS" />
+            <End Role="MANEJA" EntitySet="MANEJA" />
+          </AssociationSet>
+          <AssociationSet Name="RolFk" Association="Self.RolFk">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="MANEJA" EntitySet="MANEJA" />
           </AssociationSet>
         </EntityContainer>
@@ -275,8 +362,6 @@
           <EntitySet Name="CAMBIOS" EntityType="Modelo.CAMBIOS" />
           <EntitySet Name="CORREOS" EntityType="Modelo.CORREOS" />
           <EntitySet Name="CRIT_ACEPTACION" EntityType="Modelo.CRIT_ACEPTACION" />
-          <EntitySet Name="MANEJA" EntityType="Modelo.MANEJA" />
-          <EntitySet Name="PERMISOS" EntityType="Modelo.PERMISOS" />
           <EntitySet Name="PROYECTO" EntityType="Modelo.PROYECTO" />
           <EntitySet Name="REQUERIMIENTOS" EntityType="Modelo.REQUERIMIENTOS" />
           <EntitySet Name="TELEFONOS" EntityType="Modelo.TELEFONOS" />
@@ -297,10 +382,6 @@
             <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
             <End Role="CRIT_ACEPTACION" EntitySet="CRIT_ACEPTACION" />
           </AssociationSet>
-          <AssociationSet Name="PermisoFK" Association="Modelo.PermisoFK">
-            <End Role="PERMISOS" EntitySet="PERMISOS" />
-            <End Role="MANEJA" EntitySet="MANEJA" />
-          </AssociationSet>
           <AssociationSet Name="FK__REQUERIMI__PRYCT__1BFD2C07" Association="Modelo.FK__REQUERIMI__PRYCT__1BFD2C07">
             <End Role="PROYECTO" EntitySet="PROYECTO" />
             <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
@@ -316,6 +397,17 @@
           <AssociationSet Name="FK__TELEFONOS__CEDUL__15502E78" Association="Modelo.FK__TELEFONOS__CEDUL__15502E78">
             <End Role="USUARIOS" EntitySet="USUARIOS" />
             <End Role="TELEFONOS" EntitySet="TELEFONOS" />
+          </AssociationSet>
+          <EntitySet Name="AspNetRoles" EntityType="Modelo.AspNetRoles" />
+          <EntitySet Name="AspNetUsers" EntityType="Modelo.AspNetUsers" />
+          <EntitySet Name="PERMISOS" EntityType="Modelo.PERMISOS" />
+          <AssociationSet Name="AspNetUserRoles" Association="Modelo.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="MANEJA" Association="Modelo.MANEJA">
+            <End Role="PERMISOS" EntitySet="PERMISOS" />
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="CAMBIOS">
@@ -350,24 +442,6 @@
           <Property Name="REQUERIMIENTO_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
           <Property Name="VERSION_ID" Type="Int32" />
           <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__CRIT_ACEPTACION__22AA2996" FromRole="CRIT_ACEPTACION" ToRole="REQUERIMIENTOS" />
-        </EntityType>
-        <EntityType Name="MANEJA">
-          <Key>
-            <PropertyRef Name="ROL_ID" />
-            <PropertyRef Name="PERMISO_ID" />
-          </Key>
-          <Property Name="ROL_ID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="PERMISO_ID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PERMISOS" Relationship="Modelo.PermisoFK" FromRole="MANEJA" ToRole="PERMISOS" />
-        </EntityType>
-        <EntityType Name="PERMISOS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="NOMBRE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
-          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="MANEJA" Relationship="Modelo.PermisoFK" FromRole="PERMISOS" ToRole="MANEJA" />
         </EntityType>
         <EntityType Name="PROYECTO">
           <Key>
@@ -483,18 +557,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="PermisoFK">
-          <End Type="Modelo.PERMISOS" Role="PERMISOS" Multiplicity="1" />
-          <End Type="Modelo.MANEJA" Role="MANEJA" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PERMISOS">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MANEJA">
-              <PropertyRef Name="PERMISO_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__REQUERIMI__PRYCT__1BFD2C07">
           <End Type="Modelo.PROYECTO" Role="PROYECTO" Multiplicity="0..1" />
           <End Type="Modelo.REQUERIMIENTOS" Role="REQUERIMIENTOS" Multiplicity="*" />
@@ -543,6 +605,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Modelo.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+          <NavigationProperty Name="PERMISOS" Relationship="Modelo.MANEJA" FromRole="AspNetRoles" ToRole="PERMISOS" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Modelo.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
+        <EntityType Name="PERMISOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="NOMBRE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Modelo.MANEJA" FromRole="PERMISOS" ToRole="AspNetRoles" />
+        </EntityType>
+        <Association Name="AspNetUserRoles">
+          <End Type="Modelo.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+          <End Type="Modelo.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+        </Association>
+        <Association Name="MANEJA">
+          <End Type="Modelo.PERMISOS" Role="PERMISOS" Multiplicity="*" />
+          <End Type="Modelo.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -576,23 +682,6 @@
                 <ScalarProperty Name="VERSION_ID" ColumnName="VERSION_ID" />
                 <ScalarProperty Name="REQUERIMIENTO_ID" ColumnName="REQUERIMIENTO_ID" />
                 <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MANEJA">
-            <EntityTypeMapping TypeName="Modelo.MANEJA">
-              <MappingFragment StoreEntitySet="MANEJA">
-                <ScalarProperty Name="PERMISO_ID" ColumnName="PERMISO_ID" />
-                <ScalarProperty Name="ROL_ID" ColumnName="ROL_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PERMISOS">
-            <EntityTypeMapping TypeName="Modelo.PERMISOS">
-              <MappingFragment StoreEntitySet="PERMISOS">
-                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -649,6 +738,57 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="Modelo.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Modelo.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERMISOS">
+            <EntityTypeMapping TypeName="Modelo.PERMISOS">
+              <MappingFragment StoreEntitySet="PERMISOS">
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="Modelo.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="MANEJA" TypeName="Modelo.MANEJA" StoreEntitySet="MANEJA">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="ROL_ID" />
+            </EndProperty>
+            <EndProperty Name="PERMISOS">
+              <ScalarProperty Name="ID" ColumnName="PERMISO_ID" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

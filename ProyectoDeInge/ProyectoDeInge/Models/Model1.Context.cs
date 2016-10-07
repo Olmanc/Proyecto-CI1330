@@ -28,11 +28,12 @@ namespace ProyectoDeInge.Models
         public virtual DbSet<CAMBIOS> CAMBIOS { get; set; }
         public virtual DbSet<CORREOS> CORREOS { get; set; }
         public virtual DbSet<CRIT_ACEPTACION> CRIT_ACEPTACION { get; set; }
-        public virtual DbSet<MANEJA> MANEJA { get; set; }
-        public virtual DbSet<PERMISOS> PERMISOS { get; set; }
         public virtual DbSet<PROYECTO> PROYECTO { get; set; }
         public virtual DbSet<REQUERIMIENTOS> REQUERIMIENTOS { get; set; }
         public virtual DbSet<TELEFONOS> TELEFONOS { get; set; }
         public virtual DbSet<USUARIOS> USUARIOS { get; set; }
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<PERMISOS> PERMISOS { get; set; }
     }
 }

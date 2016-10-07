@@ -8,8 +8,6 @@
         <EntityTypeShape EntityType="Modelo.CAMBIOS" Width="1.5" PointX="7.5" PointY="5.25" />
         <EntityTypeShape EntityType="Modelo.CORREOS" Width="1.5" PointX="5.25" PointY="9.625" />
         <EntityTypeShape EntityType="Modelo.CRIT_ACEPTACION" Width="1.5" PointX="7.5" PointY="8.75" />
-        <EntityTypeShape EntityType="Modelo.MANEJA" Width="1.5" PointX="3" PointY="1" />
-        <EntityTypeShape EntityType="Modelo.PERMISOS" Width="1.5" PointX="0.75" PointY="0.875" />
         <EntityTypeShape EntityType="Modelo.PROYECTO" Width="1.5" PointX="0.75" PointY="5.125" />
         <EntityTypeShape EntityType="Modelo.REQUERIMIENTOS" Width="1.5" PointX="5.25" PointY="4" />
         <EntityTypeShape EntityType="Modelo.TELEFONOS" Width="1.5" PointX="5.25" PointY="12" />
@@ -18,11 +16,15 @@
         <AssociationConnector Association="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" />
         <AssociationConnector Association="Modelo.FK__CORREOS__CEDULA__182C9B23" />
         <AssociationConnector Association="Modelo.FK__CRIT_ACEPTACION__22AA2996" />
-        <AssociationConnector Association="Modelo.PermisoFK" />
         <AssociationConnector Association="Modelo.FK__REQUERIMI__PRYCT__1BFD2C07" />
         <AssociationConnector Association="Modelo.FK__USUARIOS__PRYCTO__1273C1CD" />
         <AssociationConnector Association="Modelo.FK__REQUERIMI__ENCAR__1B0907CE" />
         <AssociationConnector Association="Modelo.FK__TELEFONOS__CEDUL__15502E78" />
+        <EntityTypeShape EntityType="Modelo.AspNetRoles" Width="1.5" PointX="8.125" PointY="1.375" />
+        <EntityTypeShape EntityType="Modelo.AspNetUsers" Width="1.5" PointX="10.375" PointY="0.5" />
+        <EntityTypeShape EntityType="Modelo.PERMISOS" Width="1.5" PointX="5.875" PointY="1.375" />
+        <AssociationConnector Association="Modelo.AspNetUserRoles" />
+        <AssociationConnector Association="Modelo.MANEJA" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
