@@ -15,6 +15,14 @@ namespace ProyectoDeInge.Models
     public partial class CORREOS
     {
         public string CEDULA { get; set; }
+<<<<<<< HEAD
+=======
+
+        //[StringLength(20)]
+        [EmailAddress]
+        [Required(ErrorMessage = "El correo electrónico es un campo requerido.")]
+        [Display(Name = "Correo electrónico:")]
+>>>>>>> feb0edab1c2fa66947747f71469ab0256d25475a
         public string CORREO { get; set; }
     
         public virtual USUARIOS USUARIOS { get; set; }

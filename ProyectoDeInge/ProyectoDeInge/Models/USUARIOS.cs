@@ -22,14 +22,49 @@ namespace ProyectoDeInge.Models
             this.REQUERIMIENTOS = new HashSet<REQUERIMIENTOS>();
             this.TELEFONOS = new HashSet<TELEFONOS>();
         }
+<<<<<<< HEAD
     
         public string CEDULA { get; set; }
+=======
+
+        // tomado del ejemplo hecho por Gaudy
+        [Required(ErrorMessage = "La cédula es un campo requerido.")]
+        [StringLength(8)]
+        [Display(Name = "Cédula:")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage = "La cédula solo puede estar compuesta por números")]
+        public string CEDULA { get; set; }
+
+        // tomado del ejemplo hecho por Gaudy
+        //[StringLength(20)]
+        [Required(ErrorMessage = "El nombre es un campo requerido.")]
+        [Display(Name = "Nombre:")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El nombre solo puede estar compuesto por letras")]
+>>>>>>> feb0edab1c2fa66947747f71469ab0256d25475a
         public string NOMBRE { get; set; }
         public string PRYCTOID { get; set; }
         public Nullable<bool> LIDER { get; set; }
+<<<<<<< HEAD
         public string APELLIDO1 { get; set; }
         public string APELLIDO2 { get; set; }
     
+=======
+
+        // tomado del ejemplo hecho por Gaudy
+        //[StringLength(20)]
+        [Required(ErrorMessage = "El primer apellido es un campo requerido.")]
+        [Display(Name = "Primer apellido:")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El primer apellido solo puede estar compuesto por letras")]
+        public string APELLIDO1 { get; set; }
+
+        // tomado del ejemplo hecho por Gaudy
+        //[StringLength(20)]
+        [Required(ErrorMessage = "El segundo apellido es un campo requerido.")]
+        [Display(Name = "Segundo apellido:")]
+        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El segundo apellido solo puede estar compuesto por letras")]
+        public string APELLIDO2 { get; set; }
+                 
+
+>>>>>>> feb0edab1c2fa66947747f71469ab0256d25475a
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CAMBIOS> CAMBIOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
