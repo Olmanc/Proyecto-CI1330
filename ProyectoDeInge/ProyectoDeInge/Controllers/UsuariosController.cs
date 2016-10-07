@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Web.Security;
+using System.Threading.Tasks;
 
 namespace ProyectoDeInge.Controllers
 {
@@ -79,8 +80,10 @@ namespace ProyectoDeInge.Controllers
                     email2.CORREO = item.CORREO;
                     email2.CEDULA = id;
                 }
-            }                  
-            
+            }
+
+            ViewBag.Rol = GetRolesForUser(id);
+
             modelo.modeloUsuario = user;
             modelo.modeloTelefono = tel;
             modelo.modeloTelefono2 = tel2;
@@ -89,7 +92,16 @@ namespace ProyectoDeInge.Controllers
             return View(modelo);
         }
 
-       
+        public async Task<ActionResult> GetRolesForUser(string userId)
+        {
+            using (
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
+            {
+                var rolesForUser = await userManager.GetRolesAsync(userId);
+
+                return this.View(rolesForUser);
+            }
+        }
 
         // GET: Usuarios/Create
         public ActionResult Create()
@@ -107,6 +119,8 @@ namespace ProyectoDeInge.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var ident = modelo.modeloUsuario.CEDULA;
+                
                 db.USUARIOS.Add(modelo.modeloUsuario);
                 db.SaveChanges();
                 if(modelo.modeloCorreo != null)
