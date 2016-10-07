@@ -235,44 +235,44 @@ namespace ProyectoDeInge.Controllers
                 return HttpNotFound();
             }
             TELEFONOS tel = new TELEFONOS();
+            tel.CEDULA = id;
             List<TELEFONOS> listaTelefs = db.TELEFONOS.ToList();
             foreach (var item in listaTelefs)
             {
                 if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA))
                 {
                     tel.NUMERO = item.NUMERO;
-                    tel.CEDULA = id;
                 }
             }
 
             TELEFONOS tel2 = new TELEFONOS();
+            tel2.CEDULA = id;
             foreach (var item in listaTelefs)
             {
                 if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA) && (item.NUMERO != tel.NUMERO))
                 {
                     tel2.NUMERO = item.NUMERO;
-                    tel2.CEDULA = id;
                 }
             }
 
             CORREOS email = new CORREOS();
+            email.CEDULA = id;
             List<CORREOS> listaEmails = db.CORREOS.ToList();
             foreach (var item in listaEmails)
             {
                 if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA))
                 {
                     email.CORREO = item.CORREO;
-                    email.CEDULA = id;
                 }
             }
 
             CORREOS email2 = new CORREOS();
+            email2.CEDULA = id;
             foreach (var item in listaEmails)
             {
                 if ((user.CEDULA == id) && (user.CEDULA == item.CEDULA) && (item.CORREO != email.CORREO))
                 {
                     email2.CORREO = item.CORREO;
-                    email2.CEDULA = id;
                 }
             }
             
@@ -281,6 +281,12 @@ namespace ProyectoDeInge.Controllers
             modelo.modeloTelefono2 = tel2;
             modelo.modeloCorreo = email;
             modelo.modeloCorreo2 = email2;
+            db.Database.ExecuteSqlCommand(
+                    "Delete From TELEFONOS Where CEDULA = " + id);
+            db.Database.ExecuteSqlCommand(
+                    "Delete From CORREOS Where CEDULA = " + id);
+            db.SaveChanges();
+
             return View(modelo);
         }
 
@@ -302,6 +308,26 @@ namespace ProyectoDeInge.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(modelo.modeloUsuario).State = EntityState.Modified;
+                modelo.modeloTelefono.CEDULA = modelo.modeloUsuario.CEDULA;
+                modelo.modeloTelefono2.CEDULA = modelo.modeloUsuario.CEDULA;
+                modelo.modeloCorreo.CEDULA = modelo.modeloUsuario.CEDULA;
+                modelo.modeloCorreo2.CEDULA = modelo.modeloUsuario.CEDULA;
+                if (modelo.modeloTelefono != null)
+                {
+                    db.TELEFONOS.Add(modelo.modeloTelefono);
+                }
+                if (modelo.modeloTelefono2 != null)
+                {
+                    db.TELEFONOS.Add(modelo.modeloTelefono2);
+                }
+                if (modelo.modeloCorreo != null)
+                {
+                    db.CORREOS.Add(modelo.modeloCorreo);
+                }
+                if (modelo.modeloCorreo2 != null)
+                {
+                    db.CORREOS.Add(modelo.modeloCorreo2);
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

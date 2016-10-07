@@ -128,7 +128,7 @@
       <PropertyRef Name="NUMERO" />
     </Key>
     <Property Name="CEDULA" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
-    <Property Name="NUMERO" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="NUMERO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__TELEFONOS__CEDUL__15502E78" FromRole="TELEFONOS" ToRole="USUARIOS" />
   </EntityType>
   <EntityType Name="USUARIOS">
@@ -139,8 +139,8 @@
     <Property Name="NOMBRE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="PRYCTOID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
     <Property Name="LIDER" Type="Boolean" />
-    <Property Name="APELLIDO1" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
-    <Property Name="APELLIDO2" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+    <Property Name="APELLIDO1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="APELLIDO2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="CAMBIOS" Relationship="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" FromRole="USUARIOS" ToRole="CAMBIOS" />
     <NavigationProperty Name="CORREOS" Relationship="Modelo.FK__CORREOS__CEDULA__182C9B23" FromRole="USUARIOS" ToRole="CORREOS" />
     <NavigationProperty Name="PROYECTO" Relationship="Modelo.FK__USUARIOS__PRYCTO__1273C1CD" FromRole="USUARIOS" ToRole="PROYECTO" />

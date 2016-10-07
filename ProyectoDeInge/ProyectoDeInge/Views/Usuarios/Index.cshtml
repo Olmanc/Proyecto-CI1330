@@ -55,8 +55,7 @@
                 {
                     if (Model.listaUsuarios.ElementAt(i).CEDULA.Equals(Model.listaTelefonos.ElementAt(j).CEDULA))
                     {
-                        @Html.DisplayFor(modelItem => Model.listaTelefonos.ElementAt(j).NUMERO)
-                        @Html.Raw(" ")
+                        @Html.DisplayFor(modelItem => Model.listaTelefonos.ElementAt(j).NUMERO)<br>
                     }
                 }
             </td>
@@ -65,8 +64,7 @@
                 {
                     if (Model.listaUsuarios.ElementAt(i).CEDULA.Equals(Model.listaCorreos.ElementAt(j).CEDULA))
                     {
-                        @Html.DisplayFor(modelItem => Model.listaCorreos.ElementAt(j).CORREO)
-                        @Html.Raw(" ")
+                        @Html.DisplayFor(modelItem => Model.listaCorreos.ElementAt(j).CORREO)<br>
                     }
                 }
             </td>

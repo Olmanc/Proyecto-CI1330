@@ -15,13 +15,6 @@ namespace ProyectoDeInge.Models
     public partial class TELEFONOS
     {
         public string CEDULA { get; set; }
-<<<<<<< HEAD
-=======
-
-        //[StringLength(8)]
-        [Display(Name = "Teléfono:")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "El teléfono solo puede estar compuesta por números")]
->>>>>>> feb0edab1c2fa66947747f71469ab0256d25475a
         public string NUMERO { get; set; }
     
         public virtual USUARIOS USUARIOS { get; set; }

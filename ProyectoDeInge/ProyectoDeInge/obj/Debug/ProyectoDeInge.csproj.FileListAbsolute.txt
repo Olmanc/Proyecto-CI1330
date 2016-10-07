@@ -405,3 +405,4 @@ C:\Users\b31953\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Micros
 C:\Users\b31953\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.csprojResolveAssemblyReference.cache
 C:\Users\b31953\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.dll
 C:\Users\b31953\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.pdb
+C:\Users\b44799\Downloads\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.csprojResolveAssemblyReference.cache
