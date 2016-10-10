@@ -281,12 +281,6 @@ namespace ProyectoDeInge.Controllers
             modelo.modeloTelefono2 = tel2;
             modelo.modeloCorreo = email;
             modelo.modeloCorreo2 = email2;
-            db.Database.ExecuteSqlCommand(
-                    "Delete From TELEFONOS Where CEDULA = " + id);
-            db.Database.ExecuteSqlCommand(
-                    "Delete From CORREOS Where CEDULA = " + id);
-            db.SaveChanges();
-
             return View(modelo);
         }
 
@@ -308,24 +302,25 @@ namespace ProyectoDeInge.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(modelo.modeloUsuario).State = EntityState.Modified;
-                modelo.modeloTelefono.CEDULA = modelo.modeloUsuario.CEDULA;
-                modelo.modeloTelefono2.CEDULA = modelo.modeloUsuario.CEDULA;
-                modelo.modeloCorreo.CEDULA = modelo.modeloUsuario.CEDULA;
-                modelo.modeloCorreo2.CEDULA = modelo.modeloUsuario.CEDULA;
-                if (modelo.modeloTelefono != null)
+                var id = modelo.modeloUsuario.CEDULA;
+                if (!string.IsNullOrEmpty(modelo.modeloTelefono.NUMERO) && 
+                    !string.IsNullOrEmpty(modelo.modeloTelefono2.NUMERO))
                 {
+                    db.Database.ExecuteSqlCommand(
+                   "Delete From TELEFONOS Where CEDULA = " + id);
+                    modelo.modeloTelefono.CEDULA = id;
+                    modelo.modeloTelefono2.CEDULA = id;
                     db.TELEFONOS.Add(modelo.modeloTelefono);
+                    db.TELEFONOS.Add(modelo.modeloTelefono2);                   
                 }
-                if (modelo.modeloTelefono2 != null)
+                if (!string.IsNullOrEmpty(modelo.modeloCorreo.CORREO) && 
+                    !string.IsNullOrEmpty(modelo.modeloCorreo2.CORREO))
                 {
-                    db.TELEFONOS.Add(modelo.modeloTelefono2);
-                }
-                if (modelo.modeloCorreo != null)
-                {
+                    db.Database.ExecuteSqlCommand(
+                    "Delete From CORREOS Where CEDULA = " + id);
+                    modelo.modeloCorreo.CEDULA = id;
+                    modelo.modeloCorreo2.CEDULA = id;
                     db.CORREOS.Add(modelo.modeloCorreo);
-                }
-                if (modelo.modeloCorreo2 != null)
-                {
                     db.CORREOS.Add(modelo.modeloCorreo2);
                 }
                 db.SaveChanges();

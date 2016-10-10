@@ -322,7 +322,6 @@ C:\Users\Yohel Munoz\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\M
 C:\Users\Yohel Munoz\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Yohel Munoz\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.dll
 C:\Users\Yohel Munoz\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.pdb
-C:\Users\b46671\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.csprojResolveAssemblyReference.cache
 C:\Users\b31953\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\ApplicationInsights.config
 C:\Users\b31953\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\roslyn\csc.exe
 C:\Users\b31953\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -487,3 +486,4 @@ C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\
 C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.dll
 C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.pdb
+C:\Users\b46671\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.csprojResolveAssemblyReference.cache
