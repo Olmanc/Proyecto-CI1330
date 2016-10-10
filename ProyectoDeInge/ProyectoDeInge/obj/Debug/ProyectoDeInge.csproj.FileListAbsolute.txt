@@ -485,6 +485,5 @@ C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\
 C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.csprojResolveAssemblyReference.cache
 C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.dll
 C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.pdb

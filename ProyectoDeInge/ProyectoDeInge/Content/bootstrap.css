@@ -2049,9 +2049,9 @@ fieldset[disabled] .btn {
 }
 
 .btn-default {
-  color: #333333;
-  background-color: #ffffff;
-  border-color: #cccccc;
+  color: #000;
+  background-color: #ddd;
+  border-color: #333333;
 }
 
 .btn-default:hover,
@@ -2060,6 +2060,7 @@ fieldset[disabled] .btn {
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
   color: #333333;
+  font-style: italic;
   background-color: #ebebeb;
   border-color: #adadad;
 }
@@ -3338,6 +3339,7 @@ input[type="button"].btn-block {
 
 .dropup .caret,
 .navbar-fixed-bottom .dropdown .caret {
+  color: darkgoldenrod
   border-top: 0 dotted;
   border-bottom: 4px solid #000000;
   content: "";
