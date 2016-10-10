@@ -11,12 +11,18 @@ namespace ProyectoDeInge.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class CORREOS
     {
         public string CEDULA { get; set; }
+
+        [StringLength(20)]
+        [EmailAddress]
+        [Required(ErrorMessage = "El correo electrónico es un campo requerido.")]
+        [Display(Name = "Correo electrónico:")]
         public string CORREO { get; set; }
-    
+
         public virtual USUARIOS USUARIOS { get; set; }
     }
 }

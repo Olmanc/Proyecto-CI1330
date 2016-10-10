@@ -31,13 +31,16 @@
     </table>
     <div class="form-group">
         <input type="submit" value="Guardar" class="btn btn-default" />
+        <input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" />  
         <!--<button onclick="chequeados()">Guardar</button>-->
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<script type='text/javascript'>
+  function goBack() {
+      window.history.back();
+  }
+</script>
 <script type="text/javascript">
     function chequeados() {
 
