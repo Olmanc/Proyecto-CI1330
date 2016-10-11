@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Web.Security;
 using System.Threading.Tasks;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
+using System.Net.Mail;
 
 namespace ProyectoDeInge.Controllers
 {
@@ -115,15 +118,22 @@ namespace ProyectoDeInge.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(/*[Bind(Include = "CEDULA,NOMBRE,APELLIDO1,APELLIDO2,PRYCTOID,LIDER,TELEFONO,TELEFONO2,CORREO,CORREOS2")]*/ ModeloIntermedio modelo)
+        public async Task<ActionResult> Create(/*[Bind(Include = "CEDULA,NOMBRE,APELLIDO1,APELLIDO2,PRYCTOID,LIDER,TELEFONO,TELEFONO2,CORREO,CORREOS2")]*/ ModeloIntermedio modelo)
         {
             if (ModelState.IsValid)
             {
+                var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                //var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
                 //var ident = modelo.modeloUsuario.CEDULA;
-                
+                var Password = "JHGK-1234";
+                var User = new ApplicationUser { UserName = modelo.modeloCorreo.CORREO, Email = modelo.modeloCorreo.CORREO };
+                User.EmailConfirmed = true;
+                User.PhoneNumberConfirmed = true;
+                var result = UserManager.CreateAsync(User, Password);
+                modelo.modeloUsuario.ID_ASP = User.Id;
                 db.USUARIOS.Add(modelo.modeloUsuario);
                 db.SaveChanges();
-                if(modelo.modeloCorreo != null)
+                if (modelo.modeloCorreo != null)
                 {
                     modelo.modeloCorreo.CEDULA = modelo.modeloUsuario.CEDULA;
                     db.CORREOS.Add(modelo.modeloCorreo);
@@ -147,6 +157,32 @@ namespace ProyectoDeInge.Controllers
                     db.TELEFONOS.Add(modelo.modeloTelefono2);
                 }
                 db.SaveChanges();
+                string text = string.Format("Your Password is: " + Password);
+                System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
+                msg.From = new MailAddress("voncita20@outlook.com");
+                msg.To.Add(new MailAddress(modelo.modeloCorreo.CORREO));
+                msg.Subject = "Your Password";
+                msg.Body = text;
+                msg.IsBodyHtml = true;
+
+                // msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain)); 
+                // msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html)); 
+
+                using (var smtp = new SmtpClient())
+                {
+                    var credential = new NetworkCredential
+                    {
+                        UserName = "voncita20@outlook.com",
+                        Password = "Javi-200495"
+                    };
+
+                    smtp.Credentials = credential;
+                    smtp.Host = "smtp-mail.outlook.com";
+                    smtp.Port = 587;
+                    smtp.EnableSsl = true;
+                    await smtp.SendMailAsync(msg);
+                    //return RedirectToAction("") 
+                }
                 return RedirectToAction("Index");
             }
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", modelo.modeloUsuario.PRYCTOID);
@@ -294,6 +330,11 @@ namespace ProyectoDeInge.Controllers
             db.USUARIOS.Remove(persona);
             db.SaveChanges();
             return Json(new { success = true });
+        }
+
+        public ActionResult cancelar(ModeloIntermedio modelo)
+        {
+            return View(modelo);
         }
 
         // Método post de la vista Unificada, se llama unicamente en el botón Guardar de la sección modificar

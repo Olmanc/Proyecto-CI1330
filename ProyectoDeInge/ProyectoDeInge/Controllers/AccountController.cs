@@ -150,7 +150,7 @@ namespace ProyectoDeInge.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+           /* if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 //string pw = Membership.GeneratePassword(8, 1);
@@ -158,7 +158,8 @@ namespace ProyectoDeInge.Controllers
                 user.EmailConfirmed = true;
                 user.PhoneNumberConfirmed = true;
                 model.sendMail(model);
-                var result = await UserManager.CreateAsync(user, model.Password);
+                //var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+               // var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -173,7 +174,7 @@ namespace ProyectoDeInge.Controllers
             }
             // If we got this far, something failed, redisplay form
             return View(model);
-        }
+        }*/
 
         /*
         //
@@ -201,11 +202,11 @@ namespace ProyectoDeInge.Controllers
                 }
                 AddErrors(result);
             }
-
+            */
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        */
+        
 
 
         //
