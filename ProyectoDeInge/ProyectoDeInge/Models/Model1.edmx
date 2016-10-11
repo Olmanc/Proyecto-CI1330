@@ -5,12 +5,41 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Modelo.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserRoles">
           <Key>
@@ -119,7 +148,7 @@
             <PropertyRef Name="NUMERO" />
           </Key>
           <Property Name="CEDULA" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="NUMERO" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="NUMERO" Type="char" MaxLength="8" Nullable="false" />
         </EntityType>
         <EntityType Name="USUARIOS">
           <Key>
@@ -129,6 +158,7 @@
           <Property Name="NOMBRE" Type="varchar" MaxLength="20" />
           <Property Name="PRYCTOID" Type="char" MaxLength="7" />
           <Property Name="LIDER" Type="bit" />
+          <Property Name="ID_ASP" Type="nvarchar" MaxLength="128" />
           <Property Name="APELLIDO1" Type="varchar" MaxLength="20" />
           <Property Name="APELLIDO2" Type="varchar" MaxLength="20" />
         </EntityType>
@@ -147,9 +177,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__CAMBIOS__CEDULA__1FCDBCEB">
-          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1" />
           <End Role="CAMBIOS" Type="Self.CAMBIOS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="USUARIOS">
@@ -161,9 +189,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__CORREOS__CEDULA__182C9B23">
-          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1" />
           <End Role="CORREOS" Type="Self.CORREOS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="USUARIOS">
@@ -212,10 +238,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TELEFONOS__CEDUL__15502E78">
-          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+        <Association Name="FK__TELEFONOS__CEDUL__3D5E1FD2">
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1" />
           <End Role="TELEFONOS" Type="Self.TELEFONOS" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="USUARIOS">
@@ -235,6 +259,34 @@
             </Principal>
             <Dependent Role="USUARIOS">
               <PropertyRef Name="PRYCTOID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -266,6 +318,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ID_ASP_USERS_FK">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="USUARIOS">
+              <PropertyRef Name="ID_ASP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="PermisoFK">
           <End Role="PERMISOS" Type="Self.PERMISOS" Multiplicity="1" />
           <End Role="MANEJA" Type="Self.MANEJA" Multiplicity="*" />
@@ -291,7 +355,10 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ModeloStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CAMBIOS" EntityType="Self.CAMBIOS" Schema="dbo" store:Type="Tables" />
@@ -327,13 +394,21 @@
             <End Role="PROYECTO" EntitySet="PROYECTO" />
             <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
           </AssociationSet>
-          <AssociationSet Name="FK__TELEFONOS__CEDUL__15502E78" Association="Self.FK__TELEFONOS__CEDUL__15502E78">
+          <AssociationSet Name="FK__TELEFONOS__CEDUL__3D5E1FD2" Association="Self.FK__TELEFONOS__CEDUL__3D5E1FD2">
             <End Role="USUARIOS" EntitySet="USUARIOS" />
             <End Role="TELEFONOS" EntitySet="TELEFONOS" />
           </AssociationSet>
           <AssociationSet Name="FK__USUARIOS__PRYCTO__1273C1CD" Association="Self.FK__USUARIOS__PRYCTO__1273C1CD">
             <End Role="PROYECTO" EntitySet="PROYECTO" />
             <End Role="USUARIOS" EntitySet="USUARIOS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
           </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -342,6 +417,10 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="ID_ASP_USERS_FK" Association="Self.ID_ASP_USERS_FK">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
           </AssociationSet>
           <AssociationSet Name="PermisoFK" Association="Self.PermisoFK">
             <End Role="PERMISOS" EntitySet="PERMISOS" />
@@ -357,13 +436,31 @@
     <edmx:ConceptualModels>
       <Schema Namespace="Modelo" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="BD_IngeGrupo2Entities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Modelo.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="Modelo.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Modelo.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Modelo.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="Modelo.AspNetUsers" />
           <EntitySet Name="CAMBIOS" EntityType="Modelo.CAMBIOS" />
           <EntitySet Name="CORREOS" EntityType="Modelo.CORREOS" />
           <EntitySet Name="CRIT_ACEPTACION" EntityType="Modelo.CRIT_ACEPTACION" />
+          <EntitySet Name="PERMISOS" EntityType="Modelo.PERMISOS" />
           <EntitySet Name="PROYECTO" EntityType="Modelo.PROYECTO" />
           <EntitySet Name="REQUERIMIENTOS" EntityType="Modelo.REQUERIMIENTOS" />
           <EntitySet Name="TELEFONOS" EntityType="Modelo.TELEFONOS" />
           <EntitySet Name="USUARIOS" EntityType="Modelo.USUARIOS" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Modelo.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Modelo.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="ID_ASP_USERS_FK" Association="Modelo.ID_ASP_USERS_FK">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+          </AssociationSet>
           <AssociationSet Name="FK__CAMBIOS__1ED998B2" Association="Modelo.FK__CAMBIOS__1ED998B2">
             <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
             <End Role="CAMBIOS" EntitySet="CAMBIOS" />
@@ -392,13 +489,10 @@
             <End Role="USUARIOS" EntitySet="USUARIOS" />
             <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
           </AssociationSet>
-          <AssociationSet Name="FK__TELEFONOS__CEDUL__15502E78" Association="Modelo.FK__TELEFONOS__CEDUL__15502E78">
+          <AssociationSet Name="FK__TELEFONOS__CEDUL__3D5E1FD2" Association="Modelo.FK__TELEFONOS__CEDUL__3D5E1FD2">
             <End Role="USUARIOS" EntitySet="USUARIOS" />
             <End Role="TELEFONOS" EntitySet="TELEFONOS" />
           </AssociationSet>
-          <EntitySet Name="AspNetRoles" EntityType="Modelo.AspNetRoles" />
-          <EntitySet Name="AspNetUsers" EntityType="Modelo.AspNetUsers" />
-          <EntitySet Name="PERMISOS" EntityType="Modelo.PERMISOS" />
           <AssociationSet Name="AspNetUserRoles" Association="Modelo.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -408,6 +502,67 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Modelo.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+          <NavigationProperty Name="PERMISOS" Relationship="Modelo.MANEJA" FromRole="AspNetRoles" ToRole="PERMISOS" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Modelo.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Modelo.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Modelo.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Modelo.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="USUARIOS" Relationship="Modelo.ID_ASP_USERS_FK" FromRole="AspNetUsers" ToRole="USUARIOS" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Modelo.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
         <EntityType Name="CAMBIOS">
           <Key>
             <PropertyRef Name="ID" />
@@ -440,6 +595,15 @@
           <Property Name="REQUERIMIENTO_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
           <Property Name="VERSION_ID" Type="Int32" />
           <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__CRIT_ACEPTACION__22AA2996" FromRole="CRIT_ACEPTACION" ToRole="REQUERIMIENTOS" />
+        </EntityType>
+        <EntityType Name="PERMISOS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="NOMBRE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Modelo.MANEJA" FromRole="PERMISOS" ToRole="AspNetRoles" />
         </EntityType>
         <EntityType Name="PROYECTO">
           <Key>
@@ -484,8 +648,8 @@
             <PropertyRef Name="NUMERO" />
           </Key>
           <Property Name="CEDULA" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="NUMERO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__TELEFONOS__CEDUL__15502E78" FromRole="TELEFONOS" ToRole="USUARIOS" />
+          <Property Name="NUMERO" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__TELEFONOS__CEDUL__3D5E1FD2" FromRole="TELEFONOS" ToRole="USUARIOS" />
         </EntityType>
         <EntityType Name="USUARIOS">
           <Key>
@@ -495,14 +659,56 @@
           <Property Name="NOMBRE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="PRYCTOID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
           <Property Name="LIDER" Type="Boolean" />
+          <Property Name="ID_ASP" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="APELLIDO1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="APELLIDO2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Modelo.ID_ASP_USERS_FK" FromRole="USUARIOS" ToRole="AspNetUsers" />
           <NavigationProperty Name="CAMBIOS" Relationship="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" FromRole="USUARIOS" ToRole="CAMBIOS" />
           <NavigationProperty Name="CORREOS" Relationship="Modelo.FK__CORREOS__CEDULA__182C9B23" FromRole="USUARIOS" ToRole="CORREOS" />
           <NavigationProperty Name="PROYECTO" Relationship="Modelo.FK__USUARIOS__PRYCTO__1273C1CD" FromRole="USUARIOS" ToRole="PROYECTO" />
           <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__REQUERIMI__ENCAR__1B0907CE" FromRole="USUARIOS" ToRole="REQUERIMIENTOS" />
-          <NavigationProperty Name="TELEFONOS" Relationship="Modelo.FK__TELEFONOS__CEDUL__15502E78" FromRole="USUARIOS" ToRole="TELEFONOS" />
+          <NavigationProperty Name="TELEFONOS" Relationship="Modelo.FK__TELEFONOS__CEDUL__3D5E1FD2" FromRole="USUARIOS" ToRole="TELEFONOS" />
         </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="Modelo.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Modelo.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="Modelo.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="Modelo.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ID_ASP_USERS_FK">
+          <End Type="Modelo.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
+          <End Type="Modelo.USUARIOS" Role="USUARIOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="USUARIOS">
+              <PropertyRef Name="ID_ASP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__CAMBIOS__1ED998B2">
           <End Type="Modelo.REQUERIMIENTOS" Role="REQUERIMIENTOS" Multiplicity="0..1" />
           <End Type="Modelo.CAMBIOS" Role="CAMBIOS" Multiplicity="*" />
@@ -591,7 +797,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__TELEFONOS__CEDUL__15502E78">
+        <Association Name="FK__TELEFONOS__CEDUL__3D5E1FD2">
           <End Type="Modelo.USUARIOS" Role="USUARIOS" Multiplicity="1" />
           <End Type="Modelo.TELEFONOS" Role="TELEFONOS" Multiplicity="*" />
           <ReferentialConstraint>
@@ -603,42 +809,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="AspNetRoles">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Modelo.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
-          <NavigationProperty Name="PERMISOS" Relationship="Modelo.MANEJA" FromRole="AspNetRoles" ToRole="PERMISOS" />
-        </EntityType>
-        <EntityType Name="AspNetUsers">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Modelo.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-        </EntityType>
-        <EntityType Name="PERMISOS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="NOMBRE" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
-          <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Modelo.MANEJA" FromRole="PERMISOS" ToRole="AspNetRoles" />
-        </EntityType>
         <Association Name="AspNetUserRoles">
           <End Type="Modelo.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
           <End Type="Modelo.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
@@ -647,12 +817,67 @@
           <End Type="Modelo.PERMISOS" Role="PERMISOS" Multiplicity="*" />
           <End Type="Modelo.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ModeloStoreContainer" CdmEntityContainer="BD_IngeGrupo2Entities2">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="Modelo.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="Modelo.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="Modelo.AspNetUserClaims">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="Modelo.AspNetUserLogins">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Modelo.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CAMBIOS">
             <EntityTypeMapping TypeName="Modelo.CAMBIOS">
               <MappingFragment StoreEntitySet="CAMBIOS">
@@ -680,6 +905,15 @@
                 <ScalarProperty Name="VERSION_ID" ColumnName="VERSION_ID" />
                 <ScalarProperty Name="REQUERIMIENTO_ID" ColumnName="REQUERIMIENTO_ID" />
                 <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERMISOS">
+            <EntityTypeMapping TypeName="Modelo.PERMISOS">
+              <MappingFragment StoreEntitySet="PERMISOS">
+                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
+                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -729,45 +963,11 @@
               <MappingFragment StoreEntitySet="USUARIOS">
                 <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
                 <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />
+                <ScalarProperty Name="ID_ASP" ColumnName="ID_ASP" />
                 <ScalarProperty Name="LIDER" ColumnName="LIDER" />
                 <ScalarProperty Name="PRYCTOID" ColumnName="PRYCTOID" />
                 <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="Modelo.AspNetRoles">
-              <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="Modelo.AspNetUsers">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PERMISOS">
-            <EntityTypeMapping TypeName="Modelo.PERMISOS">
-              <MappingFragment StoreEntitySet="PERMISOS">
-                <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
-                <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

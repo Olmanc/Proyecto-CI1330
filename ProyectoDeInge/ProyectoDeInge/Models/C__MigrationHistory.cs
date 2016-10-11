@@ -12,17 +12,11 @@ namespace ProyectoDeInge.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CAMBIOS
+    public partial class C__MigrationHistory
     {
-        public string ID { get; set; }
-        public string CEDULA { get; set; }
-        public Nullable<System.DateTime> FECHA { get; set; }
-        public string DESCRIPCION { get; set; }
-        public string JUSTIFICACION { get; set; }
-        public string REQUERIMIENTO_ID { get; set; }
-        public Nullable<int> VERSION_ID { get; set; }
-    
-        public virtual REQUERIMIENTOS REQUERIMIENTOS { get; set; }
-        public virtual USUARIOS USUARIOS { get; set; }
+        public string MigrationId { get; set; }
+        public string ContextKey { get; set; }
+        public byte[] Model { get; set; }
+        public string ProductVersion { get; set; }
     }
 }

@@ -1,11 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="Modelo.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
   <EntityType Name="AspNetRoles">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ClaimType" Type="nvarchar(max)" />
+    <Property Name="ClaimValue" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetUserRoles">
     <Key>
@@ -114,7 +143,7 @@
       <PropertyRef Name="NUMERO" />
     </Key>
     <Property Name="CEDULA" Type="char" MaxLength="10" Nullable="false" />
-    <Property Name="NUMERO" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="NUMERO" Type="char" MaxLength="8" Nullable="false" />
   </EntityType>
   <EntityType Name="USUARIOS">
     <Key>
@@ -124,6 +153,7 @@
     <Property Name="NOMBRE" Type="varchar" MaxLength="20" />
     <Property Name="PRYCTOID" Type="char" MaxLength="7" />
     <Property Name="LIDER" Type="bit" />
+    <Property Name="ID_ASP" Type="nvarchar" MaxLength="128" />
     <Property Name="APELLIDO1" Type="varchar" MaxLength="20" />
     <Property Name="APELLIDO2" Type="varchar" MaxLength="20" />
   </EntityType>
@@ -142,9 +172,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__CAMBIOS__CEDULA__1FCDBCEB">
-    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
+    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1" />
     <End Role="CAMBIOS" Type="Self.CAMBIOS" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USUARIOS">
@@ -156,9 +184,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK__CORREOS__CEDULA__182C9B23">
-    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
+    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1" />
     <End Role="CORREOS" Type="Self.CORREOS" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USUARIOS">
@@ -207,10 +233,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__TELEFONOS__CEDUL__15502E78">
-    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
+  <Association Name="FK__TELEFONOS__CEDUL__3D5E1FD2">
+    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="1" />
     <End Role="TELEFONOS" Type="Self.TELEFONOS" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USUARIOS">
@@ -230,6 +254,34 @@
       </Principal>
       <Dependent Role="USUARIOS">
         <PropertyRef Name="PRYCTOID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -261,6 +313,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ID_ASP_USERS_FK">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="USUARIOS">
+        <PropertyRef Name="ID_ASP" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="PermisoFK">
     <End Role="PERMISOS" Type="Self.PERMISOS" Multiplicity="1" />
     <End Role="MANEJA" Type="Self.MANEJA" Multiplicity="*" />
@@ -286,7 +350,10 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="ModeloStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CAMBIOS" EntityType="Self.CAMBIOS" Schema="dbo" store:Type="Tables" />
@@ -322,13 +389,21 @@
       <End Role="PROYECTO" EntitySet="PROYECTO" />
       <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
     </AssociationSet>
-    <AssociationSet Name="FK__TELEFONOS__CEDUL__15502E78" Association="Self.FK__TELEFONOS__CEDUL__15502E78">
+    <AssociationSet Name="FK__TELEFONOS__CEDUL__3D5E1FD2" Association="Self.FK__TELEFONOS__CEDUL__3D5E1FD2">
       <End Role="USUARIOS" EntitySet="USUARIOS" />
       <End Role="TELEFONOS" EntitySet="TELEFONOS" />
     </AssociationSet>
     <AssociationSet Name="FK__USUARIOS__PRYCTO__1273C1CD" Association="Self.FK__USUARIOS__PRYCTO__1273C1CD">
       <End Role="PROYECTO" EntitySet="PROYECTO" />
       <End Role="USUARIOS" EntitySet="USUARIOS" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
     </AssociationSet>
     <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
@@ -337,6 +412,10 @@
     <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="ID_ASP_USERS_FK" Association="Self.ID_ASP_USERS_FK">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="USUARIOS" EntitySet="USUARIOS" />
     </AssociationSet>
     <AssociationSet Name="PermisoFK" Association="Self.PermisoFK">
       <End Role="PERMISOS" EntitySet="PERMISOS" />

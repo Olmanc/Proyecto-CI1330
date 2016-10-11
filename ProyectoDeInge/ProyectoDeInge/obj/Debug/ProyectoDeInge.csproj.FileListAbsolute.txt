@@ -487,3 +487,4 @@ C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\
 C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.dll
 C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.pdb
 C:\Users\b46671\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.csprojResolveAssemblyReference.cache
+C:\Users\Yohel Munoz\Desktop\Proyecto Inge 10-09\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.csprojResolveAssemblyReference.cache

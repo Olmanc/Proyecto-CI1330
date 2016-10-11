@@ -153,10 +153,12 @@ namespace ProyectoDeInge.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                string pw = Membership.GeneratePassword(8, 1);
-                model.Password = pw;
+                //string pw = Membership.GeneratePassword(8, 1);
+                //model.Password = pw;
+                user.EmailConfirmed = true;
+                user.PhoneNumberConfirmed = true;
                 model.sendMail(model);
-                var result = await UserManager.CreateAsync(user, pw);
+                var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
