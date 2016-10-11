@@ -296,6 +296,11 @@ namespace ProyectoDeInge.Controllers
             return Json(new { success = true });
         }
 
+        public ActionResult cancelar(ModeloIntermedio modelo)
+        {
+            return View(modelo);
+        }
+
         // Método post de la vista Unificada, se llama unicamente en el botón Guardar de la sección modificar
         [HttpPost]
         [ValidateAntiForgeryToken]

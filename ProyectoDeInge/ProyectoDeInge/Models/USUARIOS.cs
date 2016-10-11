@@ -11,7 +11,7 @@ namespace ProyectoDeInge.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class USUARIOS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,7 +22,9 @@ namespace ProyectoDeInge.Models
             this.REQUERIMIENTOS = new HashSet<REQUERIMIENTOS>();
             this.TELEFONOS = new HashSet<TELEFONOS>();
         }
-    
+
+        [Required]
+        [StringLength(9, MinimumLength = 9)]
         public string CEDULA { get; set; }
         public string NOMBRE { get; set; }
         public string PRYCTOID { get; set; }

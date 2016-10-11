@@ -11,10 +11,12 @@ namespace ProyectoDeInge.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class TELEFONOS
     {
         public string CEDULA { get; set; }
+
+        [StringLength(8, MinimumLength = 8)]
         public string NUMERO { get; set; }
     
         public virtual USUARIOS USUARIOS { get; set; }
