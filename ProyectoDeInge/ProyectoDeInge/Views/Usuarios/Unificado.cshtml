@@ -52,7 +52,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.modeloUsuario.CEDULA, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.modeloUsuario.CEDULA, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.EditorFor(model => model.modeloUsuario.CEDULA, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled"} })
                     @Html.ValidationMessageFor(model => model.modeloUsuario.CEDULA, "", new { @class = "text-danger"})
                 </div>
             </div>
@@ -105,6 +105,8 @@
                     @Html.ValidationMessageFor(model => model.modeloCorreo.CORREO, "", new { @class = "text-danger" })
                 </div>
             </div>
+            @Html.HiddenFor(model => model.modeloUsuario.CEDULA)
+            @Html.HiddenFor(model => model.modeloUsuario.ID_ASP)
             <div class="ocultar2" style="display:none">
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
