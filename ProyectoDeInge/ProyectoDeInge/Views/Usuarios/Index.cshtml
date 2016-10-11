@@ -1,4 +1,6 @@
 ﻿@model ProyectoDeInge.Models.ModeloIntermedio
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
 
 @{
     ViewBag.Title = "Index";
@@ -27,11 +29,12 @@
             Teléfono
         </th>
         <th>
-            Correo
+            Rol
         </th>
         <th>
-            Consultar/Editar/Eliminar
+            Correo
         </th>
+        
     </tr>
 
     @for (int i = 0; i < Model.listaUsuarios.Count; i++)
@@ -58,14 +61,25 @@
                     }
                 }
             </td>
+
             <td>
-                @for (int j = 0; j < Model.listaCorreos.Count; j++)
-                {
-                    if (Model.listaUsuarios.ElementAt(i).CEDULA.Equals(Model.listaCorreos.ElementAt(j).CEDULA))
-                    {
-                        @Html.DisplayFor(modelItem => Model.listaCorreos.ElementAt(j).CORREO)<br>
-                    }
+                @{
+                    var id = Model.listaUsuarios.ElementAt(i).ID_ASP;
+                    var um = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                    var ur = um.GetRoles(id);
+                    var rol = ur[0];
+                    @Html.DisplayFor(modelItem => rol)
+
                 }
+            </td>
+            <td>
+               @for (int j = 0; j < Model.listaTelefonos.Count; j++)
+               {
+                   if (Model.listaUsuarios.ElementAt(i).CEDULA.Equals(Model.listaCorreos.ElementAt(j).CEDULA))
+                   {
+                        @Html.DisplayFor(modelItem => Model.listaCorreos.ElementAt(j).CORREO)<br>
+                   }
+               }
             </td>
             <td>
                 <!--Html.ActionLink("Edit", "Edit", new { id = Model.listaUsuarios.ElementAt(i).CEDULA }) |-->

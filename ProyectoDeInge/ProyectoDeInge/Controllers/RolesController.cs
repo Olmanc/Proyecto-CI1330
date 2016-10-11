@@ -61,11 +61,19 @@ namespace ProyectoDeInge.Controllers
         // GET: Roles/Edit/5
         public ActionResult Edit(/*String id*/)
         {
-            var permisosViewModel = new permisosViewModel();
-            permisosViewModel.todoPermisos = db.PERMISOS.ToList();
+            var modelo = new permiso2Viewmodel();
+            modelo.Admin = db.AspNetRoles.Find("1");
+            modelo.Desa = db.AspNetRoles.Find("2");
+            modelo.Usuario = db.AspNetRoles.Find("3");
+            modelo.Roles = db.AspNetRoles.ToList();
+            modelo.Permisos = db.PERMISOS.ToList();
+            /*
+            var permisosViewModel = new permisosViewModel();            
+            permisosViewModel.todoPermisos = db.Permisos.ToList();
             permisosViewModel.todoRoles = db.AspNetRoles.ToList();
+            */
 
-            return View(permisosViewModel);
+            return View(modelo);
         }
 
         // POST: Roles/Edit/5
@@ -73,8 +81,15 @@ namespace ProyectoDeInge.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(permisosViewModel permisos, FormCollection resultado)
+        public ActionResult Edit(FormCollection resultado)
         {
+            if (resultado.Count < 4)
+            {
+                Response.Write("<Script>alert('ERROR - No pueden haber roles sin permisos.')</Script>");
+                return this.Edit();
+                /*                return RedirectToAction("Edit");                   return new EmptyResult();                return View(permisos);                return RedirectToAction("Edit");
+                */
+            }
             permisosViewModel Administrador = new permisosViewModel();
             permisosViewModel Desarrollador = new permisosViewModel();
             permisosViewModel Usuario = new permisosViewModel();
@@ -85,7 +100,7 @@ namespace ProyectoDeInge.Controllers
             var listaAd = resultado["Administrador"];
             var listaDe = resultado["Desarrollador"];
             var listaUs = resultado["Usuario"];
-            var lista2 = new int[4];
+            var lista2 = new string[4];
 
             if (listaAd == null || listaDe == null || listaUs == null)
             {
@@ -93,6 +108,14 @@ namespace ProyectoDeInge.Controllers
             }
 
             var lista = listaAd.Split(',');
+            if (lista.Contains("3") || lista.Contains("4"))
+            {
+                if (!lista.Contains("2"))
+                {
+                    Response.Write("<Script>alert('ERROR - No es posible asignar permiso de Modificar/Eliminar sin permiso para Consultar.')</Script>");
+                    return this.Edit();
+                }
+            }
             for (int i = 0; i < lista.Length; i++)
             {
                 //lista2[i] = Convert.ToInt32(lista[i]);
@@ -100,6 +123,14 @@ namespace ProyectoDeInge.Controllers
             }
 
             lista = listaDe.Split(',');
+            if (lista.Contains("3") || lista.Contains("4"))
+            {
+                if (!lista.Contains("2"))
+                {
+                    Response.Write("<Script>alert('ERROR - No es posible asignar permiso de Modificar/Eliminar sin permiso para Consultar.')</Script>");
+                    return this.Edit();
+                }
+            }
             for (int i = 0; i < lista.Length; i++)
             {
                 //lista2[i] = Convert.ToInt32(lista[i]);
@@ -107,12 +138,19 @@ namespace ProyectoDeInge.Controllers
             }
 
             lista = listaUs.Split(',');
+            if (lista.Contains("3") || lista.Contains("4"))
+            {
+                if (!lista.Contains("2"))
+                {
+                    Response.Write("<Script>alert('ERROR - No es posible asignar permiso de Modificar/Eliminar sin permiso para Consultar.')</Script>");
+                    return this.Edit();
+                }
+            }
             for (int i = 0; i < lista.Length; i++)
             {
                 //lista2[i] = Convert.ToInt32(lista[i]);
                 permisosUsuario.Add(lista[i]);
             }
-
 
             if (Administrador == null)
             {
@@ -130,90 +168,97 @@ namespace ProyectoDeInge.Controllers
             }
             Usuario.permisosAsignados = permisosUsuario;
 
-
-            if (ModelState.IsValid)
+            try
             {
-                var adminActualiza = db.AspNetRoles
-                .Include(i => i.PERMISOS).First(i => i.Id == "1");
-
-                if (TryUpdateModel(adminActualiza, "AspNetRoles", new string[] { "Name" }))
+                if (ModelState.IsValid)
                 {
-                    var adminNuevos = db.PERMISOS.Where(
-                        m => Administrador.permisosAsignados.Contains(m.ID)).ToList();
-                    var adminActualizado = new HashSet<string>(Administrador.permisosAsignados);
+                    var adminActualiza = db.AspNetRoles
+                    .Include(i => i.PERMISOS).First(i => i.Id == "1");
 
-                    foreach (PERMISOS permiso in db.PERMISOS)
+                    if (TryUpdateModel(adminActualiza, "AspNetRoles", new string[] { "Name" }))
                     {
-                        if (!adminActualizado.Contains(permiso.ID))
+                        var adminNuevos = db.PERMISOS.Where(
+                            m => Administrador.permisosAsignados.Contains(m.ID)).ToList();
+                        var adminActualizado = new HashSet<string>(Administrador.permisosAsignados);
+
+                        foreach (PERMISOS permiso in db.PERMISOS)
                         {
-                            adminActualiza.PERMISOS.Remove(permiso);
+                            if (!adminActualizado.Contains(permiso.ID))
+                            {
+                                adminActualiza.PERMISOS.Remove(permiso);
+                            }
+                            else
+                            {
+                                adminActualiza.PERMISOS.Add(permiso);
+                            }
                         }
-                        else
-                        {
-                            adminActualiza.PERMISOS.Add(permiso);
-                        }
+                        db.Entry(adminActualiza).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
                     }
-                    db.Entry(adminActualiza).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                }
 
+                    var desaActualiza = db.AspNetRoles
+                    .Include(i => i.PERMISOS).First(i => i.Id == "2");
 
-
-
-                var desaActualiza = db.AspNetRoles
-                .Include(i => i.PERMISOS).First(i => i.Id == "2");
-
-                if (TryUpdateModel(desaActualiza, "AspNetRoles", new string[] { "Name" }))
-                {
-                    var desaNuevos = db.PERMISOS.Where(
-                        m => Desarrollador.permisosAsignados.Contains(m.ID)).ToList();
-                    var desaActualizado = new HashSet<string>(Desarrollador.permisosAsignados);
-
-                    foreach (PERMISOS permiso in db.PERMISOS)
+                    if (TryUpdateModel(desaActualiza, "AspNetRoles", new string[] { "Name" }))
                     {
-                        if (!desaActualizado.Contains(permiso.ID))
+                        var desaNuevos = db.PERMISOS.Where(
+                            m => Desarrollador.permisosAsignados.Contains(m.ID)).ToList();
+                        var desaActualizado = new HashSet<string>(Desarrollador.permisosAsignados);
+
+                        foreach (PERMISOS permiso in db.PERMISOS)
                         {
-                            desaActualiza.PERMISOS.Remove(permiso);
+                            if (!desaActualizado.Contains(permiso.ID))
+                            {
+                                desaActualiza.PERMISOS.Remove(permiso);
+                            }
+                            else
+                            {
+                                desaActualiza.PERMISOS.Add(permiso);
+                            }
                         }
-                        else
-                        {
-                            desaActualiza.PERMISOS.Add(permiso);
-                        }
+                        db.Entry(desaActualiza).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
                     }
-                    db.Entry(desaActualiza).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                }
 
-                var usuActualiza = db.AspNetRoles
-                .Include(i => i.PERMISOS).First(i => i.Id == "3");
+                    var usuActualiza = db.AspNetRoles
+                    .Include(i => i.PERMISOS).First(i => i.Id == "3");
 
-                if (TryUpdateModel(usuActualiza, "AspNetRoles", new string[] { "Name" }))
-                {
-                    var usuNuevos = db.PERMISOS.Where(
-                        m => Usuario.permisosAsignados.Contains(m.ID)).ToList();
-                    var usuActualizado = new HashSet<string>(Usuario.permisosAsignados);
-
-                    foreach (PERMISOS permiso in db.PERMISOS)
+                    if (TryUpdateModel(usuActualiza, "AspNetRoles", new string[] { "Name" }))
                     {
-                        if (!usuActualizado.Contains(permiso.ID))
-                        {
-                            usuActualiza.PERMISOS.Remove(permiso);
-                        }
-                        else
-                        {
-                            usuActualiza.PERMISOS.Add(permiso);
-                        }
-                    }
-                    db.Entry(usuActualiza).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                }
+                        var usuNuevos = db.PERMISOS.Where(
+                            m => Usuario.permisosAsignados.Contains(m.ID)).ToList();
+                        var usuActualizado = new HashSet<string>(Usuario.permisosAsignados);
 
-                return RedirectToAction("Index");
+                        foreach (PERMISOS permiso in db.PERMISOS)
+                        {
+                            if (!usuActualizado.Contains(permiso.ID))
+                            {
+                                usuActualiza.PERMISOS.Remove(permiso);
+                            }
+                            else
+                            {
+                                usuActualiza.PERMISOS.Add(permiso);
+                            }
+                        }
+                        db.Entry(usuActualiza).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    TempData["Exito"] = "Permisos asignados exitosamente!";
+                    //Response.Write("<Script>alert('Permisos actualizados exitosamente')</Script>");
+                    return RedirectToAction("Index");
+                }
             }
-            
-            return RedirectToAction("Index");            
-        }
+            catch
+            {
 
+                return this.Edit();
+            }
+
+
+            return RedirectToAction("Index");
+        }
+    }
+    /*
         // GET: Roles/Delete/5
         public ActionResult Delete(string id)
         {
@@ -248,5 +293,5 @@ namespace ProyectoDeInge.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+    }*/
 }

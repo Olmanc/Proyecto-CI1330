@@ -29,4 +29,13 @@ namespace ProyectoDeInge.Models
             set { _permisosAsignados = value; }
         }
     }
+
+    public class permiso2Viewmodel
+    {
+        public AspNetRoles Admin { get; set; }
+        public AspNetRoles Desa { get; set; }
+        public AspNetRoles Usuario { get; set; }
+        public List<AspNetRoles> Roles = new List<AspNetRoles>();
+        public List<PERMISOS> Permisos = new List<PERMISOS>();
+    }
 }

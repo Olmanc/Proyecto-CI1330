@@ -1,11 +1,11 @@
-﻿@model ProyectoDeInge.Models.permisosViewModel
+﻿@model ProyectoDeInge.Models.permiso2Viewmodel
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Gestión de permisos</h2>
 
 @using (Html.BeginForm())
 {
@@ -14,32 +14,55 @@
     <table class="table">
         <tr>
             <th></th>
-            @foreach (var item in Model.todoRoles)
+            @foreach (var item in Model.Roles)
             {
                 <td>@Html.DisplayFor(modelItem => item.Name)</td>
             }
         </tr>
-        @foreach (var item in Model.todoPermisos)
+        @foreach (var item in Model.Permisos)
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.NOMBRE)</td>
-                <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Administrador" value="@item.ID" /></td>
-                <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Desarrollador" value="@item.ID" /></td>
-                <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Usuario" value="@item.ID" /></td>
+                @if (Model.Admin.PERMISOS.Contains(item))
+                {
+                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Administrador" value="@item.ID" checked /></td>
+                }
+                else
+                {
+                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Administrador" value="@item.ID" /></td>
+                }
+                @if (Model.Desa.PERMISOS.Contains(item))
+                {
+                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Desarrollador" value="@item.ID" checked /></td>
+                }
+                else
+                {
+                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Desarrollador" value="@item.ID" /></td>
+                }
+                @if (Model.Usuario.PERMISOS.Contains(item))
+                {
+                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Usuario" value="@item.ID" checked /></td>
+                }
+                else
+                {
+                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Usuario" value="@item.ID" /></td>
+                }
             </tr>
         }
     </table>
     <div class="form-group">
         <input type="submit" value="Guardar" class="btn btn-default" />
-        <input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" />  
-        <!--<button onclick="chequeados()">Guardar</button>-->
+        <!--<input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" />-->
+        <input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" />
     </div>
 }
 
+
 <script type='text/javascript'>
-  function goBack() {
-      window.history.back();
-  }
+   function goBack() {
+       window.history.back();
+       //Response.Redirect("~/Home");
+   }
 </script>
 <script type="text/javascript">
     function chequeados() {

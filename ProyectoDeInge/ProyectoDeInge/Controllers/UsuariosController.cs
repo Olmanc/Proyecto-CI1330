@@ -276,7 +276,7 @@ namespace ProyectoDeInge.Controllers
                 }
             }
 
-            ViewBag.Rol = GetRolesForUser(user.ID_ASP);
+            //ViewBag.Rol = GetRolesForUser(user.ID_ASP);
 
             modelo.modeloUsuario = user;
             modelo.modeloTelefono = tel;
@@ -330,7 +330,7 @@ namespace ProyectoDeInge.Controllers
             }
             return View(modelo);
         }
-
+        /*
         public async Task<string> GetRolesForUser(string userId)
         {
             using (
@@ -340,7 +340,7 @@ namespace ProyectoDeInge.Controllers
 
                 return rolesForUser.First();
             }
-        }
+        }*/
 
     }
 }

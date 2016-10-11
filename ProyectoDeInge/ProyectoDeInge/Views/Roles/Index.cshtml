@@ -5,17 +5,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Información de permisos</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (TempData["Exito"] != null)
+{
+   <!-- <p>TempData["Exito"]</p>-->
+    <Script>alert('Permisos actualizados exitosamente')</Script>
+}
+else
+{
+    <Script>alert('Error - No actualizaron los permisos asignados')</Script>
+    <!--<p>Error - Cambio en permisos no fue exitoso.</p>-->
+}
+
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.PERMISOS)
+        </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -24,11 +34,8 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ListBox("Id", new SelectList(item.PERMISOS, "ID", "NOMBRE"))
         </td>
     </tr>
 }
-
 </table>
