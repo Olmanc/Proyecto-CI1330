@@ -86,6 +86,11 @@ namespace ProyectoDeInge
             }
             return manager;
         }
+
+        internal Task CreateAsync(ApplicationUser user, object password)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     // Configure the application sign-in manager which is used in this application.
