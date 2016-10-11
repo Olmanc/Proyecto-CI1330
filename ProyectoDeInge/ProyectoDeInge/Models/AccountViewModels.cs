@@ -59,10 +59,10 @@ namespace ProyectoDeInge.Models
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "¿Recordarme?")]
         public bool RememberMe { get; set; }
     }
 
@@ -74,9 +74,9 @@ namespace ProyectoDeInge.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "La {0} debe ser de al menos {2} caracteres de longitud.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Contraseña")]
         public string Password = Membership.GeneratePassword(8, 1);
 
         /*[DataType(DataType.Password)]
@@ -90,7 +90,7 @@ namespace ProyectoDeInge.Models
             string text = string.Format("Your Password is: " + model.Password);
             // string html = "Please confirm your account by clicking this link: <a href=\"" + message.Body + "\">link</a><br/>"; 
 
-            System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
+            /*System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
             msg.From = new MailAddress("voncita20@outlook.com");
             msg.To.Add(new MailAddress(model.Email));
             msg.Subject = "Your Password";
