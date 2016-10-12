@@ -312,6 +312,12 @@ namespace ProyectoDeInge.Controllers
                 }
             }
 
+
+
+
+            modelo.modeloAsp = db.AspNetUsers.Find(user.ID_ASP);
+
+
             //ViewBag.Rol = GetRolesForUser(user.ID_ASP);
 
             modelo.modeloUsuario = user;

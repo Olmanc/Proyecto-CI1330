@@ -14,6 +14,8 @@ namespace ProyectoDeInge.Models
         public CORREOS modeloCorreo { get; set; }
         public CORREOS modeloCorreo2 { get; set; }
         public PROYECTO modeloProyecto { get; set; }
+        public AspNetUsers modeloAsp { get; set; }
+        //public List<string> listaRol = new List<string>();
         public List<USUARIOS> listaUsuarios = new List<USUARIOS>();
         public List<TELEFONOS> listaTelefonos = new List<TELEFONOS>();
         public List<CORREOS> listaCorreos = new List<CORREOS>();

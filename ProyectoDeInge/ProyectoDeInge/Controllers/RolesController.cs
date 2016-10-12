@@ -106,8 +106,14 @@ namespace ProyectoDeInge.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
+            permiso2Viewmodel prueba = new permiso2Viewmodel();
+            prueba.Permisos = db.PERMISOS.ToList();            
             var lista = listaAd.Split(',');
+            
+            if (lista.Count() < prueba.Permisos.Count) {
+                Response.Write("<Script>alert('ERROR - El administrador debe tener TODOS los permisos asignados.')</Script>");
+                return this.Edit();
+            }
             if (lista.Contains("3") || lista.Contains("4"))
             {
                 if (!lista.Contains("2"))

@@ -655,11 +655,8 @@
           </Key>
           <Property Name="CEDULA" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="false" />
           <Property Name="NUMERO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-<<<<<<< HEAD
+
           <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__TELEFONOS__CEDUL__15502E78" FromRole="TELEFONOS" ToRole="USUARIOS" />
-=======
-          <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__TELEFONOS__CEDUL__3D5E1FD2" FromRole="TELEFONOS" ToRole="USUARIOS" />
->>>>>>> c397a91af0f28a89330c76f43c0fe5523238f318
         </EntityType>
         <EntityType Name="USUARIOS">
           <Key>

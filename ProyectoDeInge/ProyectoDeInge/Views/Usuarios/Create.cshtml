@@ -85,16 +85,22 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Crear" class="btn btn-default" />
+                <input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" />
             </div>
         </div>
     </div>
 }
-
+<!--
 <div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
+    Html.ActionLink("Back to List", "Index")
+</div>-->
+<script type='text/javascript'>
+   function goBack() {
+       window.history.back();
+       //Response.Redirect("~/Home");
+   }
+</script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
