@@ -22,38 +22,26 @@
         @foreach (var item in Model.Permisos)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.NOMBRE)</td>
-                @if (Model.Admin.PERMISOS.Contains(item))
-                {
-                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Administrador" value="@item.ID" checked /></td>
+                <td>@Html.DisplayFor(modelItem => item.NOMBRE)</td>                <!--el administrador siempre tiene todos los permisos asignados-->       <!--si el rol no tiene permisos para asignar permisos, es deshabilitado-->
+                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Administrador" value="@item.ID" checked disabled="@(!Model.verificaPermisos.Contains("18") ? "disabled":null)"/></td> 
+                           
+                @if (Model.Desa.PERMISOS.Contains(item)){       <!--si el rol desarrollador tiene el permiso actualmente, es marcado-->  <!--si el rol no tiene permisos para asignar permisos, es deshabilitado-->
+                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Desarrollador" value="@item.ID" checked disabled="@(!Model.verificaPermisos.Contains("18") ? "disabled":null)"/></td>
+                }else{                                          
+                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Desarrollador" value="@item.ID" disabled="@(!Model.verificaPermisos.Contains("18") ? "disabled":null)"/></td>
                 }
-                else
-                {
-                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Administrador" value="@item.ID" /></td>
-                }
-                @if (Model.Desa.PERMISOS.Contains(item))
-                {
-                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Desarrollador" value="@item.ID" checked /></td>
-                }
-                else
-                {
-                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Desarrollador" value="@item.ID" /></td>
-                }
-                @if (Model.Usuario.PERMISOS.Contains(item))
-                {
-                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Usuario" value="@item.ID" checked /></td>
-                }
-                else
-                {
-                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Usuario" value="@item.ID" /></td>
+
+                @if (Model.Usuario.PERMISOS.Contains(item)){    <!--si el rol usuario tiene el permiso asignado, es marcado-->   <!--si el rol no tiene permisos para asignar permisos, es deshabilitado-->
+                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Usuario" value="@item.ID" checked disabled="@(!Model.verificaPermisos.Contains("18") ? "disabled":null)"/></td>
+                }else{
+                    <td><input class="asignaPermisos" type="checkbox" id="@item.ID" name="Usuario" value="@item.ID"  disabled="@(!Model.verificaPermisos.Contains("18") ? "disabled":null)"/></td>
                 }
             </tr>
         }
     </table>
     <div class="form-group">
-        <input type="submit" value="Aceptar" class="btn btn-default" />
-        <!--<input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" />-->
-        <input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" />
+        <input type="submit" value="Aceptar" class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("18") ? "disabled":null)" />    <!--si el rol no tiene permisos para asignar permisos, es deshabilitado-->    
+        <input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" disabled="@(!Model.verificaPermisos.Contains("18") ? "disabled":null)" />
     </div>
 }
 
