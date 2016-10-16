@@ -80,10 +80,14 @@
                }
             </td>
             <td>
-                <!--Html.ActionLink("Edit", "Edit", new { id = Model.listaUsuarios.ElementAt(i).CEDULA }) |-->
-                <!--@Html.ActionLink("Details", "Details", new { id = Model.listaUsuarios.ElementAt(i).CEDULA }) |-->
-                @Html.ActionLink("Consultar", "Unificado", new { id = Model.listaUsuarios.ElementAt(i).CEDULA })
-                <!--@Html.ActionLink("Delete", "Delete", new { id = Model.listaUsuarios.ElementAt(i).CEDULA })-->
+               @{if (Model.verificaPermisos.Contains("02")) {
+                        @Html.ActionLink("Consultar", "Unificado", new { id = Model.listaUsuarios.ElementAt(i).CEDULA });
+                    }
+                    else
+                    {
+                       
+                    }
+                }
             </td>
         </tr>
     }
