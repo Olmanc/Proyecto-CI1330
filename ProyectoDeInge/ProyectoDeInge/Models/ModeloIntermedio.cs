@@ -20,5 +20,7 @@ namespace ProyectoDeInge.Models
         public List<TELEFONOS> listaTelefonos = new List<TELEFONOS>();
         public List<CORREOS> listaCorreos = new List<CORREOS>();
         public List<PROYECTO> listaProyecto = new List<PROYECTO>();
+        
+        public HashSet<string> verificaPermisos = new HashSet<string>();        //para verificar los permisos del usuario actual
     }
 }
