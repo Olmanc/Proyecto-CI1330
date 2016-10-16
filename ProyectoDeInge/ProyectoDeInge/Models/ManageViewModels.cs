@@ -56,6 +56,8 @@ namespace ProyectoDeInge.Models
         [Display(Name = "Confirme su nueva contraseña")]
         [Compare("NewPassword", ErrorMessage = "La nueva contraseña y la contraseña de confirmacion no coinciden.")]
         public string ConfirmPassword { get; set; }
+        
+        public HashSet<string> verificaPermisos = new HashSet<string>();        //para verificar los permisos del usuario actual
     }
 
     public class AddPhoneNumberViewModel
