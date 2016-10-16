@@ -325,6 +325,28 @@ namespace ProyectoDeInge.Controllers
             modelo.modeloTelefono2 = tel2;
             modelo.modeloCorreo = email;
             modelo.modeloCorreo2 = email2;
+            
+            
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
+            var listauser = db.AspNetUsers.ToArray();
+            for (int i = 0; i < listauser.Length; i++)
+            {                           //de todos los AspNetUser del sistema, encuentra el que tenga el email activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+
+            AspNetRoles role = fg.AspNetRoles.First();  //consigue el rol del usuario
+            var per = role.PERMISOS;                    //copia los permisos que tiene asignado
+
+            foreach (PERMISOS p in role.PERMISOS)
+            {     //los copia a un HashSet<string>
+                modelo.verificaPermisos.Add(p.ID);
+            }
+            
+            
+            
             return View(modelo);
         }
 
