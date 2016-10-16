@@ -37,5 +37,6 @@ namespace ProyectoDeInge.Models
         public AspNetRoles Usuario { get; set; }
         public List<AspNetRoles> Roles = new List<AspNetRoles>();
         public List<PERMISOS> Permisos = new List<PERMISOS>();
+        public HashSet<string> verificaPermisos = new HashSet<string>();   //para verificar permisos
     }
 }
