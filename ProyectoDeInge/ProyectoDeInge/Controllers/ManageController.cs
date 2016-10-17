@@ -15,6 +15,8 @@ namespace ProyectoDeInge.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        
+        BD_IngeGrupo2Entities2 db = new BD_IngeGrupo2Entities2();//para conectar con la base de Datos
 
         public ManageController()
         {
