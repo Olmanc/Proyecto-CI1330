@@ -81,13 +81,13 @@
             </td>
             <td>
                @{if (Model.verificaPermisos.Contains("02")) {
-                        @Html.ActionLink("Consultar", "Unificado", new { id = Model.listaUsuarios.ElementAt(i).CEDULA });
-                    }
-                    else
-                    {
-                       
-                    }
-                }
+                        @*@Html.ActionLink("Consultar", "Unificado", new { id = Model.listaUsuarios.ElementAt(i).CEDULA });*@
+                   }
+                   else
+                   {
+                    @Html.ActionLink("Consultar", "Unificado", new { id = Model.listaUsuarios.ElementAt(i).CEDULA });
+                   }
+            }
             </td>
         </tr>
     }

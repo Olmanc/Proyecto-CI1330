@@ -152,7 +152,6 @@
     <Property Name="CEDULA" Type="char" MaxLength="9" Nullable="false" />
     <Property Name="NOMBRE" Type="varchar" MaxLength="20" />
     <Property Name="PRYCTOID" Type="char" MaxLength="7" />
-    <Property Name="LIDER" Type="bit" />
     <Property Name="APELLIDO1" Type="varchar" MaxLength="20" />
     <Property Name="APELLIDO2" Type="varchar" MaxLength="20" />
     <Property Name="ID_ASP" Type="nvarchar" MaxLength="128" />

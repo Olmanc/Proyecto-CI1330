@@ -11,8 +11,7 @@ namespace ProyectoDeInge.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class USUARIOS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,37 +22,12 @@ namespace ProyectoDeInge.Models
             this.REQUERIMIENTOS = new HashSet<REQUERIMIENTOS>();
             this.TELEFONOS = new HashSet<TELEFONOS>();
         }
-
-        [Required(ErrorMessage = "La cédula es un campo requerido.")]        
-        [Display(Name = "Cédula:")]
-        [RegularExpression(@"^[0-9]+$", ErrorMessage = "La cédula solo puede estar compuesta por números")]
+    
         public string CEDULA { get; set; }
-
-        [StringLength(20)]
-        [Required(ErrorMessage = "El nombre es un campo requerido.")]
-        [Display(Name = "Nombre:")]
-        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El nombre solo puede estar compuesto por letras")]
         public string NOMBRE { get; set; }
-
-        [Display(Name = "Identificador del proyecto:")]
         public string PRYCTOID { get; set; }
-
-        [Display(Name = "¿Es líder?:")]
-        public Nullable<bool> LIDER { get; set; }
-
-        [StringLength(20)]
-        [Required(ErrorMessage = "El primer apellido es un campo requerido.")]
-        [Display(Name = "Primer apellido:")]
-        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El primer apellido solo puede estar compuesto por letras")]
         public string APELLIDO1 { get; set; }
-
-        [StringLength(20)]
-        [Required(ErrorMessage = "El segundo apellido es un campo requerido.")]
-        [Display(Name = "Segundo apellido:")]
-        [RegularExpression(@"^[a-zA-Z''-'\s]+$", ErrorMessage = "El segundo apellido solo puede estar compuesto por letras")]
         public string APELLIDO2 { get; set; }
-
-
         public string ID_ASP { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }

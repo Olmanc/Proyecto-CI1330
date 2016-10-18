@@ -157,7 +157,6 @@
           <Property Name="CEDULA" Type="char" MaxLength="9" Nullable="false" />
           <Property Name="NOMBRE" Type="varchar" MaxLength="20" />
           <Property Name="PRYCTOID" Type="char" MaxLength="7" />
-          <Property Name="LIDER" Type="bit" />
           <Property Name="APELLIDO1" Type="varchar" MaxLength="20" />
           <Property Name="APELLIDO2" Type="varchar" MaxLength="20" />
           <Property Name="ID_ASP" Type="nvarchar" MaxLength="128" />
@@ -655,7 +654,6 @@
           </Key>
           <Property Name="CEDULA" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="false" />
           <Property Name="NUMERO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-
           <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__TELEFONOS__CEDUL__15502E78" FromRole="TELEFONOS" ToRole="USUARIOS" />
         </EntityType>
         <EntityType Name="USUARIOS">
@@ -665,7 +663,6 @@
           <Property Name="CEDULA" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="false" />
           <Property Name="NOMBRE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="PRYCTOID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
-          <Property Name="LIDER" Type="Boolean" />
           <Property Name="APELLIDO1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="APELLIDO2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ID_ASP" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
@@ -977,7 +974,6 @@
                 <ScalarProperty Name="ID_ASP" ColumnName="ID_ASP" />
                 <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
                 <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />
-                <ScalarProperty Name="LIDER" ColumnName="LIDER" />
                 <ScalarProperty Name="PRYCTOID" ColumnName="PRYCTOID" />
                 <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
                 <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />

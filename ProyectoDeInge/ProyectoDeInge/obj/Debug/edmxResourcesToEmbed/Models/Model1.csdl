@@ -223,7 +223,6 @@
     <Property Name="CEDULA" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="false" />
     <Property Name="NOMBRE" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="PRYCTOID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
-    <Property Name="LIDER" Type="Boolean" />
     <Property Name="APELLIDO1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="APELLIDO2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="ID_ASP" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />

@@ -142,7 +142,6 @@
           <ScalarProperty Name="ID_ASP" ColumnName="ID_ASP" />
           <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
           <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />
-          <ScalarProperty Name="LIDER" ColumnName="LIDER" />
           <ScalarProperty Name="PRYCTOID" ColumnName="PRYCTOID" />
           <ScalarProperty Name="NOMBRE" ColumnName="NOMBRE" />
           <ScalarProperty Name="CEDULA" ColumnName="CEDULA" />
