@@ -43,7 +43,10 @@
             @Html.LabelFor(model => model.IMAGEN, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.IMAGEN, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IMAGEN, "", new { @class = "text-danger" })
+                @*@Html.ValidationMessageFor(model => model.IMAGEN, "", new { @class = "text-danger" })*@
+                <div class="col-md-10">
+                    <input type="file" id="Avatar" name="upload" />
+                </div>
             </div>
         </div>
 
@@ -90,7 +93,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FECHAFINAL, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FECHAFINAL, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.EditorFor(model => model.FECHAFINAL, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FECHAFINAL, "", new { @class = "text-danger" })
             </div>
         </div>
