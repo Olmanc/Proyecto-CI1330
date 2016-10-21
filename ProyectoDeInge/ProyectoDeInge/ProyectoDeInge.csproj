@@ -358,7 +358,6 @@
     <Content Include="Views\Roles\Details.cshtml" />
     <Content Include="Views\Roles\Edit.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
-    <Content Include="Views\Proyectos\Index.cshtml" />
     <Content Include="Views\Requerimientos\Create.cshtml" />
     <Content Include="Views\Requerimientos\Delete.cshtml" />
     <Content Include="Views\Requerimientos\Details.cshtml" />

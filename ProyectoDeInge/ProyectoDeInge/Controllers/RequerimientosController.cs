@@ -64,13 +64,13 @@ namespace ProyectoDeInge.Controllers
         }
 
         // GET: Requerimientos/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string id, int version)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id);
+            REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id, version);
             if (rEQUERIMIENTOS == null)
             {
                 return HttpNotFound();
