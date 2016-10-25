@@ -29,6 +29,7 @@ namespace ProyectoDeInge.Models
         public string APELLIDO1 { get; set; }
         public string APELLIDO2 { get; set; }
         public string ID_ASP { get; set; }
+        public Nullable<bool> LIDER { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -3,8 +3,6 @@
   <EntityContainer Name="BD_IngeGrupo2Entities2" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="C__MigrationHistory" EntityType="Modelo.C__MigrationHistory" />
     <EntitySet Name="AspNetRoles" EntityType="Modelo.AspNetRoles" />
-    <EntitySet Name="AspNetUserClaims" EntityType="Modelo.AspNetUserClaims" />
-    <EntitySet Name="AspNetUserLogins" EntityType="Modelo.AspNetUserLogins" />
     <EntitySet Name="AspNetUsers" EntityType="Modelo.AspNetUsers" />
     <EntitySet Name="CAMBIOS" EntityType="Modelo.CAMBIOS" />
     <EntitySet Name="CORREOS" EntityType="Modelo.CORREOS" />
@@ -14,47 +12,39 @@
     <EntitySet Name="REQUERIMIENTOS" EntityType="Modelo.REQUERIMIENTOS" />
     <EntitySet Name="TELEFONOS" EntityType="Modelo.TELEFONOS" />
     <EntitySet Name="USUARIOS" EntityType="Modelo.USUARIOS" />
-    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Modelo.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-    </AssociationSet>
-    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Modelo.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-    </AssociationSet>
-    <AssociationSet Name="ID_ASP_Users" Association="Modelo.ID_ASP_Users">
+    <AssociationSet Name="usuarioUserFK" Association="Modelo.usuarioUserFK">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="USUARIOS" EntitySet="USUARIOS" />
     </AssociationSet>
-    <AssociationSet Name="FK__CAMBIOS__1ED998B2" Association="Modelo.FK__CAMBIOS__1ED998B2">
+    <AssociationSet Name="cambioRequerimientoFK" Association="Modelo.cambioRequerimientoFK">
       <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
       <End Role="CAMBIOS" EntitySet="CAMBIOS" />
     </AssociationSet>
-    <AssociationSet Name="FK__CAMBIOS__CEDULA__1FCDBCEB" Association="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB">
+    <AssociationSet Name="cedula_cambiosUsuariosFK" Association="Modelo.cedula_cambiosUsuariosFK">
       <End Role="USUARIOS" EntitySet="USUARIOS" />
       <End Role="CAMBIOS" EntitySet="CAMBIOS" />
     </AssociationSet>
-    <AssociationSet Name="FK__CORREOS__CEDULA__182C9B23" Association="Modelo.FK__CORREOS__CEDULA__182C9B23">
+    <AssociationSet Name="correoUsuarioFK" Association="Modelo.correoUsuarioFK">
       <End Role="USUARIOS" EntitySet="USUARIOS" />
       <End Role="CORREOS" EntitySet="CORREOS" />
     </AssociationSet>
-    <AssociationSet Name="FK__CRIT_ACEPTACION__22AA2996" Association="Modelo.FK__CRIT_ACEPTACION__22AA2996">
+    <AssociationSet Name="criterioRequerimientoFK" Association="Modelo.criterioRequerimientoFK">
       <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
       <End Role="CRIT_ACEPTACION" EntitySet="CRIT_ACEPTACION" />
     </AssociationSet>
-    <AssociationSet Name="FK__REQUERIMI__PRYCT__1BFD2C07" Association="Modelo.FK__REQUERIMI__PRYCT__1BFD2C07">
+    <AssociationSet Name="requerimientoProyectoFK" Association="Modelo.requerimientoProyectoFK">
       <End Role="PROYECTO" EntitySet="PROYECTO" />
       <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
     </AssociationSet>
-    <AssociationSet Name="FK__USUARIOS__PRYCTO__1273C1CD" Association="Modelo.FK__USUARIOS__PRYCTO__1273C1CD">
+    <AssociationSet Name="usuarioProyectoFK" Association="Modelo.usuarioProyectoFK">
       <End Role="PROYECTO" EntitySet="PROYECTO" />
       <End Role="USUARIOS" EntitySet="USUARIOS" />
     </AssociationSet>
-    <AssociationSet Name="FK__REQUERIMI__ENCAR__1B0907CE" Association="Modelo.FK__REQUERIMI__ENCAR__1B0907CE">
+    <AssociationSet Name="encargado_requerimientoUsuariosFK" Association="Modelo.encargado_requerimientoUsuariosFK">
       <End Role="USUARIOS" EntitySet="USUARIOS" />
       <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
     </AssociationSet>
-    <AssociationSet Name="FK__TELEFONOS__CEDUL__15502E78" Association="Modelo.FK__TELEFONOS__CEDUL__15502E78">
+    <AssociationSet Name="telefonoUsuarioFK" Association="Modelo.telefonoUsuarioFK">
       <End Role="USUARIOS" EntitySet="USUARIOS" />
       <End Role="TELEFONOS" EntitySet="TELEFONOS" />
     </AssociationSet>
@@ -86,27 +76,6 @@
     <NavigationProperty Name="AspNetUsers" Relationship="Modelo.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
     <NavigationProperty Name="PERMISOS" Relationship="Modelo.MANEJA" FromRole="AspNetRoles" ToRole="PERMISOS" />
   </EntityType>
-  <EntityType Name="AspNetUserClaims">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="AspNetUsers" Relationship="Modelo.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
-  </EntityType>
-  <EntityType Name="AspNetUserLogins">
-    <Key>
-      <PropertyRef Name="LoginProvider" />
-      <PropertyRef Name="ProviderKey" />
-      <PropertyRef Name="UserId" />
-    </Key>
-    <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="AspNetUsers" Relationship="Modelo.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
-  </EntityType>
   <EntityType Name="AspNetUsers">
     <Key>
       <PropertyRef Name="Id" />
@@ -123,9 +92,7 @@
     <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
     <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
     <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="AspNetUserClaims" Relationship="Modelo.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-    <NavigationProperty Name="AspNetUserLogins" Relationship="Modelo.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-    <NavigationProperty Name="USUARIOS" Relationship="Modelo.ID_ASP_Users" FromRole="AspNetUsers" ToRole="USUARIOS" />
+    <NavigationProperty Name="USUARIOS" Relationship="Modelo.usuarioUserFK" FromRole="AspNetUsers" ToRole="USUARIOS" />
     <NavigationProperty Name="AspNetRoles" Relationship="Modelo.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
   </EntityType>
   <EntityType Name="CAMBIOS">
@@ -139,8 +106,8 @@
     <Property Name="JUSTIFICACION" Type="String" MaxLength="700" FixedLength="false" Unicode="false" />
     <Property Name="REQUERIMIENTO_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
     <Property Name="VERSION_ID" Type="Int32" />
-    <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__CAMBIOS__1ED998B2" FromRole="CAMBIOS" ToRole="REQUERIMIENTOS" />
-    <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" FromRole="CAMBIOS" ToRole="USUARIOS" />
+    <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.cambioRequerimientoFK" FromRole="CAMBIOS" ToRole="REQUERIMIENTOS" />
+    <NavigationProperty Name="USUARIOS" Relationship="Modelo.cedula_cambiosUsuariosFK" FromRole="CAMBIOS" ToRole="USUARIOS" />
   </EntityType>
   <EntityType Name="CORREOS">
     <Key>
@@ -149,7 +116,7 @@
     </Key>
     <Property Name="CEDULA" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="false" />
     <Property Name="CORREO" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__CORREOS__CEDULA__182C9B23" FromRole="CORREOS" ToRole="USUARIOS" />
+    <NavigationProperty Name="USUARIOS" Relationship="Modelo.correoUsuarioFK" FromRole="CORREOS" ToRole="USUARIOS" />
   </EntityType>
   <EntityType Name="CRIT_ACEPTACION">
     <Key>
@@ -159,7 +126,7 @@
     <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
     <Property Name="REQUERIMIENTO_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
     <Property Name="VERSION_ID" Type="Int32" />
-    <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__CRIT_ACEPTACION__22AA2996" FromRole="CRIT_ACEPTACION" ToRole="REQUERIMIENTOS" />
+    <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.criterioRequerimientoFK" FromRole="CRIT_ACEPTACION" ToRole="REQUERIMIENTOS" />
   </EntityType>
   <EntityType Name="PERMISOS">
     <Key>
@@ -180,8 +147,9 @@
     <Property Name="FECHAINICIO" Type="DateTime" Precision="0" />
     <Property Name="FECHAFINAL" Type="DateTime" Precision="0" />
     <Property Name="DURACION" Type="Int32" />
-    <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__REQUERIMI__PRYCT__1BFD2C07" FromRole="PROYECTO" ToRole="REQUERIMIENTOS" />
-    <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__USUARIOS__PRYCTO__1273C1CD" FromRole="PROYECTO" ToRole="USUARIOS" />
+    <Property Name="ESTADO" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.requerimientoProyectoFK" FromRole="PROYECTO" ToRole="REQUERIMIENTOS" />
+    <NavigationProperty Name="USUARIOS" Relationship="Modelo.usuarioProyectoFK" FromRole="PROYECTO" ToRole="USUARIOS" />
   </EntityType>
   <EntityType Name="REQUERIMIENTOS">
     <Key>
@@ -196,16 +164,16 @@
     <Property Name="PRIORIDAD" Type="Int32" />
     <Property Name="OBSERVACIONES" Type="String" MaxLength="700" FixedLength="false" Unicode="false" />
     <Property Name="MODULO" Type="String" MaxLength="70" FixedLength="false" Unicode="false" />
-    <Property Name="FECHAINCIO" Type="DateTime" Precision="0" />
-    <Property Name="FECHAFINAL" Type="DateTime" Precision="0" />
+    <Property Name="FECHAINICIO" Type="DateTime" Precision="0" />
+    <Property Name="FECHARFINAL" Type="DateTime" Precision="0" />
     <Property Name="ESTADO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
     <Property Name="ENCARGADO" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
     <Property Name="PRYCTOID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
     <Property Name="VERSION_ID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="CAMBIOS" Relationship="Modelo.FK__CAMBIOS__1ED998B2" FromRole="REQUERIMIENTOS" ToRole="CAMBIOS" />
-    <NavigationProperty Name="CRIT_ACEPTACION" Relationship="Modelo.FK__CRIT_ACEPTACION__22AA2996" FromRole="REQUERIMIENTOS" ToRole="CRIT_ACEPTACION" />
-    <NavigationProperty Name="PROYECTO" Relationship="Modelo.FK__REQUERIMI__PRYCT__1BFD2C07" FromRole="REQUERIMIENTOS" ToRole="PROYECTO" />
-    <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__REQUERIMI__ENCAR__1B0907CE" FromRole="REQUERIMIENTOS" ToRole="USUARIOS" />
+    <NavigationProperty Name="CAMBIOS" Relationship="Modelo.cambioRequerimientoFK" FromRole="REQUERIMIENTOS" ToRole="CAMBIOS" />
+    <NavigationProperty Name="CRIT_ACEPTACION" Relationship="Modelo.criterioRequerimientoFK" FromRole="REQUERIMIENTOS" ToRole="CRIT_ACEPTACION" />
+    <NavigationProperty Name="PROYECTO" Relationship="Modelo.requerimientoProyectoFK" FromRole="REQUERIMIENTOS" ToRole="PROYECTO" />
+    <NavigationProperty Name="USUARIOS" Relationship="Modelo.encargado_requerimientoUsuariosFK" FromRole="REQUERIMIENTOS" ToRole="USUARIOS" />
   </EntityType>
   <EntityType Name="TELEFONOS">
     <Key>
@@ -214,7 +182,7 @@
     </Key>
     <Property Name="CEDULA" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="false" />
     <Property Name="NUMERO" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__TELEFONOS__CEDUL__15502E78" FromRole="TELEFONOS" ToRole="USUARIOS" />
+    <NavigationProperty Name="USUARIOS" Relationship="Modelo.telefonoUsuarioFK" FromRole="TELEFONOS" ToRole="USUARIOS" />
   </EntityType>
   <EntityType Name="USUARIOS">
     <Key>
@@ -226,42 +194,15 @@
     <Property Name="APELLIDO1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="APELLIDO2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="ID_ASP" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="AspNetUsers" Relationship="Modelo.ID_ASP_Users" FromRole="USUARIOS" ToRole="AspNetUsers" />
-    <NavigationProperty Name="CAMBIOS" Relationship="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" FromRole="USUARIOS" ToRole="CAMBIOS" />
-    <NavigationProperty Name="CORREOS" Relationship="Modelo.FK__CORREOS__CEDULA__182C9B23" FromRole="USUARIOS" ToRole="CORREOS" />
-    <NavigationProperty Name="PROYECTO" Relationship="Modelo.FK__USUARIOS__PRYCTO__1273C1CD" FromRole="USUARIOS" ToRole="PROYECTO" />
-    <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__REQUERIMI__ENCAR__1B0907CE" FromRole="USUARIOS" ToRole="REQUERIMIENTOS" />
-    <NavigationProperty Name="TELEFONOS" Relationship="Modelo.FK__TELEFONOS__CEDUL__15502E78" FromRole="USUARIOS" ToRole="TELEFONOS" />
+    <Property Name="LIDER" Type="Boolean" />
+    <NavigationProperty Name="AspNetUsers" Relationship="Modelo.usuarioUserFK" FromRole="USUARIOS" ToRole="AspNetUsers" />
+    <NavigationProperty Name="CAMBIOS" Relationship="Modelo.cedula_cambiosUsuariosFK" FromRole="USUARIOS" ToRole="CAMBIOS" />
+    <NavigationProperty Name="CORREOS" Relationship="Modelo.correoUsuarioFK" FromRole="USUARIOS" ToRole="CORREOS" />
+    <NavigationProperty Name="PROYECTO" Relationship="Modelo.usuarioProyectoFK" FromRole="USUARIOS" ToRole="PROYECTO" />
+    <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.encargado_requerimientoUsuariosFK" FromRole="USUARIOS" ToRole="REQUERIMIENTOS" />
+    <NavigationProperty Name="TELEFONOS" Relationship="Modelo.telefonoUsuarioFK" FromRole="USUARIOS" ToRole="TELEFONOS" />
   </EntityType>
-  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-    <End Type="Modelo.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Type="Modelo.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserClaims">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-    <End Type="Modelo.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Type="Modelo.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="AspNetUsers">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="AspNetUserLogins">
-        <PropertyRef Name="UserId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ID_ASP_Users">
+  <Association Name="usuarioUserFK">
     <End Type="Modelo.AspNetUsers" Role="AspNetUsers" Multiplicity="0..1" />
     <End Type="Modelo.USUARIOS" Role="USUARIOS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -273,7 +214,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CAMBIOS__1ED998B2">
+  <Association Name="cambioRequerimientoFK">
     <End Type="Modelo.REQUERIMIENTOS" Role="REQUERIMIENTOS" Multiplicity="0..1" />
     <End Type="Modelo.CAMBIOS" Role="CAMBIOS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -287,10 +228,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CAMBIOS__CEDULA__1FCDBCEB">
-    <End Type="Modelo.USUARIOS" Role="USUARIOS" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
+  <Association Name="cedula_cambiosUsuariosFK">
+    <End Type="Modelo.USUARIOS" Role="USUARIOS" Multiplicity="0..1" />
     <End Type="Modelo.CAMBIOS" Role="CAMBIOS" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="USUARIOS">
@@ -301,7 +240,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CORREOS__CEDULA__182C9B23">
+  <Association Name="correoUsuarioFK">
     <End Type="Modelo.USUARIOS" Role="USUARIOS" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
@@ -315,7 +254,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__CRIT_ACEPTACION__22AA2996">
+  <Association Name="criterioRequerimientoFK">
     <End Type="Modelo.REQUERIMIENTOS" Role="REQUERIMIENTOS" Multiplicity="0..1" />
     <End Type="Modelo.CRIT_ACEPTACION" Role="CRIT_ACEPTACION" Multiplicity="*" />
     <ReferentialConstraint>
@@ -329,7 +268,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__REQUERIMI__PRYCT__1BFD2C07">
+  <Association Name="requerimientoProyectoFK">
     <End Type="Modelo.PROYECTO" Role="PROYECTO" Multiplicity="0..1" />
     <End Type="Modelo.REQUERIMIENTOS" Role="REQUERIMIENTOS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -341,7 +280,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__USUARIOS__PRYCTO__1273C1CD">
+  <Association Name="usuarioProyectoFK">
     <End Type="Modelo.PROYECTO" Role="PROYECTO" Multiplicity="0..1" />
     <End Type="Modelo.USUARIOS" Role="USUARIOS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -353,7 +292,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__REQUERIMI__ENCAR__1B0907CE">
+  <Association Name="encargado_requerimientoUsuariosFK">
     <End Type="Modelo.USUARIOS" Role="USUARIOS" Multiplicity="0..1" />
     <End Type="Modelo.REQUERIMIENTOS" Role="REQUERIMIENTOS" Multiplicity="*" />
     <ReferentialConstraint>
@@ -365,7 +304,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__TELEFONOS__CEDUL__15502E78">
+  <Association Name="telefonoUsuarioFK">
     <End Type="Modelo.USUARIOS" Role="USUARIOS" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>

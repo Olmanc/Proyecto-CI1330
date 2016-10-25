@@ -27,6 +27,7 @@ namespace ProyectoDeInge.Models
         public Nullable<System.DateTime> FECHAINICIO { get; set; }
         public Nullable<System.DateTime> FECHAFINAL { get; set; }
         public Nullable<int> DURACION { get; set; }
+        public string ESTADO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<REQUERIMIENTOS> REQUERIMIENTOS { get; set; }

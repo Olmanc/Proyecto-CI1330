@@ -1,0 +1,67 @@
+﻿@model ProyectoDeInge.Models.PROYECTO
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PROYECTO</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NOMBRE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOMBRE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DESCRIPCION)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DESCRIPCION)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FECHAINICIO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FECHAINICIO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FECHAFINAL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FECHAFINAL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DURACION)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DURACION)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ESTADO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ESTADO)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -90,9 +90,9 @@ namespace ProyectoDeInge.Controllers
             }
 
             lista = listaDe.Split(',');     
-            if (lista.Contains("03") || lista.Contains("04")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
+            if (lista.Contains("05") || lista.Contains("04")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
             {
-                if (!lista.Contains("02"))
+                if (!lista.Contains("03"))
                 {
                     Response.Write("<Script>alert('ERROR - No es posible asignar permiso de Modificar/Eliminar sin permiso para Consultar.')</Script>");
                     return this.Edit();
@@ -104,9 +104,9 @@ namespace ProyectoDeInge.Controllers
             }
 
             lista = listaUs.Split(',');
-            if (lista.Contains("03") || lista.Contains("04")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
+            if (lista.Contains("05") || lista.Contains("04")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
             {
-                if (!lista.Contains("02"))
+                if (!lista.Contains("03"))
                 {
                     Response.Write("<Script>alert('ERROR - No es posible asignar permiso de Modificar/Eliminar sin permiso para Consultar.')</Script>");
                     return this.Edit();

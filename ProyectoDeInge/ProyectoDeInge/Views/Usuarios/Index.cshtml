@@ -9,7 +9,13 @@
 
 <h2>Gestión de Usuarios</h2>
 <p>
-    @Html.ActionLink("Agregar usuario", "Create")
+    ´@{
+        if (Model.verificaPermisos.Contains("02"))
+        {
+            @Html.ActionLink("Agregar usuario", "Create")
+        }else{ }
+    }
+    
 </p>
 <table class="table">
     <tr>
@@ -80,13 +86,10 @@
                }
             </td>
             <td>
-               @{if (Model.verificaPermisos.Contains("02")) {
-                        @*@Html.ActionLink("Consultar", "Unificado", new { id = Model.listaUsuarios.ElementAt(i).CEDULA });*@
+               @{if (Model.verificaPermisos.Contains("03")) {
+                        @Html.ActionLink("Consultar", "Unificado", new { id = Model.listaUsuarios.ElementAt(i).CEDULA });
                    }
-                   else
-                   {
-                    @Html.ActionLink("Consultar", "Unificado", new { id = Model.listaUsuarios.ElementAt(i).CEDULA });
-                   }
+                   else{}
             }
             </td>
         </tr>
