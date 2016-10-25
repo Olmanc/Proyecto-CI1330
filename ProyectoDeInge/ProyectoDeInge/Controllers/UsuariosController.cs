@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -145,13 +145,15 @@ namespace ProyectoDeInge.Controllers
                 //var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
                 //var ident = modelo.modeloUsuario.CEDULA;
                 var Password = "JHGK-1234";
-                var User = new ApplicationUser { UserName = modelo.modeloCorreo.CORREO, Email = modelo.modeloCorreo.CORREO };
-                User.EmailConfirmed = true;
-                User.PhoneNumberConfirmed = true;
-                var result = UserManager.CreateAsync(User, Password);
-                modelo.modeloUsuario.ID_ASP = User.Id;
+                //var User = new ApplicationUser { UserName = modelo.modeloCorreo.CORREO, Email = modelo.modeloCorreo.CORREO };
+                var User2 = new AspNetUsers { UserName = modelo.modeloCorreo.CORREO, Email = modelo.modeloCorreo.CORREO, PasswordHash = Password };
+                User2.EmailConfirmed = true;
+                User2.PhoneNumberConfirmed = true;
+                //var result = UserManager.CreateAsync(User2, Password);
+                //modelo.modeloAsp.Id = User.Id;
+                //modelo.modeloUsuario.ID_ASP = User.Id;
+                db.AspNetUsers.Add(User2);
                 db.USUARIOS.Add(modelo.modeloUsuario);
-                db.SaveChanges();
                 if (modelo.modeloCorreo != null)
                 {
                     modelo.modeloCorreo.CEDULA = modelo.modeloUsuario.CEDULA;
@@ -176,18 +178,18 @@ namespace ProyectoDeInge.Controllers
                     db.TELEFONOS.Add(modelo.modeloTelefono2);
                 }
                 db.SaveChanges();
-                string text = string.Format("Your Password is: " + Password);
+                /*string text = string.Format("Your Password is: " + Password);
                 System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
                 msg.From = new MailAddress("voncita20@outlook.com");
                 msg.To.Add(new MailAddress(modelo.modeloCorreo.CORREO));
                 msg.Subject = "Your Password";
                 msg.Body = text;
-                msg.IsBodyHtml = true;
+                msg.IsBodyHtml = true;*/
 
                 // msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain)); 
                 // msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html)); 
 
-                using (var smtp = new SmtpClient())
+               /* using (var smtp = new SmtpClient())
                 {
                     var credential = new NetworkCredential
                     {
@@ -202,7 +204,7 @@ namespace ProyectoDeInge.Controllers
                     await smtp.SendMailAsync(msg);
                     //return RedirectToAction("") 
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index");*/
             }
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", modelo.modeloUsuario.PRYCTOID);
             return View(modelo);
@@ -432,3 +434,7 @@ namespace ProyectoDeInge.Controllers
 
     }
 }
+
+     
+    
+         
