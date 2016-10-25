@@ -5,26 +5,30 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="6c00b378b3d1427d8dfc4f6a788b3336" Name="Diagram1" ZoomLevel="125">
-        <EntityTypeShape EntityType="Modelo.C__MigrationHistory" Width="1.5" PointX="5.75" PointY="1.875" />
-        <EntityTypeShape EntityType="Modelo.AspNetRoles" Width="1.5" PointX="1.5" PointY="2.125" />
+        <EntityTypeShape EntityType="Modelo.C__MigrationHistory" Width="1.5" PointX="8.75" PointY="3.125" />
+        <EntityTypeShape EntityType="Modelo.AspNetRoles" Width="1.5" PointX="1.5" PointY="3.375" />
+        <EntityTypeShape EntityType="Modelo.AspNetUserClaims" Width="1.5" PointX="6" PointY="14.875" />
+        <EntityTypeShape EntityType="Modelo.AspNetUserLogins" Width="1.5" PointX="6" PointY="4.375" />
         <EntityTypeShape EntityType="Modelo.AspNetUsers" Width="1.5" PointX="3.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Modelo.CAMBIOS" Width="1.5" PointX="11.25" PointY="6.25" />
-        <EntityTypeShape EntityType="Modelo.CORREOS" Width="1.5" PointX="8.25" PointY="5.625" />
-        <EntityTypeShape EntityType="Modelo.CRIT_ACEPTACION" Width="1.5" PointX="5.25" PointY="10.125" />
-        <EntityTypeShape EntityType="Modelo.PERMISOS" Width="1.5" PointX="1.5" PointY="11.125" />
-        <EntityTypeShape EntityType="Modelo.PROYECTO" Width="1.5" PointX="0.75" PointY="6.25" />
-        <EntityTypeShape EntityType="Modelo.REQUERIMIENTOS" Width="1.5" PointX="3" PointY="5.375" />
-        <EntityTypeShape EntityType="Modelo.TELEFONOS" Width="1.5" PointX="8.25" PointY="8" />
-        <EntityTypeShape EntityType="Modelo.USUARIOS" Width="1.5" PointX="6" PointY="5.875" />
-        <AssociationConnector Association="Modelo.usuarioUserFK" />
-        <AssociationConnector Association="Modelo.cambioRequerimientoFK" />
-        <AssociationConnector Association="Modelo.cedula_cambiosUsuariosFK" />
-        <AssociationConnector Association="Modelo.correoUsuarioFK" />
-        <AssociationConnector Association="Modelo.criterioRequerimientoFK" />
-        <AssociationConnector Association="Modelo.requerimientoProyectoFK" />
-        <AssociationConnector Association="Modelo.usuarioProyectoFK" />
-        <AssociationConnector Association="Modelo.encargado_requerimientoUsuariosFK" />
-        <AssociationConnector Association="Modelo.telefonoUsuarioFK" />
+        <EntityTypeShape EntityType="Modelo.CAMBIOS" Width="1.5" PointX="11.25" PointY="7.375" />
+        <EntityTypeShape EntityType="Modelo.CORREOS" Width="1.5" PointX="8.25" PointY="9.125" />
+        <EntityTypeShape EntityType="Modelo.CRIT_ACEPTACION" Width="1.5" PointX="5.25" PointY="11.75" />
+        <EntityTypeShape EntityType="Modelo.PERMISOS" Width="1.5" PointX="1.5" PointY="12.375" />
+        <EntityTypeShape EntityType="Modelo.PROYECTO" Width="1.5" PointX="0.75" PointY="7.375" />
+        <EntityTypeShape EntityType="Modelo.REQUERIMIENTOS" Width="1.5" PointX="3" PointY="6.5" />
+        <EntityTypeShape EntityType="Modelo.TELEFONOS" Width="1.5" PointX="8.25" PointY="6.875" />
+        <EntityTypeShape EntityType="Modelo.USUARIOS" Width="1.5" PointX="6" PointY="7" />
+        <AssociationConnector Association="Modelo.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="Modelo.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="Modelo.ID_ASP_Users" />
+        <AssociationConnector Association="Modelo.FK__CAMBIOS__1ED998B2" />
+        <AssociationConnector Association="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" />
+        <AssociationConnector Association="Modelo.FK__CORREOS__CEDULA__182C9B23" />
+        <AssociationConnector Association="Modelo.FK__CRIT_ACEPTACION__22AA2996" />
+        <AssociationConnector Association="Modelo.FK__REQUERIMI__PRYCT__1BFD2C07" />
+        <AssociationConnector Association="Modelo.FK__USUARIOS__PRYCTO__1273C1CD" />
+        <AssociationConnector Association="Modelo.FK__REQUERIMI__ENCAR__1B0907CE" />
+        <AssociationConnector Association="Modelo.FK__TELEFONOS__CEDUL__15502E78" />
         <AssociationConnector Association="Modelo.AspNetUserRoles" />
         <AssociationConnector Association="Modelo.MANEJA" />
       </Diagram>

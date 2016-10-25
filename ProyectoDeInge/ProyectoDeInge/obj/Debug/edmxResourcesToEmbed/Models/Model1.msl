@@ -19,6 +19,25 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserClaims">
+      <EntityTypeMapping TypeName="Modelo.AspNetUserClaims">
+        <MappingFragment StoreEntitySet="AspNetUserClaims">
+          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AspNetUserLogins">
+      <EntityTypeMapping TypeName="Modelo.AspNetUserLogins">
+        <MappingFragment StoreEntitySet="AspNetUserLogins">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="AspNetUsers">
       <EntityTypeMapping TypeName="Modelo.AspNetUsers">
         <MappingFragment StoreEntitySet="AspNetUsers">
@@ -97,8 +116,8 @@
           <ScalarProperty Name="PRYCTOID" ColumnName="PRYCTOID" />
           <ScalarProperty Name="ENCARGADO" ColumnName="ENCARGADO" />
           <ScalarProperty Name="ESTADO" ColumnName="ESTADO" />
-          <ScalarProperty Name="FECHARFINAL" ColumnName="FECHARFINAL" />
-          <ScalarProperty Name="FECHAINICIO" ColumnName="FECHAINICIO" />
+          <ScalarProperty Name="FECHAFINAL" ColumnName="FECHAFINAL" />
+          <ScalarProperty Name="FECHAINCIO" ColumnName="FECHAINCIO" />
           <ScalarProperty Name="MODULO" ColumnName="MODULO" />
           <ScalarProperty Name="OBSERVACIONES" ColumnName="OBSERVACIONES" />
           <ScalarProperty Name="PRIORIDAD" ColumnName="PRIORIDAD" />
@@ -121,7 +140,7 @@
     <EntitySetMapping Name="USUARIOS">
       <EntityTypeMapping TypeName="Modelo.USUARIOS">
         <MappingFragment StoreEntitySet="USUARIOS">
-          <ScalarProperty Name="LIDER" ColumnName="LIDER" />
+          <ScalarProperty Name="Lider" ColumnName="Lider" />
           <ScalarProperty Name="ID_ASP" ColumnName="ID_ASP" />
           <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
           <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />

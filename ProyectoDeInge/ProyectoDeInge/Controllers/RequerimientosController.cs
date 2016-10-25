@@ -15,9 +15,11 @@ namespace ProyectoDeInge.Controllers
         private BD_IngeGrupo2Entities2 db = new BD_IngeGrupo2Entities2();
 
         // GET: Requerimientos
-        public ActionResult Index()
+        public ActionResult Index(string pro)
         {
+            ViewBag.pro = new SelectList(db.PROYECTO, "ID", "NOMBRE");
             var rEQUERIMIENTOS = db.REQUERIMIENTOS.Include(r => r.PROYECTO).Include(r => r.USUARIOS);
+            rEQUERIMIENTOS = rEQUERIMIENTOS.Where(s => s.PRYCTOID.Contains(pro));
             return View(rEQUERIMIENTOS.ToList());
         }
 

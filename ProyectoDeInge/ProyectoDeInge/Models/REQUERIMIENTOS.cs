@@ -11,7 +11,7 @@ namespace ProyectoDeInge.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class REQUERIMIENTOS
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -29,8 +29,10 @@ namespace ProyectoDeInge.Models
         public Nullable<int> PRIORIDAD { get; set; }
         public string OBSERVACIONES { get; set; }
         public string MODULO { get; set; }
-        public Nullable<System.DateTime> FECHAINICIO { get; set; }
-        public Nullable<System.DateTime> FECHARFINAL { get; set; }
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> FECHAINCIO { get; set; }
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> FECHAFINAL { get; set; }
         public string ESTADO { get; set; }
         public string ENCARGADO { get; set; }
         public string PRYCTOID { get; set; }

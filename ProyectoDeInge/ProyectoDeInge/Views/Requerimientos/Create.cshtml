@@ -101,7 +101,13 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ESTADO, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ESTADO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.ESTADO, new List<SelectListItem>{
+                    new SelectListItem{Text="Pendiente", Value="pendiente"},
+                    new SelectListItem{Text="Asignado", Value="asignado"},
+                    new SelectListItem{Text="Ejecución", Value="ejecucion"},
+                    new SelectListItem{Text="Finalizado", Value="finalizado"},
+                    new SelectListItem{Text="Cerrado", Value="cerrado"}
+                }, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ESTADO, "", new { @class = "text-danger" })
             </div>
         </div>
