@@ -118,9 +118,9 @@ namespace ProyectoDeInge.Controllers
         // POST: Requerimientos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(string id, int version)
         {
-            REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id);
+            REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id, version);
             db.REQUERIMIENTOS.Remove(rEQUERIMIENTOS);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -178,9 +178,9 @@ namespace ProyectoDeInge.Controllers
             return Json(new { success = true });
         }
 
-        public ActionResult cancelar(ModeloIntermedio modelo)
+        public ActionResult cancelar(REQUERIMIENTOS REQ)
         {
-            return View(modelo);
+            return View(REQ);
         }
 
         // Método post de la vista Unificada, se llama unicamente en el botón Guardar de la sección modificar

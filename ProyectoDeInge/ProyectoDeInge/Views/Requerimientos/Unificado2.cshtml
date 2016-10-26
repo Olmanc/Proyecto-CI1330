@@ -15,16 +15,16 @@
         $('.ocultar2').show();
     }
 
-    function confirmarEliminar(ID) {
+    function confirmarEliminar(ID, VERSION_ID) {
 
-        var respuesta = confirm('¿Confirma que desea eliminar este requerimiento del sistema?');
+        var respuesta = confirm('¿Confirma que desea eliminar este requerimiento del sistema? ');
 
         if (respuesta == true)
         {
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("eliminarReq")',
-                data: 'id=' + ID, data: 'version=' + VERSION_ID,
+                data: 'id='+ID+'&version=' +VERSION_ID,      
                 success: function (result) {
                     if (result.success)
 					{
@@ -41,7 +41,7 @@
 <h2>Gestión de Requerimientos</h2>
 <div class="ocultar">
     <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("04") ? "disabled":null)" onclick="esconderEliminar()">Modificar</a>
-    <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("05") ? "disabled":null)" onclick="confirmarEliminar('@(Model.ID)')">Eliminar</a>
+    <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("05") ? "disabled":null)" onclick="confirmarEliminar('@(Model.ID)',@(Model.VERSION_ID))">Eliminar</a>
 </div>
 <div class="elementoModificar">
     @using (Html.BeginForm())
@@ -54,10 +54,11 @@
             <div class="form-group">
                 @Html.LabelFor(Model => Model.PRYCTOID, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(Model => Model.PRYCTOID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => Model.PRYCTOID, "", new { @class = "text-danger" })
+                    @Html.DropDownList("PRYCTOID", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.PRYCTOID, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="form-group">
                 @Html.LabelFor(Model => Model.NOMBRE, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -65,6 +66,15 @@
                     @Html.ValidationMessageFor(Model => Model.NOMBRE, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.ENCARGADO, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ENCARGADO", null, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.ENCARGADO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
             <div class="form-group">
                 @Html.LabelFor(Model => Model.DESCRIPCION, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -82,14 +92,14 @@
             <div class="form-group">
                 @Html.LabelFor(Model => Model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(Model => Model.ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.EditorFor(Model => Model.ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
                     @Html.ValidationMessageFor(Model => Model.ID, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(Model => Model.VERSION_ID, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(Model => Model.VERSION_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.EditorFor(Model => Model.VERSION_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
                     @Html.ValidationMessageFor(Model => Model.VERSION_ID, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -158,11 +168,12 @@
 
             @Html.HiddenFor(Model => Model.ID)
             @Html.HiddenFor(Model => Model.VERSION_ID)
+
             <div class="ocultar2" style="display:none">
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="submit" value="Aceptar" class="btn btn-default" />
-                        <a class="btn btn-default" onclick="window.location = '@Url.Action("Unificado2", new { id = Model.ID })';">Cancelar</a>
+                        <a class="btn btn-default" onclick="window.location = '@Url.Action("Unificado2", new { id = Model.ID, version = Model.VERSION_ID })';">Cancelar</a>
                     </div>
                 </div>
             </div>
