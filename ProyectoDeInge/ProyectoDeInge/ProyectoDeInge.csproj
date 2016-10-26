@@ -201,6 +201,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProyectosController.cs" />
+    <Compile Include="Controllers\ProyectosViewModel.cs" />
     <Compile Include="Controllers\RequerimientosController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
