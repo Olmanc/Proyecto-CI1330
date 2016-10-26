@@ -257,6 +257,7 @@
     <Compile Include="Models\PROYECTO.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProyectosViewModel.cs" />
     <Compile Include="Models\REQUERIMIENTOS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -370,6 +371,7 @@
     <Content Include="Views\Proyectos\Edit.cshtml" />
     <Content Include="Views\Proyectos\Index.cshtml" />
     <Content Include="Views\Requerimientos\Unificado2.cshtml" />
+    <Content Include="Views\Proyectos\Unificado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

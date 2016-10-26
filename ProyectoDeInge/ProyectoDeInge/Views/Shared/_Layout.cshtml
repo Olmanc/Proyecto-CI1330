@@ -8,9 +8,19 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    @*<style type="text/css">
+        #nav {width: 500px;margin: auto;}
+        #nav ul {padding: 0;list-style: none;}
+        #nav ul li {float: left;text-align: center;width: 120px;margin: 1px;}
+        #nav ul li a {color: #fff;text-decoration: none;font-family: Calibri;background: #000;display: block;padding: 10px;}
+        #nav ul li a:hover {background: #262525;color: #fff;}
+        #nav ul li ul {display: none;}
+        #nav ul li:hover ul {display:block;}
+    </style>*@
+
 </head>
 
-<body>
+<body>    
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -24,10 +34,19 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Gestión de usuarios", "Index", "Usuarios")</li>
-                    <li>@Html.ActionLink("Gestión de permisos", "Edit", "Roles")</li>
-                    <li>@Html.ActionLink("Gestión de proyectos", "Index", "Proyectos")</li>
-                    <li>@Html.ActionLink("Gestión de requerimientos", "Index", "Requerimientos")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a href="#">Gestión</a>
+                            <ul>                                
+                                <li>@Html.ActionLink("Requerimientos", "Index", "Requerimientos")</li>
+                                <li>@Html.ActionLink("Proyectos", "Index", "Proyectos")</li>
+                                <li>@Html.ActionLink("Permisos", "Edit", "Roles")</li>                                    
+                                <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
+                            </ul>
+                        </li>
+                    }
+                    
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
