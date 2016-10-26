@@ -29,7 +29,7 @@ namespace ProyectoDeInge.Models
         public Nullable<int> PRIORIDAD { get; set; }
         public string OBSERVACIONES { get; set; }
         public string MODULO { get; set; }
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]//en los archivos de javier, los data annotations no estaban
         public Nullable<System.DateTime> FECHAINCIO { get; set; }
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> FECHAFINAL { get; set; }
@@ -44,5 +44,6 @@ namespace ProyectoDeInge.Models
         public virtual ICollection<CRIT_ACEPTACION> CRIT_ACEPTACION { get; set; }
         public virtual PROYECTO PROYECTO { get; set; }
         public virtual USUARIOS USUARIOS { get; set; }
+        public HashSet<string> verificaPermisos = new HashSet<string>();
     }
 }
