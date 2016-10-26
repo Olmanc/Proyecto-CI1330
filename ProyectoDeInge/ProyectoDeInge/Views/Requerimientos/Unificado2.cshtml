@@ -1,0 +1,165 @@
+﻿@model ProyectoDeInge.Models.REQUERIMIENTOS
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.Owin;
+
+@{
+    ViewBag.Title = "Unificado2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+
+    function esconderEliminar()
+    {
+        $('.elementoModificar').find('input, textarea, select').attr('readonly', false);
+        $('.ocultar').children().attr('disabled', true);
+        $('.ocultar2').show();
+    }
+
+    function confirmarEliminar(ID) {
+
+        var respuesta = confirm('¿Confirma que desea eliminar este requerimiento del sistema?');
+
+        if (respuesta == true)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("eliminarReq")',
+                data: 'id=' + ID, data: 'version=' + VERSION_ID,
+                success: function (result) {
+                    if (result.success)
+					{
+						alert('Requerimiento eliminado con éxito');
+						var url = '@Url.Action("Index", "Requerimientos")';
+						window.location.href = url;
+					}
+                },
+            });
+        }
+    }
+
+</script>
+<h2>Gestión de Requerimientos</h2>
+<div class="ocultar">
+    <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("04") ? "disabled":null)" onclick="esconderEliminar()">Modificar</a>
+    <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("05") ? "disabled":null)" onclick="confirmarEliminar('@(Model.ID)')">Eliminar</a>
+</div>
+<div class="elementoModificar">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.PRYCTOID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.PRYCTOID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => Model.PRYCTOID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.NOMBRE, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.NOMBRE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.DESCRIPCION, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.DESCRIPCION, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.DESCRIPCION, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.MODULO, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.MODULO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.MODULO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.ID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.VERSION_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.VERSION_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.VERSION_ID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.ESTADO, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.ESTADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.ESTADO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.PRIORIDAD, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.PRIORIDAD, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.PRIORIDAD, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.FECHAINCIO, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.FECHAINCIO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.FECHAINCIO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.FECHAFINAL, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.FECHAFINAL, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.FECHAFINAL, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.ESFUERZO, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.ESFUERZO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.ESFUERZO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.OBSERVACIONES, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.OBSERVACIONES, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.OBSERVACIONES, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.IMAGEN, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.IMAGEN, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.IMAGEN, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @Html.HiddenFor(Model => Model.ID)
+            @Html.HiddenFor(Model => Model.VERSION_ID)
+            <div class="ocultar2" style="display:none">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Aceptar" class="btn btn-default" />
+                        <a class="btn btn-default" onclick="window.location = '@Url.Action("Unificado2", new { id = Model.ID })';">Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
