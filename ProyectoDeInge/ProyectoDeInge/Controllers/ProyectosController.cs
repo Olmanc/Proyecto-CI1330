@@ -46,11 +46,12 @@ namespace ProyectoDeInge.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,NOMBRE,DESCRIPCION,FECHAINICIO,FECHAFINAL,DURACION,ESTADO")] PROYECTO pROYECTO)
+        public ActionResult Create(/*Bind(Include = "ID,NOMBRE,DESCRIPCION,FECHAINICIO,FECHAFINAL,DURACION,ESTADO")] PROYECTO pROYECTO*/ModeloIntermedio pROYECTO)
         {
             if (ModelState.IsValid)
             {
-                db.PROYECTO.Add(pROYECTO);
+                ViewBag.ESTADO = new SelectList(db.PROYECTO, "ESTADO");
+                db.PROYECTO.Add(pROYECTO.modeloProyecto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
