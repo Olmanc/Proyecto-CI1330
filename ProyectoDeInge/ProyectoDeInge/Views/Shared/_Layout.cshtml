@@ -24,10 +24,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Gestión de usuarios", "Index", "Usuarios")</li>
-                    <li>@Html.ActionLink("Gestión de permisos", "Edit", "Roles")</li>
-                    <li>@Html.ActionLink("Gestión de proyectos", "Index", "Proyectos")</li>
-                    <li>@Html.ActionLink("Gestión de requerimientos", "Index", "Requerimientos")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a href="#">Gestión</a>
+                            <ul>                                
+                                <li>@Html.ActionLink("Requerimientos", "Index", "Requerimientos")</li>
+                                <li>@Html.ActionLink("Proyectos", "Index", "Proyectos")</li>
+                                <li>@Html.ActionLink("Permisos", "Edit", "Roles")</li>                                    
+                                <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
+                            </ul>
+                        </li>
+                    }                    
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
