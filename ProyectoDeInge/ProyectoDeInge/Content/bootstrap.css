@@ -3272,15 +3272,17 @@ input[type="button"].btn-block {
   clear: both;
   font-weight: normal;
   line-height: 1.428571429;
-  color: #333333;
-  white-space: nowrap;
+  color: #999;
+  /*color: #333333;*/
+  white-space: nowrap; 
 }
 
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
   color: #ffffff;
   text-decoration: none;
-  background-color: #428bca;
+  /*background-color: #428bca;*/
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .dropdown-menu > .active > a,
@@ -4137,18 +4139,19 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
     .navbar-collapse.collapse ul li:hover ul {
         display: block;
+        background: #000;
     }
 
     .navbar-collapse.collapse ul li ul li {
         color: #fff !important;
         text-decoration: none;
         /*font-family: Calibri;*/
-        background: #000;
+        background: #fff;
         display: block;
         padding: 10px;
 
         position: relative;
-        float: right;
+        float: initial;
         /*padding: 9px 10px;*/
         /*margin-top: 8px;*/
         margin-right: 15px;
@@ -4157,6 +4160,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
         border: 1px solid transparent;
         border-radius: 4px;
     }
+
+
   
   .navbar-collapse.in {
     overflow-y: visible;
