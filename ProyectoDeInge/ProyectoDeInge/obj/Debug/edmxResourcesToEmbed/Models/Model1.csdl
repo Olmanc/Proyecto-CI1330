@@ -160,6 +160,7 @@
     <Property Name="REQUERIMIENTO_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
     <Property Name="VERSION_ID" Type="Int32" />
     <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__CRIT_ACEPTACION__22AA2996" FromRole="CRIT_ACEPTACION" ToRole="REQUERIMIENTOS" />
+    <Property Name="DEL" Type="Boolean" />
   </EntityType>
   <EntityType Name="PERMISOS">
     <Key>

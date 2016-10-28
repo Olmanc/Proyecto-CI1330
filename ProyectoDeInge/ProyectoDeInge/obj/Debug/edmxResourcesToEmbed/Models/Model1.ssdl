@@ -89,6 +89,7 @@
     <Property Name="DESCRIPCION" Type="varchar" MaxLength="200" />
     <Property Name="REQUERIMIENTO_ID" Type="char" MaxLength="7" />
     <Property Name="VERSION_ID" Type="int" />
+    <Property Name="DEL" Type="bit" />
   </EntityType>
   <EntityType Name="MANEJA">
     <Key>

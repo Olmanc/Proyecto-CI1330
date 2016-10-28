@@ -43,7 +43,9 @@ namespace ProyectoDeInge.Controllers
         {
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE");
             ViewBag.ENCARGADO = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
-            return View();
+            var reque = new REQUERIMIENTOS();
+            reque.crearCriterios(2);
+            return View(reque);
         }
 
         // POST: Requerimientos/Create

@@ -94,6 +94,7 @@
           <Property Name="DESCRIPCION" Type="varchar" MaxLength="200" />
           <Property Name="REQUERIMIENTO_ID" Type="char" MaxLength="7" />
           <Property Name="VERSION_ID" Type="int" />
+          <Property Name="DEL" Type="bit" />
         </EntityType>
         <EntityType Name="MANEJA">
           <Key>
@@ -602,6 +603,7 @@
           <Property Name="REQUERIMIENTO_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
           <Property Name="VERSION_ID" Type="Int32" />
           <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__CRIT_ACEPTACION__22AA2996" FromRole="CRIT_ACEPTACION" ToRole="REQUERIMIENTOS" />
+          <Property Name="DEL" Type="Boolean" />
         </EntityType>
         <EntityType Name="PERMISOS">
           <Key>
@@ -916,6 +918,7 @@
           <EntitySetMapping Name="CRIT_ACEPTACION">
             <EntityTypeMapping TypeName="Modelo.CRIT_ACEPTACION">
               <MappingFragment StoreEntitySet="CRIT_ACEPTACION">
+                <ScalarProperty Name="DEL" ColumnName="DEL" />
                 <ScalarProperty Name="VERSION_ID" ColumnName="VERSION_ID" />
                 <ScalarProperty Name="REQUERIMIENTO_ID" ColumnName="REQUERIMIENTO_ID" />
                 <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />

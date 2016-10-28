@@ -18,6 +18,7 @@ namespace ProyectoDeInge.Models
         public string DESCRIPCION { get; set; }
         public string REQUERIMIENTO_ID { get; set; }
         public Nullable<int> VERSION_ID { get; set; }
+        public Nullable<bool> DEL { get; set; }
     
         public virtual REQUERIMIENTOS REQUERIMIENTOS { get; set; }
     }

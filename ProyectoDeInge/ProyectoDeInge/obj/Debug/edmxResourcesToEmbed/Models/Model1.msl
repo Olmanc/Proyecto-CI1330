@@ -80,6 +80,7 @@
     <EntitySetMapping Name="CRIT_ACEPTACION">
       <EntityTypeMapping TypeName="Modelo.CRIT_ACEPTACION">
         <MappingFragment StoreEntitySet="CRIT_ACEPTACION">
+          <ScalarProperty Name="DEL" ColumnName="DEL" />
           <ScalarProperty Name="VERSION_ID" ColumnName="VERSION_ID" />
           <ScalarProperty Name="REQUERIMIENTO_ID" ColumnName="REQUERIMIENTO_ID" />
           <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
