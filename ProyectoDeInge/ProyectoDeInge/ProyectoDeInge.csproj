@@ -373,6 +373,7 @@
     <Content Include="Views\Proyectos\Index.cshtml" />
     <Content Include="Views\Requerimientos\Unificado2.cshtml" />
     <Content Include="Views\Requerimientos\EditorTemplates\CRIT_ACEPTACION.cshtml" />
+    <Content Include="Views\Proyectos\Unificado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

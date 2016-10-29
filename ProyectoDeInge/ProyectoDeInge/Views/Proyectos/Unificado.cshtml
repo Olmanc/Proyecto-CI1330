@@ -9,7 +9,7 @@
 
 <div class="modos">
     <a class="btn btn-default" @*disabled="@(!Model.verificaPermisos.Contains("04") ? "disabled":null)"*@ onclick="habilitaModificar()">Modificar</a>
-    <a class="btn btn-default" @*disabled="@(!Model.verificaPermisos.Contains("05") ? "disabled":null)"*@ onclick="confirmarEliminar('@(Model.modeloProyecto.ID)')">Eliminar</a>
+    <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("09") ? "disabled":null)" onclick="confirmarEliminar('@(Model.modeloProyecto.ID)')">Eliminar</a>
 </div>
 
 <div class="modificarProyecto">
@@ -168,5 +168,39 @@
             });
         }
     }*@
+
+</script>
+
+@*///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ELIMINAR PROYECTO*@
+<script>
+
+    function confirmarEliminar(id) {
+
+        var respuesta = confirm('Confirma que desea eliminar a este proyecto del sistema?');
+
+        if (respuesta == true)
+        {
+           $.ajax({
+                type: 'POST',
+                url: '@Url.Action("eliminarProyecto")',
+                data: 'id=' + id,
+                success: function (result) {
+                    if (result.success)
+					{
+						alert('Proyecto eliminado con éxito');
+						var url = '@Url.Action("Index", "PROYECTOS")';
+						window.location.href = url;
+                    }
+                    else
+                    {
+                        alert('El proyecto no se puede eliminar porque no está finalizado.');
+                        var url = '@Url.Action("Index", "PROYECTOS")';
+                        window.location.href = url;
+                    }
+                },
+            });
+        }
+    }
 
 </script>

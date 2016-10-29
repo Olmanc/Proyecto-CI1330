@@ -213,5 +213,25 @@ namespace ProyectoDeInge.Controllers
             }
             return View(modelo);
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+        //Eliminar Proyecto
+        public ActionResult eliminarProyecto(string id)
+        {
+            PROYECTO proyect = db.PROYECTO.Find(id);
+            var state = "Finalizado";
+            if (proyect.ESTADO == state)
+            {
+                db.PROYECTO.Remove(proyect);
+                db.SaveChanges();
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
+        }
+
+
     }
 }
