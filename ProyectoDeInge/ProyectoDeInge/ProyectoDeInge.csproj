@@ -263,6 +263,9 @@
     <Compile Include="Models\REQUERIMIENTOS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TELEFONOS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

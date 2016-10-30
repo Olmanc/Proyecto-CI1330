@@ -18,7 +18,15 @@ namespace ProyectoDeInge.Controllers
         public ActionResult Index()
         {
             ProyectosViewModel modelo = new ProyectosViewModel();
-            modelo.listaProyectos = db.PROYECTO.ToList();
+            modelo.listaProyectos = db.PROYECTO.ToList(); //lista de todos los proyectos en la BD
+            List<PROYECTO> todoProyectos = db.PROYECTO.ToList(); //lista de todos los proyectos en la BD
+            foreach (var proyecto in todoProyectos)
+            {
+                if (proyecto.BORRADO == true)   //si el proyecto estaba cancelado y fue borrado de la aplicación
+                {                               // pero este no siempre permanece en la BD
+                    modelo.listaProyectos.Remove(proyecto); //elimino proyectos que no se deben mostrar en la aplicación
+                }
+            }
             return View(modelo);
         }
 
@@ -224,10 +232,19 @@ namespace ProyectoDeInge.Controllers
         public ActionResult eliminarProyecto(string id)
         {
             PROYECTO proyect = db.PROYECTO.Find(id);
-            var state = "Finalizado";
-            if (proyect.ESTADO == state)
+            List<USUARIOS> users = db.USUARIOS.ToList();    //lista de todos los usuarios
+            if (proyect.ESTADO == "Cerrado")
             {
-                db.PROYECTO.Remove(proyect);
+                //db.PROYECTO.Remove(proyect);  //esto no porque solo se borra en la aplicación pero debe permanecer en la BD
+                proyect.BORRADO = true; //para indicar que no se debe mostrar en la aplicación
+               // db.SaveChanges();
+                foreach (var persona in users)
+                {
+                    if (persona.PRYCTOID == id) //si el usuario trabaja en el proyecto a borrar
+                    {
+                        persona.PRYCTOID = null; // cambie el proyecto que trabaja a NULL
+                    }
+                }
                 db.SaveChanges();
                 return Json(new { success = true });
             }

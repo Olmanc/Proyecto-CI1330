@@ -38,5 +38,6 @@ namespace ProyectoDeInge.Models
         public virtual DbSet<REQUERIMIENTOS> REQUERIMIENTOS { get; set; }
         public virtual DbSet<TELEFONOS> TELEFONOS { get; set; }
         public virtual DbSet<USUARIOS> USUARIOS { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
     }
 }

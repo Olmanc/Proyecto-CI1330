@@ -18,8 +18,8 @@ namespace ProyectoDeInge.Models
 
         //public List<string> listaRequerimientos = new List<string>();
 
-        public List<PROYECTO> listaProyectos = new List<PROYECTO>();        
-
+        public List<PROYECTO> listaProyectos = new List<PROYECTO>();
+        
         public IEnumerable<SelectListItem> recursosAsignados { get; set; }
         public IEnumerable<SelectListItem> otrosRecursos { get; set; }
         

@@ -44,7 +44,7 @@ namespace ProyectoDeInge.Controllers
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE");
             ViewBag.ENCARGADO = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
             var reque = new REQUERIMIENTOS();
-            reque.crearCriterios(2);
+            //reque.crearCriterios(2);
             return View(reque);
         }
 
@@ -166,7 +166,7 @@ namespace ProyectoDeInge.Controllers
 
             foreach (PERMISOS p in role.PERMISOS)
             {     //los copia a un HashSet<string>
-                rEQUERIMIENTOS.verificaPermisos.Add(p.ID);
+                //rEQUERIMIENTOS.verificaPermisos.Add(p.ID);
             }
 
             return View(rEQUERIMIENTOS);

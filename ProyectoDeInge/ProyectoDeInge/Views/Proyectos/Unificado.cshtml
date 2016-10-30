@@ -138,7 +138,6 @@
 @*///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ELIMINAR PROYECTO*@
 
-
     function confirmarEliminar(id) {
 
         var respuesta = confirm('Confirma que desea eliminar a este proyecto del sistema?');
@@ -151,14 +150,14 @@
                 data: 'id=' + id,
                 success: function (result) {
                     if (result.success)
-					{
+					{   @*//Si se confirmo que estado de proyecto es Cancelado *@
 						alert('Proyecto eliminado con éxito');
 						var url = '@Url.Action("Index", "PROYECTOS")';
 						window.location.href = url;
                     }
                     else
-                    {
-                        alert('El proyecto no se puede eliminar porque no está finalizado.');
+                    {   @*//Si el estado de proyecto no es Cancelado *@
+                        alert('El proyecto no se puede eliminar porque no está cancelado.');
                         var url = '@Url.Action("Index", "PROYECTOS")';
                         window.location.href = url;
                     }
