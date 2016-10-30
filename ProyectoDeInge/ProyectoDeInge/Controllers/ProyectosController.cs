@@ -22,21 +22,6 @@ namespace ProyectoDeInge.Controllers
             return View(modelo);
         }
 
-        // GET: Proyectos/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PROYECTO pROYECTO = db.PROYECTO.Find(id);
-            if (pROYECTO == null)
-            {
-                return HttpNotFound();
-            }
-            return View(pROYECTO);
-        }
-
         // GET: Proyectos/Create
         public ActionResult Create()
         {
@@ -109,64 +94,7 @@ namespace ProyectoDeInge.Controllers
             }
 
             return View(pROYECTO);
-        }
-
-        // GET: Proyectos/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PROYECTO pROYECTO = db.PROYECTO.Find(id);
-            if (pROYECTO == null)
-            {
-                return HttpNotFound();
-            }
-            return View(pROYECTO);
-        }
-
-        // POST: Proyectos/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,NOMBRE,DESCRIPCION,FECHAINICIO,FECHAFINAL,DURACION,ESTADO")] PROYECTO pROYECTO)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(pROYECTO).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(pROYECTO);
-        }
-
-        // GET: Proyectos/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PROYECTO pROYECTO = db.PROYECTO.Find(id);
-            if (pROYECTO == null)
-            {
-                return HttpNotFound();
-            }
-            return View(pROYECTO);
-        }
-
-        // POST: Proyectos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            PROYECTO pROYECTO = db.PROYECTO.Find(id);
-            db.PROYECTO.Remove(pROYECTO);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        }        
 
         protected override void Dispose(bool disposing)
         {
@@ -176,9 +104,66 @@ namespace ProyectoDeInge.Controllers
             }
             base.Dispose(disposing);
         }
-        
-        public List<string> buscaResursos() {
-            return null;
+
+        public List<USUARIOS> buscaUsuariosRol(string rolId)
+        {
+            List<USUARIOS> usuariosDeRol = new List<USUARIOS>();
+            var todosUsuarios = db.USUARIOS.ToList();
+            AspNetRoles rol = db.AspNetRoles.Find(rolId);
+
+            foreach (var item in todosUsuarios)
+            {
+                AspNetUsers user = db.AspNetUsers.Find(item.ID_ASP);
+                if (user.AspNetRoles.Contains(rol))
+                {
+                    usuariosDeRol.Add(item);
+                }
+            }
+            return usuariosDeRol;
+        }
+
+        public List<USUARIOS> buscaResursos()
+        {
+            return buscaUsuariosRol("2");
+        }
+
+        public void populateUsuarios(PROYECTO proyecto)
+        {
+            var todosRecursos = buscaResursos();
+            /*var todosRecursos = db.USUARIOS.ToList();*/		//(where rol = 2)  --desarrolladores
+
+            var recursos = new HashSet<string>(proyecto.USUARIOS.Select(u => u.CEDULA));
+            var recursosAsignados = new List<RecursosViewModel>();
+            var recursosDisponibles = new List<RecursosViewModel>();
+            foreach (var rec in todosRecursos)
+            {
+                if (rec.PRYCTOID == proyecto.ID)
+                {
+                    recursosAsignados.Add(new RecursosViewModel
+                    {
+                        Cedula = rec.CEDULA,                        
+                        Nombre = rec.NOMBRE,
+                        usuarioProyecto = rec.PRYCTOID,                        
+                        Apellido1 = rec.APELLIDO1,                        
+                        Apelliso2 = rec.APELLIDO2,
+                        usuarioID = rec.ID_ASP
+                    });
+                }
+                else
+                {//falta meter esto en un if(rec.PRYCTOID == null), para que no cargue los que ya estan trabajando en otro proyecto
+                    recursosDisponibles.Add(new RecursosViewModel
+                    {
+                        Cedula = rec.CEDULA,
+                        Nombre = rec.NOMBRE,
+                        usuarioProyecto = rec.PRYCTOID,
+                        Apellido1 = rec.APELLIDO1,
+                        Apelliso2 = rec.APELLIDO2,
+                        usuarioID = rec.ID_ASP
+                    });
+                }
+            }
+            ViewBag.Asignados = new MultiSelectList(recursosAsignados, "Cedula", "nombreCompleto"/*, "Apellido1", "Apellido2"*/);
+            ViewBag.Disponibles = new MultiSelectList(recursosDisponibles, "Cedula", "nombreCompleto"/*, "Apellido1", "Apellido2"*/);
         }
 
         public HashSet<string> obtienePermisos() {
@@ -213,40 +198,10 @@ namespace ProyectoDeInge.Controllers
             if (proyecto.modeloProyecto == null) {//si el proyecto no existe
                 return HttpNotFound();
             }
-
-            List<USUARIOS> todosUsuarios = db.USUARIOS.ToList();//todos los usuarios
-            List<USUARIOS> recursos = new List<USUARIOS>();
-            List<USUARIOS> disponibles = new List<USUARIOS>();
-            AspNetRoles rol = db.AspNetRoles.Find("2");//busco rol de desarrollador
-
-            foreach (var item in todosUsuarios) {
-                AspNetUsers asp = db.AspNetUsers.Find(item.ID_ASP);//busca AspNetUser del usuario
-
-                if (asp.AspNetRoles.Contains(rol)) {
-                    if (item.PRYCTOID == id)//si esta en el proyecto lo agrega a recursos
-                    {
-                        recursos.Add(item);
-                    }
-                    else if(item.PRYCTOID == null)//si no esta trabajando en ningun proyecto, lo agrego a recursos disponibles
-                    {
-                        disponibles.Add(item);
-                    }
-                }                
-            }
-            //llena SelectList de recursos asignados
-            proyecto.recursosAsignados = recursos.Select(o => new SelectListItem {
-                Text = o.NOMBRE + " " + o.APELLIDO1 + " " + o.APELLIDO2,
-                Value = o.CEDULA.ToString()
-            });
-            //llena SelectList de recursos disponibles
-            proyecto.otrosRecursos = disponibles.Select(o => new SelectListItem
-            {
-                Text = o.NOMBRE + " " + o.APELLIDO1 + " " + o.APELLIDO2,
-                Value = o.CEDULA.ToString()
-            });
-            
+                        
             proyecto.verificaPermisos = obtienePermisos();
-            
+            populateUsuarios(proyecto.modeloProyecto);
+
             return View(proyecto);
         }
 

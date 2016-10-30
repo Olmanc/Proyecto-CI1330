@@ -94,7 +94,7 @@
                 </div>
             </div>
 
-            <table class="table">
+            @*<table class="table">
                 <tr>
                     <td><!--SelecList de Recursos disponibles-->
                         <div class="form-group">
@@ -128,7 +128,43 @@
                         <a class="btn btn-default" onclick="window.location = '@Url.Action("Unificado", new { id = Model.modeloProyecto.ID })';">Cancelar</a>
                     </div>
                 </div>
+            </div>*@
+
+            <div class="row">
+                <div class="col-md-2">&nbsp;</div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Recursos Asignados</label>
+                    @Html.ListBox("recursosAsignados", (MultiSelectList)ViewBag.Asignados, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group col-md-1">
+                <div class="form-group">
+                    <button type="button" id="btnRight" class="btn btn-warning btn-lg" disabled>
+                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="btnLeft" class="btn btn-warning btn-lg" disabled>
+                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                    </button>
+                    <div></div>
+                </div>
             </div>
+
+            <div class="form-group col-md-4">
+                <label class="control-label">Recursos Disponibles</label>
+                @Html.ListBox("recursosDisponibles", (MultiSelectList)ViewBag.Disponibles, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="botonesModificar" style="display:none">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" id="btnSubmit" value="Aceptar" class="btn btn-default" />
+                    <a class="btn btn-default" onclick="window.location = '@Url.Action("Unificado", new { id = Model.modeloProyecto.ID })';">Cancelar</a>
+                </div>
+            </div>
+        </div>
         </div>
     }
 </div>
@@ -139,41 +175,13 @@
         $('.modificarProyecto').find('input, textarea, select').attr('readonly', false);
         $('.modos').children().attr('disabled', true);
         $('.botonesModificar').show();
+        document.getElementById("btnRight").disabled = false;
+        document.getElementById("btnLeft").disabled = false;
     }
-
-    //function cancelaModificar() {
-    //    $('.modificarProyecto').find('input, textarea, select').attr('readonly', true);
-    //    $('.modos').children().attr('disabled', false);
-    //    $('.botonesModificar').hide();
-    //}
-
-    @*function confirmarEliminar(cedula) {
-
-        var respuesta = confirm('Confirma que desea eliminar a esta persona del sistema?');
-
-        if (respuesta == true)
-        {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("eliminarPersona")',
-                data: 'id=' + cedula,
-                success: function (result) {
-                    if (result.success)
-					{
-						alert('Persona eliminada con éxito');
-						var url = '@Url.Action("Index", "Proyectos")';
-						window.location.href = url;
-					}
-                },
-            });
-        }
-    }*@
-
-</script>
 
 @*///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ELIMINAR PROYECTO*@
-<script>
+
 
     function confirmarEliminar(id) {
 
@@ -204,3 +212,8 @@
     }
 
 </script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqeuryval")
+    @Scripts.Render("~/bundles/multiselect")
+}
