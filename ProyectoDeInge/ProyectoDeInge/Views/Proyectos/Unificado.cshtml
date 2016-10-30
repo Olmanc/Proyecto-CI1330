@@ -70,14 +70,6 @@
                 </div>
             </div>
 
-            @*<div class="form-group">
-                @Html.LabelFor(model => model.modeloProyecto.ESTADO, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.modeloProyecto.ESTADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                    @Html.ValidationMessageFor(model => model.modeloProyecto.ESTADO, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
             <div class="form-group">
                 @Html.LabelFor(model => model.modeloProyecto.ESTADO, "ESTADO", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -93,43 +85,7 @@
                     @Html.ValidationMessageFor(model => model.modeloProyecto.ESTADO, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-            @*<table class="table">
-                <tr>
-                    <td><!--SelecList de Recursos disponibles-->
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.otrosRecursos, "Disponibles", new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.ListBoxFor(m => m.recursosDisponibles, Model.otrosRecursos)
-                            </div>
-                        </div>                        
-                    </td>                
-                    <td>
-                        <!--Buscar como hacer que salgan en una columna-->
-                        <a class="btn btn-default"> <<</a>
-                        <a class="btn btn-default"> <</a>                        
-                        <a class="btn btn-default"> ></a>
-                        <a class="btn btn-default"> >></a>
-                    </td>                
-                    <td><!--SelecList de Recursos asignados-->
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.recursosAsignados, "Asignados", new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.ListBoxFor(m => m.listaRecursos, Model.recursosAsignados)
-                            </div>
-                        </div>
-                    </td>
-                </tr>                
-            </table>
-            <div class="botonesModificar" style="display:none">
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Aceptar" class="btn btn-default" />                        
-                        <a class="btn btn-default" onclick="window.location = '@Url.Action("Unificado", new { id = Model.modeloProyecto.ID })';">Cancelar</a>
-                    </div>
-                </div>
-            </div>*@
-
+            
             <div class="row">
                 <div class="col-md-2">&nbsp;</div>
                 <div class="form-group col-md-4">
