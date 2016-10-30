@@ -9,6 +9,9 @@ namespace ProyectoDeInge.Models
 {
     public class ProyectosViewModel
     {
+        public IEnumerable<SelectListItem> lideres { get; set; }
+        public USUARIOS modeloUsuario { get; set; }
+
         public PROYECTO modeloProyecto { get; set; }
         public List<string> listaRecursos = new List<string>();
         public List<string> recursosDisponibles = new List<string>();

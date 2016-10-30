@@ -40,20 +40,70 @@ namespace ProyectoDeInge.Controllers
         // GET: Proyectos/Create
         public ActionResult Create()
         {
+
+            ProyectosViewModel proyecto = new ProyectosViewModel();//nuevo viewModel
+
+            List<USUARIOS> todosUsuarios = db.USUARIOS.ToList();//todos los usuarios
+            List<USUARIOS> lideres = new List<USUARIOS>();
+            AspNetRoles rol = db.AspNetRoles.Find("2");//busco rol de desarrollador
+
+            foreach (var item in todosUsuarios)
+            {
+                AspNetUsers asp = db.AspNetUsers.Find(item.ID_ASP);//busca AspNetUser del usuario
+
+                if (asp.AspNetRoles.Contains(rol))
+                {
+                    if ((item.LIDER == true) && (item.PRYCTOID == null))//si esta en el proyecto lo agrega a recursos
+                    {
+                        lideres.Add(item);
+                        //item.PRYCTOID = proyecto.modeloProyecto.ID;
+                    }
+                }
+            }
+            //llena SelectList de recursos asignados
+            proyecto.lideres = lideres.Select(o => new SelectListItem
+            {
+                Text = o.NOMBRE + " " + o.APELLIDO1 + " " + o.APELLIDO2 + " - " + o.CEDULA,
+                Value = o.NOMBRE + " " + o.APELLIDO1 + " " + o.APELLIDO2 + " - " + o.CEDULA
+                //Value = o.CEDULA.ToString()
+            });
+            //ViewBag.liderProyecto = new SelectList(db.USUARIOS.Where(r => r.LIDER.Equals(true)), "ID", "NOMBRE");
+            ViewBag.liderProyecto = new SelectList(proyecto.lideres, "Text", "Value");
+            proyecto.verificaPermisos = obtienePermisos();
+
             return View();
         }
+
 
         // POST: Proyectos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(/*Bind(Include = "ID,NOMBRE,DESCRIPCION,FECHAINICIO,FECHAFINAL,DURACION,ESTADO")] PROYECTO pROYECTO*/ModeloIntermedio pROYECTO)
+        public ActionResult Create(/*Bind(Include = "ID,NOMBRE,DESCRIPCION,FECHAINICIO,FECHAFINAL,DURACION,ESTADO")] PROYECTO pROYECTO*/ ModeloIntermedio pROYECTO)
         {
             if (ModelState.IsValid)
             {
                 ViewBag.ESTADO = new SelectList(db.PROYECTO, "ESTADO");
                 db.PROYECTO.Add(pROYECTO.modeloProyecto);
+
+                var proyectoID = pROYECTO.modeloUsuario.PRYCTOID;
+                string cedula = string.Empty;
+                int val;
+
+                for (int i = 0; i < proyectoID.Length; i++)
+                {
+                    if (Char.IsDigit(proyectoID[i]))
+                        cedula += proyectoID[i];
+                }
+
+                if (cedula.Length > 0)
+                {
+                    val = int.Parse(cedula);
+                }
+                USUARIOS uSUARIO = db.USUARIOS.Find(cedula);
+                uSUARIO.PRYCTOID = pROYECTO.modeloProyecto.ID;
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

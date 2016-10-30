@@ -157,7 +157,7 @@
     <Property Name="APELLIDO1" Type="varchar" MaxLength="20" />
     <Property Name="APELLIDO2" Type="varchar" MaxLength="20" />
     <Property Name="ID_ASP" Type="nvarchar" MaxLength="128" />
-    <Property Name="Lider" Type="bit" />
+    <Property Name="LIDER" Type="bit" />
   </EntityType>
   <Association Name="FK__CAMBIOS__1ED998B2">
     <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="0..1" />

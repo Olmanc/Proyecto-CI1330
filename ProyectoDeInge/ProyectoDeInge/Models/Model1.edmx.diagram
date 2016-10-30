@@ -5,18 +5,18 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="6c00b378b3d1427d8dfc4f6a788b3336" Name="Diagram1" ZoomLevel="125">
-        <EntityTypeShape EntityType="Modelo.C__MigrationHistory" Width="1.5" PointX="8.75" PointY="3.125" />
+        <EntityTypeShape EntityType="Modelo.C__MigrationHistory" Width="1.5" PointX="8.75" PointY="3" />
         <EntityTypeShape EntityType="Modelo.AspNetRoles" Width="1.5" PointX="1.5" PointY="3.375" />
-        <EntityTypeShape EntityType="Modelo.AspNetUserClaims" Width="1.5" PointX="6" PointY="14.875" />
-        <EntityTypeShape EntityType="Modelo.AspNetUserLogins" Width="1.5" PointX="6" PointY="4.375" />
+        <EntityTypeShape EntityType="Modelo.AspNetUserClaims" Width="1.5" PointX="6" PointY="3.5" />
+        <EntityTypeShape EntityType="Modelo.AspNetUserLogins" Width="1.5" PointX="6" PointY="15.25" />
         <EntityTypeShape EntityType="Modelo.AspNetUsers" Width="1.5" PointX="3.75" PointY="0.75" />
         <EntityTypeShape EntityType="Modelo.CAMBIOS" Width="1.5" PointX="11.25" PointY="7.375" />
-        <EntityTypeShape EntityType="Modelo.CORREOS" Width="1.5" PointX="8.25" PointY="9.125" />
-        <EntityTypeShape EntityType="Modelo.CRIT_ACEPTACION" Width="1.5" PointX="5.25" PointY="11.75" />
+        <EntityTypeShape EntityType="Modelo.CORREOS" Width="1.5" PointX="8.25" PointY="6.875" />
+        <EntityTypeShape EntityType="Modelo.CRIT_ACEPTACION" Width="1.5" PointX="5.25" PointY="12.25" />
         <EntityTypeShape EntityType="Modelo.PERMISOS" Width="1.5" PointX="1.5" PointY="12.375" />
         <EntityTypeShape EntityType="Modelo.PROYECTO" Width="1.5" PointX="0.75" PointY="7.375" />
         <EntityTypeShape EntityType="Modelo.REQUERIMIENTOS" Width="1.5" PointX="3" PointY="6.5" />
-        <EntityTypeShape EntityType="Modelo.TELEFONOS" Width="1.5" PointX="8.25" PointY="6.875" />
+        <EntityTypeShape EntityType="Modelo.TELEFONOS" Width="1.5" PointX="8.25" PointY="9.125" />
         <EntityTypeShape EntityType="Modelo.USUARIOS" Width="1.5" PointX="6" PointY="7" />
         <AssociationConnector Association="Modelo.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="Modelo.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />

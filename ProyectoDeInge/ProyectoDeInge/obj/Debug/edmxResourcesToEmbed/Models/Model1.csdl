@@ -159,8 +159,8 @@
     <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
     <Property Name="REQUERIMIENTO_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
     <Property Name="VERSION_ID" Type="Int32" />
-    <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__CRIT_ACEPTACION__22AA2996" FromRole="CRIT_ACEPTACION" ToRole="REQUERIMIENTOS" />
     <Property Name="DEL" Type="Boolean" />
+    <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__CRIT_ACEPTACION__22AA2996" FromRole="CRIT_ACEPTACION" ToRole="REQUERIMIENTOS" />
   </EntityType>
   <EntityType Name="PERMISOS">
     <Key>
@@ -228,7 +228,7 @@
     <Property Name="APELLIDO1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="APELLIDO2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="ID_ASP" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="Lider" Type="Boolean" />
+    <Property Name="LIDER" Type="Boolean" />
     <NavigationProperty Name="AspNetUsers" Relationship="Modelo.ID_ASP_Users" FromRole="USUARIOS" ToRole="AspNetUsers" />
     <NavigationProperty Name="CAMBIOS" Relationship="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" FromRole="USUARIOS" ToRole="CAMBIOS" />
     <NavigationProperty Name="CORREOS" Relationship="Modelo.FK__CORREOS__CEDULA__182C9B23" FromRole="USUARIOS" ToRole="CORREOS" />

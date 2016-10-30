@@ -141,7 +141,7 @@
     <EntitySetMapping Name="USUARIOS">
       <EntityTypeMapping TypeName="Modelo.USUARIOS">
         <MappingFragment StoreEntitySet="USUARIOS">
-          <ScalarProperty Name="Lider" ColumnName="Lider" />
+          <ScalarProperty Name="LIDER" ColumnName="LIDER" />
           <ScalarProperty Name="ID_ASP" ColumnName="ID_ASP" />
           <ScalarProperty Name="APELLIDO2" ColumnName="APELLIDO2" />
           <ScalarProperty Name="APELLIDO1" ColumnName="APELLIDO1" />
