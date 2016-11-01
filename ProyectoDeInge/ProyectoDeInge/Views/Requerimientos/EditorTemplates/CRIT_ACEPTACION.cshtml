@@ -4,6 +4,8 @@
 <div class="criterios">
    <p>
       @Html.HiddenFor(model => model.DEL, new { @class = "mark-for-delete" })
+      @Html.HiddenFor(model => model.REQUERIMIENTO_ID)
+      @Html.HiddenFor(model => model.VERSION_ID)
       @Html.EditorFor(model => model.DESCRIPCION)
       @Html.RemoveLink("Eliminar", "div.criterios", "input.mark-for-delete")
    </p>
