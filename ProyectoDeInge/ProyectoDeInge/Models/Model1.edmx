@@ -140,20 +140,10 @@
           <Property Name="MODULO" Type="varchar" MaxLength="70" />
           <Property Name="FECHAINCIO" Type="date" />
           <Property Name="FECHAFINAL" Type="date" />
+          <Property Name="ESTADO" Type="varchar" MaxLength="12" />
           <Property Name="ENCARGADO" Type="char" MaxLength="9" />
           <Property Name="PRYCTOID" Type="char" MaxLength="7" />
           <Property Name="VERSION_ID" Type="int" Nullable="false" />
-          <Property Name="ESTADO" Type="varchar" MaxLength="12" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TELEFONOS">
           <Key>
@@ -387,7 +377,6 @@
           <EntitySet Name="PERMISOS" EntityType="Self.PERMISOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PROYECTO" EntityType="Self.PROYECTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="REQUERIMIENTOS" EntityType="Self.REQUERIMIENTOS" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TELEFONOS" EntityType="Self.TELEFONOS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__CAMBIOS__1ED998B2" Association="Self.FK__CAMBIOS__1ED998B2">
@@ -521,7 +510,6 @@
             <End Role="PERMISOS" EntitySet="PERMISOS" />
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
           </AssociationSet>
-          <EntitySet Name="sysdiagrams" EntityType="Modelo.sysdiagrams" />
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -847,16 +835,6 @@
           <End Type="Modelo.PERMISOS" Role="PERMISOS" Multiplicity="*" />
           <End Type="Modelo.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
         </Association>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1030,17 +1008,6 @@
               <ScalarProperty Name="ID" ColumnName="PERMISO_ID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="Modelo.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

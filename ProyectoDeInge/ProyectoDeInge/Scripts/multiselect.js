@@ -23,5 +23,6 @@ $('#btnLeft').click(function (e) {
 });
 
 $('#btnSubmit').click(function (e) {
-    $('recursosAsignados option').prop('selected', true);
+    $('#recursosAsignados option').prop('selected', true);
+    $('#recursosDisponibles option').prop('selected', true);
 });
