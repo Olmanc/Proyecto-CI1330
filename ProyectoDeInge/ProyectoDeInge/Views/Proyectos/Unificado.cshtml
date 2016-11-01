@@ -150,14 +150,14 @@
                 data: 'id=' + id,
                 success: function (result) {
                     if (result.success)
-					{   @*//Si se confirmo que estado de proyecto está Finalizado *@
+					{   @*//Si se confirmo que estado de proyecto está Finalizado o Cerrado *@
 						alert('Proyecto eliminado con éxito.');
 						var url = '@Url.Action("Index", "PROYECTOS")';
 						window.location.href = url;
                     }
                     else
-                    {   @*//Si el estado de proyecto no está Finalizado *@
-                        alert('El proyecto no se puede eliminar porque no está finalizado.');
+                    {   @*//Si el estado de proyecto no está Finalizado o Cerrado *@
+                        alert('El proyecto no se puede eliminar porque no está finalizado o cerrado.');
                         var url = '@Url.Action("Index", "PROYECTOS")';
                         window.location.href = url;
                     }

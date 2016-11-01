@@ -233,10 +233,10 @@ namespace ProyectoDeInge.Controllers
         {
             PROYECTO proyect = db.PROYECTO.Find(id);
             List<USUARIOS> users = db.USUARIOS.ToList();    //lista de todos los usuarios
-            if (proyect.ESTADO == "Finalizado" /*"Cerrado"*/)
+            if (proyect.ESTADO == "Finalizado" || proyect.ESTADO == "Cerrado")
             {
-                db.PROYECTO.Remove(proyect);  //esto no para CERRADO porque solo se borra en la aplicación pero debe permanecer en la BD
-                //proyect.BORRADO = true; //ESTO ES PARA CERRADO para indicar que no se debe mostrar en la aplicación
+                //db.PROYECTO.Remove(proyect);  //esto no porque solo se borra en la aplicación pero debe permanecer en la BD
+                proyect.BORRADO = true; //para indicar que no se debe mostrar en la aplicación
                 //db.SaveChanges();
                 foreach (var persona in users)
                 {
