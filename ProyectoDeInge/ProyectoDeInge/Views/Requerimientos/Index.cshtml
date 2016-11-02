@@ -5,10 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Gestión de requerimientos</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Agregar requerimiento", "Create")
 </p>
 
 @using (Html.BeginForm())
@@ -20,28 +20,28 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.NOMBRE)
+            Nombre
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ESFUERZO)
+            Esfuerzo
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DESCRIPCION)
+            Descripción
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PRIORIDAD)
+            Prioridad
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MODULO)
+            Modulo
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FECHAINCIO)
+            Fecha de inicio
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FECHAFINAL)
+            Fecha de finalización
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ESTADO)
+            Estado
         </th>
         <th>
             Encargado

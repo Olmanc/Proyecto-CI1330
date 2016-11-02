@@ -816,3 +816,4 @@ C:\Users\Yohel Munoz\Desktop\Proyecto CI1330\Proyecto-CI1330\ProyectoDeInge\Proy
 C:\Users\Yohel Munoz\Desktop\Proyecto CI1330\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Yohel Munoz\Desktop\Proyecto CI1330\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Yohel Munoz\Desktop\Proyecto CI1330\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\b46671\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.csprojResolveAssemblyReference.cache
