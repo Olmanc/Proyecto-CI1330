@@ -81,6 +81,7 @@ namespace ProyectoDeInge.Controllers
         {
             if (ModelState.IsValid)
             {
+                ProyectosViewModel proyecto = new ProyectosViewModel();//nuevo viewModel
                 ViewBag.ESTADO = new SelectList(db.PROYECTO, "ESTADO");
                 db.PROYECTO.Add(pROYECTO.modeloProyecto);
 
@@ -100,6 +101,30 @@ namespace ProyectoDeInge.Controllers
                 }
                 USUARIOS uSUARIO = db.USUARIOS.Find(cedula);
                 uSUARIO.PRYCTOID = pROYECTO.modeloProyecto.ID;
+
+                if (pROYECTO.modeloProyecto.FECHAINICIO == null) //fecha por defecto: La del día de creación del proyecto
+                {
+                    var fechaInicial = DateTime.Now;
+                    pROYECTO.modeloProyecto.FECHAINICIO = fechaInicial;
+                }
+
+                //if ((pROYECTO.modeloProyecto.FECHAINICIO != null) && (pROYECTO.modeloProyecto.FECHAFINAL != null) && ((pROYECTO.modeloProyecto.DURACION == null) || (pROYECTO.modeloProyecto.DURACION == 0)))
+                //{
+                //    bool b = false;
+                //    var fechaInicial = pROYECTO.modeloProyecto.FECHAINICIO.;
+                //    var fechaFinal = pROYECTO.modeloProyecto.FECHAFINAL;
+                //    var duracion = fechaFinal - fechaInicial;
+                //    var d = duracion.ToString();
+                    
+                //    //for (int i = 0; ((i < d.Length) && (b == false)); i++)
+                //    //{
+                //    //    if (Char.IsDigit('.'))
+                //    //        b = true;
+                //    //        for (int j = 0; j < i; j++)
+                //    //        {
+                                
+                           
+                //    }
 
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -232,11 +257,18 @@ namespace ProyectoDeInge.Controllers
             //probar este
             //proyecto.modeloProyecto = db.PROYECTO.Include(p => p.USUARIOS).Where(i => i.ID == id).Single();
             proyecto.modeloProyecto = db.PROYECTO.Find(id);//encuentra al proyecto
-
+            
 
             if (proyecto.modeloProyecto == null)
             {//si el proyecto no existe
                 return HttpNotFound();
+            }
+
+            var fechaInicial = proyecto.modeloProyecto.FECHAINICIO;
+            if (fechaInicial == null)
+            {
+                fechaInicial = DateTime.Now;
+                proyecto.modeloProyecto.FECHAINICIO = fechaInicial;
             }
 
             proyecto.verificaPermisos = obtienePermisos();

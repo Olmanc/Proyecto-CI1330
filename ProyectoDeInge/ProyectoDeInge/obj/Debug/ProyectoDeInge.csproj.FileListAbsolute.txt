@@ -568,7 +568,6 @@ C:\Users\b44799\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Micros
 C:\Users\b44799\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\b44799\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\b44799\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\b44799\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\obj\Debug\ProyectoDeInge.csprojResolveAssemblyReference.cache
 C:\Users\PERSONAL\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\ApplicationInsights.config
 C:\Users\PERSONAL\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\roslyn\csc.exe
 C:\Users\PERSONAL\Desktop\Proyecto-CI1330\ProyectoDeInge\ProyectoDeInge\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
