@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ProyectoDeInge.Models;
+using System.Data.Entity.Infrastructure;
 
 namespace ProyectoDeInge.Controllers
 {
@@ -198,15 +199,24 @@ namespace ProyectoDeInge.Controllers
         }
 
         public ActionResult Unificado(string id) {
-            if (id == null) {//si id es null
+            if (id == null){//si id es null
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ProyectosViewModel proyecto = new ProyectosViewModel();//nuevo viewModel
+
+
+            //probar este
+            //proyecto.modeloProyecto = db.PROYECTO.Include(p => p.USUARIOS).Where(i => i.ID == id).Single();
             proyecto.modeloProyecto = db.PROYECTO.Find(id);//encuentra al proyecto
-            if (proyecto.modeloProyecto == null) {//si el proyecto no existe
+
+
+            if (proyecto.modeloProyecto == null)
+            {//si el proyecto no existe
                 return HttpNotFound();
             }
-                        
+
+            List<USUARIOS> lideres = new List<USUARIOS>();
+
             proyecto.verificaPermisos = obtienePermisos();
             populateUsuarios(proyecto.modeloProyecto);
 
@@ -215,15 +225,69 @@ namespace ProyectoDeInge.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Unificado(ProyectosViewModel modelo) {
-            if (ModelState.IsValid)
+        public ActionResult Unificado(ProyectosViewModel modelo, string[] recursosAsignados, string[] recursosDisponibles)
+        {
+
+            if (modelo.modeloProyecto == null)
             {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (modelo.modeloProyecto.ESTADO == "Finalizado")
+            {
+                //revisa requerimientos
+                var requerimientos = db.REQUERIMIENTOS.ToList();
+                foreach (var item in requerimientos)
+                {
+                    if (item.PRYCTOID == modelo.modeloProyecto.ID)
+                    {
+                        if (item.ESTADO == "Finalizado" || item.ESTADO == "Cancelado")
+                        {
+
+                        }
+                        else
+                        {
+                            //mensaje de error
+                        }
+                    }
+                }
+            }
+            try
+            {
+                if (recursosAsignados != null) {
+                    foreach (var r in recursosAsignados)
+                    {
+                        var variable = db.USUARIOS.Find(r);
+                        variable.PRYCTOID = modelo.modeloProyecto.ID;
+                        db.Entry(variable).State = EntityState.Modified;
+                        db.SaveChanges();
+                        modelo.modeloProyecto.USUARIOS.Add(variable);
+                    }
+                }
+                if (recursosDisponibles != null) {
+                    foreach (var r in recursosDisponibles)
+                    {
+                        var variable = db.USUARIOS.Find(r);
+                        variable.PRYCTOID = null;
+                        db.Entry(variable).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+                
+
                 db.Entry(modelo.modeloProyecto).State = EntityState.Modified;
-                var id = modelo.modeloProyecto.ID;
-                /*asignar y desasignar recursos*/
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            catch (RetryLimitExceededException)
+            {
+                //mensaje?
+                ModelState.AddModelError("", "No fue posible modificar los datos del proyecto.");
+            }
+
+            //mensaje de error
+            modelo.verificaPermisos = obtienePermisos();
+            populateUsuarios(modelo.modeloProyecto);
             return View(modelo);
         }
 

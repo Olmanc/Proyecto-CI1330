@@ -11,6 +11,7 @@ namespace ProyectoDeInge.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class PROYECTO
     {
@@ -24,7 +25,9 @@ namespace ProyectoDeInge.Models
         public string ID { get; set; }
         public string NOMBRE { get; set; }
         public string DESCRIPCION { get; set; }
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> FECHAINICIO { get; set; }
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> FECHAFINAL { get; set; }
         public Nullable<int> DURACION { get; set; }
         public string ESTADO { get; set; }
