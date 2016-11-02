@@ -29,7 +29,7 @@ namespace ProyectoDeInge.Models
         public Nullable<int> PRIORIDAD { get; set; }
         public string OBSERVACIONES { get; set; }
         public string MODULO { get; set; }
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]//en los archivos de javier, los data annotations no estaban
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> FECHAINCIO { get; set; }
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> FECHAFINAL { get; set; }
@@ -43,11 +43,11 @@ namespace ProyectoDeInge.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CRIT_ACEPTACION> CRIT_ACEPTACION { get; set; }
         public virtual PROYECTO PROYECTO { get; set; }
-        public virtual USUARIOS USUARIOS { get; set; }
         public HashSet<string> verificaPermisos = new HashSet<string>();
+        public virtual USUARIOS USUARIOS { get; set; }
         internal void crearCriterios(int c = 1)
         {
-            for (int i = 0; i < c; i++)
+            for (int i = 0; i<c; i++)
             {
                 CRIT_ACEPTACION.Add(new CRIT_ACEPTACION());
             }

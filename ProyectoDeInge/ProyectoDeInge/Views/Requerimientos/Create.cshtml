@@ -1,4 +1,5 @@
 ﻿@model ProyectoDeInge.Models.REQUERIMIENTOS
+@using ProyectoDeInge.Models  
 
 @{
     ViewBag.Title = "Create";
@@ -10,6 +11,13 @@
         $container.find(deleteElement).val('True');
         $container.hide();
     }
+    function addNestedForm(container, counter, ticks, content) {
+        var nextIndex = $(counter).length;
+        var pattern = new RegExp(ticks, "gi");
+        content = content.replace(pattern, nextIndex);
+        $(container).append(content);
+    }
+
 </script>
 <h2>Create</h2>
 
@@ -144,9 +152,10 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.CRIT_ACEPTACION, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10" id="crite">
                 @Html.EditorFor(model => model.CRIT_ACEPTACION, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.OBSERVACIONES, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.CRIT_ACEPTACION, "", new { @class = "text-danger" })
+                @Html.AddLink("Agregar criterio", "#crite", ".criterios", "CRIT_ACEPTACION", typeof(ProyectoDeInge.Models.CRIT_ACEPTACION))
             </div>
         </div>
 

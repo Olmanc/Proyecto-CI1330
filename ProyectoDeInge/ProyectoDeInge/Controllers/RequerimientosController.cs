@@ -44,7 +44,7 @@ namespace ProyectoDeInge.Controllers
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE");
             ViewBag.ENCARGADO = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
             var reque = new REQUERIMIENTOS();
-            //reque.crearCriterios(2);
+            reque.crearCriterios(0);
             return View(reque);
         }
 
@@ -53,10 +53,21 @@ namespace ProyectoDeInge.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,NOMBRE,ESFUERZO,IMAGEN,DESCRIPCION,PRIORIDAD,OBSERVACIONES,MODULO,FECHAINCIO,FECHAFINAL,ESTADO,ENCARGADO,PRYCTOID,VERSION_ID")] REQUERIMIENTOS rEQUERIMIENTOS)
+        public ActionResult Create([Bind(Include = "ID,NOMBRE,ESFUERZO,IMAGEN,DESCRIPCION,PRIORIDAD,OBSERVACIONES,MODULO,FECHAINCIO,FECHAFINAL,ESTADO,ENCARGADO,PRYCTOID,VERSION_ID,CRIT_ACEPTACION")] REQUERIMIENTOS rEQUERIMIENTOS)
         {
             if (ModelState.IsValid)
             {
+                foreach (CRIT_ACEPTACION criterio in rEQUERIMIENTOS.CRIT_ACEPTACION.ToList())
+                {
+                    if (criterio.DEL == true)
+                    {
+                        // Delete Phone Numbers which is marked to remov
+                        rEQUERIMIENTOS.CRIT_ACEPTACION.Remove(criterio);
+                    }else
+                    {
+                        criterio.ID = Guid.NewGuid().ToString().Substring(0, 7);
+                    }
+                }
                 db.REQUERIMIENTOS.Add(rEQUERIMIENTOS);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -89,7 +100,7 @@ namespace ProyectoDeInge.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,NOMBRE,ESFUERZO,IMAGEN,DESCRIPCION,PRIORIDAD,OBSERVACIONES,MODULO,FECHAINCIO,FECHAFINAL,ESTADO,ENCARGADO,PRYCTOID,VERSION_ID")] REQUERIMIENTOS rEQUERIMIENTOS)
+        public ActionResult Edit([Bind(Include = "ID,NOMBRE,ESFUERZO,IMAGEN,DESCRIPCION,PRIORIDAD,OBSERVACIONES,MODULO,FECHAINCIO,FECHAFINAL,ESTADO,ENCARGADO,PRYCTOID,VERSION_ID,CRIT_ACEPTACION")] REQUERIMIENTOS rEQUERIMIENTOS)
         {
             if (ModelState.IsValid)
             {
@@ -166,7 +177,7 @@ namespace ProyectoDeInge.Controllers
 
             foreach (PERMISOS p in role.PERMISOS)
             {     //los copia a un HashSet<string>
-                //rEQUERIMIENTOS.verificaPermisos.Add(p.ID);
+                rEQUERIMIENTOS.verificaPermisos.Add(p.ID);
             }
 
             return View(rEQUERIMIENTOS);
@@ -192,34 +203,31 @@ namespace ProyectoDeInge.Controllers
         {
             if (ModelState.IsValid)
             {
+                var criterios = db.CRIT_ACEPTACION.Where(i => i.REQUERIMIENTO_ID == req.ID && i.VERSION_ID == req.VERSION_ID);
+                foreach(var c in criterios)
+                {
+                    db.CRIT_ACEPTACION.Remove(c);
+                }
+                foreach (CRIT_ACEPTACION criterio in req.CRIT_ACEPTACION.ToList())
+                {
+                    if (criterio.DEL == true)
+                    {
+                        // Delete Phone Numbers which is marked to remov
+                        req.CRIT_ACEPTACION.Remove(criterio);
+                    }
+                    else
+                    {
+                        criterio.ID = Guid.NewGuid().ToString().Substring(0, 7);
+                    }
+                }
+                db.REQUERIMIENTOS.Add(req);
                 db.Entry(req).State = EntityState.Modified;
                 var id = req.ID;
                 var vers = req.VERSION_ID;
-                /*if (!string.IsNullOrEmpty(modelo.modeloTelefono.NUMERO) &&
-                    !string.IsNullOrEmpty(modelo.modeloTelefono2.NUMERO))
-                {
-                    db.Database.ExecuteSqlCommand(
-                   "Delete From TELEFONOS Where CEDULA = " + id);
-                    modelo.modeloTelefono.CEDULA = id;
-                    modelo.modeloTelefono2.CEDULA = id;
-                    db.TELEFONOS.Add(modelo.modeloTelefono);
-                    db.TELEFONOS.Add(modelo.modeloTelefono2);
-                }
-                if (!string.IsNullOrEmpty(modelo.modeloCorreo.CORREO) &&
-                    !string.IsNullOrEmpty(modelo.modeloCorreo2.CORREO))
-                {
-                    db.Database.ExecuteSqlCommand(
-                    "Delete From CORREOS Where CEDULA = " + id);
-                    modelo.modeloCorreo.CEDULA = id;
-                    modelo.modeloCorreo2.CEDULA = id;
-                    db.CORREOS.Add(modelo.modeloCorreo);
-                    db.CORREOS.Add(modelo.modeloCorreo2);
-                }*/
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(req);
         }
-
     }
 }

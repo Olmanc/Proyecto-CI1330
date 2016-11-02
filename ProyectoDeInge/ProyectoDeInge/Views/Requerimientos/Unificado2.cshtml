@@ -7,6 +7,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script>
+    function removeNestedForm(element, container, deleteElement) {
+        $container = $(element).parents(container);
+        $container.find(deleteElement).val('True');
+        $container.hide();
+    }
+    function addNestedForm(container, counter, ticks, content) {
+        var nextIndex = $(counter).length;
+        var pattern = new RegExp(ticks, "gi");
+        content = content.replace(pattern, nextIndex);
+        $(container).append(content);
+    }
 
     function esconderEliminar()
     {
@@ -161,8 +172,21 @@
             <div class="form-group">
                 @Html.LabelFor(Model => Model.IMAGEN, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(Model => Model.IMAGEN, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                    @Html.ValidationMessageFor(Model => Model.IMAGEN, "", new { @class = "text-danger" })
+                    @Html.EditorFor(Model => Model.IMAGEN, new { htmlAttributes = new { @class = "form-control" } })
+                    @*@Html.ValidationMessageFor(model => model.IMAGEN, "", new { @class = "text-danger" })*@
+                    <div class="col-md-10">
+                        <input type="file" id="Avatar" name="upload" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CRIT_ACEPTACION, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" id="crite">
+                    @Html.AddLink("Agregar criterio", "#crite", ".criterios", "CRIT_ACEPTACION", typeof(ProyectoDeInge.Models.CRIT_ACEPTACION))
+                    @Html.EditorFor(model => model.CRIT_ACEPTACION)
+                    @Html.ValidationMessageFor(model => model.CRIT_ACEPTACION, "", new { @class = "text-danger" })
+                    
                 </div>
             </div>
 
