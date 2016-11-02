@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ProyectoDeInge.Models;
+using System.Data.Entity.Infrastructure;
 
 namespace ProyectoDeInge.Controllers
 {
@@ -57,12 +58,15 @@ namespace ProyectoDeInge.Controllers
             proyecto.lideres = lideres.Select(o => new SelectListItem
             {
                 Text = o.NOMBRE + " " + o.APELLIDO1 + " " + o.APELLIDO2 + " - " + o.CEDULA,
-                Value = o.NOMBRE + " " + o.APELLIDO1 + " " + o.APELLIDO2 + " - " + o.CEDULA
+                Value = o.NOMBRE + " " + o.APELLIDO1 + " " + o.APELLIDO2 
                 //Value = o.CEDULA.ToString()
             });
             //ViewBag.liderProyecto = new SelectList(db.USUARIOS.Where(r => r.LIDER.Equals(true)), "ID", "NOMBRE");
             ViewBag.liderProyecto = new SelectList(proyecto.lideres, "Text", "Value");
             proyecto.verificaPermisos = obtienePermisos();
+
+
+            populateUsuarios_Create(proyecto.modeloProyecto);
 
             return View();
         }
@@ -77,6 +81,7 @@ namespace ProyectoDeInge.Controllers
         {
             if (ModelState.IsValid)
             {
+                ProyectosViewModel proyecto = new ProyectosViewModel();//nuevo viewModel
                 ViewBag.ESTADO = new SelectList(db.PROYECTO, "ESTADO");
                 db.PROYECTO.Add(pROYECTO.modeloProyecto);
 
@@ -97,20 +102,60 @@ namespace ProyectoDeInge.Controllers
                 USUARIOS uSUARIO = db.USUARIOS.Find(cedula);
                 uSUARIO.PRYCTOID = pROYECTO.modeloProyecto.ID;
 
+                if (pROYECTO.modeloProyecto.FECHAINICIO == null) //fecha por defecto: La del día de creación del proyecto
+                {
+                    var fechaInicial = DateTime.Now;
+                    pROYECTO.modeloProyecto.FECHAINICIO = fechaInicial;
+                }
+
+                //if ((pROYECTO.modeloProyecto.FECHAINICIO != null) && (pROYECTO.modeloProyecto.FECHAFINAL != null) && ((pROYECTO.modeloProyecto.DURACION == null) || (pROYECTO.modeloProyecto.DURACION == 0)))
+                //{
+                //    bool b = false;
+                //    var fechaInicial = pROYECTO.modeloProyecto.FECHAINICIO.;
+                //    var fechaFinal = pROYECTO.modeloProyecto.FECHAFINAL;
+                //    var duracion = fechaFinal - fechaInicial;
+                //    var d = duracion.ToString();
+                    
+                //    //for (int i = 0; ((i < d.Length) && (b == false)); i++)
+                //    //{
+                //    //    if (Char.IsDigit('.'))
+                //    //        b = true;
+                //    //        for (int j = 0; j < i; j++)
+                //    //        {
+                                
+                           
+                //    }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             return View(pROYECTO);
-        }        
+        }
 
-        protected override void Dispose(bool disposing)
+
+        public HashSet<string> obtienePermisos()
         {
-            if (disposing)
-            {
-                db.Dispose();
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
+            HashSet<string> permisos = new HashSet<string>();
+            var listauser = db.AspNetUsers.ToArray();
+
+            for (int i = 0; i < listauser.Length; i++)
+            {                           //de todos los AspNetUser del sistema, encuentra el que tenga el email activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
             }
-            base.Dispose(disposing);
+
+            AspNetRoles role = fg.AspNetRoles.First();  //consigue el rol del usuario
+            var per = role.PERMISOS;                    //copia los permisos que tiene asignado
+
+            foreach (PERMISOS p in role.PERMISOS)
+            {     //los copia a un HashSet<string>
+                permisos.Add(p.ID);
+            }
+            return permisos;
         }
 
         public List<USUARIOS> buscaUsuariosRol(string rolId)
@@ -135,6 +180,32 @@ namespace ProyectoDeInge.Controllers
             return buscaUsuariosRol("2");
         }
 
+        public void populateUsuarios_Create(PROYECTO proyecto)
+        {
+            var todosRecursos = buscaResursos();
+            /*var todosRecursos = db.USUARIOS.ToList();*/		//(where rol = 2)  --desarrolladores
+
+            var recursosAsignados = new List<RecursosViewModel>();
+            var recursosDisponibles = new List<RecursosViewModel>();
+            foreach (var rec in todosRecursos)
+            {
+                if (rec.PRYCTOID == null)
+                {//falta meter esto en un if(rec.PRYCTOID == null), para que no cargue los que ya estan trabajando en otro proyecto
+                    recursosDisponibles.Add(new RecursosViewModel
+                    {
+                        Cedula = rec.CEDULA,
+                        Nombre = rec.NOMBRE,
+                        usuarioProyecto = rec.PRYCTOID,
+                        Apellido1 = rec.APELLIDO1,
+                        Apelliso2 = rec.APELLIDO2,
+                        usuarioID = rec.ID_ASP
+                    });
+                }
+            }
+            ViewBag.Asignados = new MultiSelectList(recursosAsignados, "Cedula", "nombreCompleto"/*, "Apellido1", "Apellido2"*/);
+            ViewBag.Disponibles = new MultiSelectList(recursosDisponibles, "Cedula", "nombreCompleto"/*, "Apellido1", "Apellido2"*/);
+        }
+
         public void populateUsuarios(PROYECTO proyecto)
         {
             var todosRecursos = buscaResursos();
@@ -149,10 +220,10 @@ namespace ProyectoDeInge.Controllers
                 {
                     recursosAsignados.Add(new RecursosViewModel
                     {
-                        Cedula = rec.CEDULA,                        
+                        Cedula = rec.CEDULA,
                         Nombre = rec.NOMBRE,
-                        usuarioProyecto = rec.PRYCTOID,                        
-                        Apellido1 = rec.APELLIDO1,                        
+                        usuarioProyecto = rec.PRYCTOID,
+                        Apellido1 = rec.APELLIDO1,
                         Apelliso2 = rec.APELLIDO2,
                         usuarioID = rec.ID_ASP
                     });
@@ -174,39 +245,44 @@ namespace ProyectoDeInge.Controllers
             ViewBag.Disponibles = new MultiSelectList(recursosDisponibles, "Cedula", "nombreCompleto"/*, "Apellido1", "Apellido2"*/);
         }
 
-        public HashSet<string> obtienePermisos() {
-            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
-            HashSet<string> permisos = new HashSet<string>();
-            var listauser = db.AspNetUsers.ToArray();
-
-            for (int i = 0; i < listauser.Length; i++)
-            {                           //de todos los AspNetUser del sistema, encuentra el que tenga el email activo actualmente
-                if (listauser[i].Email == User.Identity.Name)
-                {
-                    fg = listauser[i];                  //obtiene el AspNetUser actual
-                }
-            }
-
-            AspNetRoles role = fg.AspNetRoles.First();  //consigue el rol del usuario
-            var per = role.PERMISOS;                    //copia los permisos que tiene asignado
-
-            foreach (PERMISOS p in role.PERMISOS)
-            {     //los copia a un HashSet<string>
-                permisos.Add(p.ID);
-            }
-            return permisos;
-        }
-
-        public ActionResult Unificado(string id) {
-            if (id == null) {//si id es null
+        public ActionResult Unificado(string id)
+        {
+            if (id == null)
+            {//si id es null
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ProyectosViewModel proyecto = new ProyectosViewModel();//nuevo viewModel
+
+
+            //probar este
+            //proyecto.modeloProyecto = db.PROYECTO.Include(p => p.USUARIOS).Where(i => i.ID == id).Single();
             proyecto.modeloProyecto = db.PROYECTO.Find(id);//encuentra al proyecto
-            if (proyecto.modeloProyecto == null) {//si el proyecto no existe
+            
+
+            if (proyecto.modeloProyecto == null)
+            {//si el proyecto no existe
                 return HttpNotFound();
             }
-                        
+
+        public ActionResult Unificado(string id) {
+            if (id == null){//si id es null
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ProyectosViewModel proyecto = new ProyectosViewModel();//nuevo viewModel
+
+
+            //probar este
+            //proyecto.modeloProyecto = db.PROYECTO.Include(p => p.USUARIOS).Where(i => i.ID == id).Single();
+            proyecto.modeloProyecto = db.PROYECTO.Find(id);//encuentra al proyecto
+
+
+            if (proyecto.modeloProyecto == null)
+            {//si el proyecto no existe
+                return HttpNotFound();
+            }
+
+            List<USUARIOS> lideres = new List<USUARIOS>();
+
             proyecto.verificaPermisos = obtienePermisos();
             populateUsuarios(proyecto.modeloProyecto);
 
@@ -215,16 +291,83 @@ namespace ProyectoDeInge.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Unificado(ProyectosViewModel modelo) {
-            if (ModelState.IsValid)
+        public ActionResult Unificado(ProyectosViewModel modelo, string[] recursosAsignados, string[] recursosDisponibles)
+        {
+
+            if (modelo.modeloProyecto == null)
             {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (modelo.modeloProyecto.ESTADO == "Finalizado")
+            {
+                //revisa requerimientos
+                var requerimientos = db.REQUERIMIENTOS.ToList();
+                foreach (var item in requerimientos)
+                {
+                    if (item.PRYCTOID == modelo.modeloProyecto.ID)
+                    {
+                        if (item.ESTADO == "Finalizado" || item.ESTADO == "Cancelado")
+                        {
+
+                        }
+                        else
+                        {
+                            //mensaje de error
+                        }
+                    }
+                }
+            }
+            try
+            {
+                if (recursosAsignados != null) {
+                    foreach (var r in recursosAsignados)
+                    {
+                        var variable = db.USUARIOS.Find(r);
+                        variable.PRYCTOID = modelo.modeloProyecto.ID;
+                        db.Entry(variable).State = EntityState.Modified;
+                        db.SaveChanges();
+                        modelo.modeloProyecto.USUARIOS.Add(variable);
+                    }
+                }
+                if (recursosDisponibles != null) {
+                    foreach (var r in recursosDisponibles)
+                    {
+                        var variable = db.USUARIOS.Find(r);
+                        variable.PRYCTOID = null;
+                        db.Entry(variable).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+                
+
                 db.Entry(modelo.modeloProyecto).State = EntityState.Modified;
-                var id = modelo.modeloProyecto.ID;
-                /*asignar y desasignar recursos*/
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            catch (RetryLimitExceededException)
+            {
+                //mensaje?
+                ModelState.AddModelError("", "No fue posible modificar los datos del proyecto.");
+            }
+
+            //mensaje de error
+            modelo.verificaPermisos = obtienePermisos();
+            populateUsuarios(modelo.modeloProyecto);
             return View(modelo);
+
+            //return null;
+
+
+            //if (ModelState.IsValid)
+            //{
+            //    db.Entry(modelo.modeloProyecto).State = EntityState.Modified;
+            //    var id = modelo.modeloProyecto.ID;
+            //    /*asignar y desasignar recursos*/
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+            //return View(modelo);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////

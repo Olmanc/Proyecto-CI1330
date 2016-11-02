@@ -31,7 +31,6 @@
         <AssociationConnector Association="Modelo.FK__TELEFONOS__CEDUL__15502E78" />
         <AssociationConnector Association="Modelo.AspNetUserRoles" />
         <AssociationConnector Association="Modelo.MANEJA" />
-        <EntityTypeShape EntityType="Modelo.sysdiagrams" Width="1.5" PointX="11.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

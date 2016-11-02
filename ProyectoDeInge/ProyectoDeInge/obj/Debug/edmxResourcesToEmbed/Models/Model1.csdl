@@ -66,7 +66,6 @@
       <End Role="PERMISOS" EntitySet="PERMISOS" />
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
     </AssociationSet>
-    <EntitySet Name="sysdiagrams" EntityType="Modelo.sysdiagrams" />
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -392,14 +391,4 @@
     <End Type="Modelo.PERMISOS" Role="PERMISOS" Multiplicity="*" />
     <End Type="Modelo.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
   </Association>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
 </Schema>
