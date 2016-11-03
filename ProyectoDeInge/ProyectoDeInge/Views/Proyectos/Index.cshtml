@@ -13,16 +13,20 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.modeloProyecto.NOMBRE)
+            Nombre
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.modeloProyecto.FECHAINICIO)
-        </th>        
+            Fecha de inicio
+        </th>
         <th>
-            @Html.DisplayNameFor(model => model.modeloProyecto.ESTADO)
+            Fecha de finalización
+        </th>
+        <th>
+            Estado
         </th>
         <th></th>
     </tr>
+
     @foreach (var item in Model.listaProyectos)
     {
         <tr>
@@ -32,7 +36,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.FECHAINICIO)
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.FECHAFINAL)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ESTADO)
             </td>
