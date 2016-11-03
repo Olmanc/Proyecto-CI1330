@@ -108,24 +108,31 @@ namespace ProyectoDeInge.Controllers
                     pROYECTO.modeloProyecto.FECHAINICIO = fechaInicial;
                 }
 
-                //if ((pROYECTO.modeloProyecto.FECHAINICIO != null) && (pROYECTO.modeloProyecto.FECHAFINAL != null) && ((pROYECTO.modeloProyecto.DURACION == null) || (pROYECTO.modeloProyecto.DURACION == 0)))
-                //{
-                //    bool b = false;
-                //    var fechaInicial = pROYECTO.modeloProyecto.FECHAINICIO.;
-                //    var fechaFinal = pROYECTO.modeloProyecto.FECHAFINAL;
-                //    var duracion = fechaFinal - fechaInicial;
-                //    var d = duracion.ToString();
-                    
-                //    //for (int i = 0; ((i < d.Length) && (b == false)); i++)
-                //    //{
-                //    //    if (Char.IsDigit('.'))
-                //    //        b = true;
-                //    //        for (int j = 0; j < i; j++)
-                //    //        {
-                                
-                           
-                //    }
+                if ((pROYECTO.modeloProyecto.FECHAINICIO != null) && (pROYECTO.modeloProyecto.FECHAFINAL != null) && ((pROYECTO.modeloProyecto.DURACION == null) || (pROYECTO.modeloProyecto.DURACION == 0)))
+                {
+                    bool b = false;
+                    var dias = "";
+                    int totalDias = 0;
+                    var fechaInicial = pROYECTO.modeloProyecto.FECHAINICIO;
+                    var fechaFinal = pROYECTO.modeloProyecto.FECHAFINAL;
+                    var duracion = fechaFinal - fechaInicial;
+                    var d = duracion.ToString();
 
+                    for (int i = 0; ((i < d.Length) && (b == false)); i++)
+                    {
+                        if (d[i].Equals('.'))
+                        {
+                            b = true;
+                            for (int j = 0; j < i; j++)
+                            {
+                                dias += d[j]; 
+                            }
+                            totalDias = Int32.Parse(dias.ToString());
+                        }
+                    }
+                    int meses = totalDias / 30;
+                    totalDias = 67890;
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -190,16 +197,20 @@ namespace ProyectoDeInge.Controllers
             foreach (var rec in todosRecursos)
             {
                 if (rec.PRYCTOID == null)
-                {//falta meter esto en un if(rec.PRYCTOID == null), para que no cargue los que ya estan trabajando en otro proyecto
-                    recursosDisponibles.Add(new RecursosViewModel
+                {
+                    if ((rec.PRYCTOID == null) && (rec.LIDER == false))
                     {
-                        Cedula = rec.CEDULA,
-                        Nombre = rec.NOMBRE,
-                        usuarioProyecto = rec.PRYCTOID,
-                        Apellido1 = rec.APELLIDO1,
-                        Apelliso2 = rec.APELLIDO2,
-                        usuarioID = rec.ID_ASP
-                    });
+                        recursosDisponibles.Add(new RecursosViewModel
+                        {
+                            Cedula = rec.CEDULA,
+                            Nombre = rec.NOMBRE,
+                            usuarioProyecto = rec.PRYCTOID,
+                            Apellido1 = rec.APELLIDO1,
+                            Apelliso2 = rec.APELLIDO2,
+                            usuarioID = rec.ID_ASP
+                        });
+                    }
+                   
                 }
             }
             ViewBag.Asignados = new MultiSelectList(recursosAsignados, "Cedula", "nombreCompleto"/*, "Apellido1", "Apellido2"*/);
@@ -244,26 +255,7 @@ namespace ProyectoDeInge.Controllers
             ViewBag.Asignados = new MultiSelectList(recursosAsignados, "Cedula", "nombreCompleto"/*, "Apellido1", "Apellido2"*/);
             ViewBag.Disponibles = new MultiSelectList(recursosDisponibles, "Cedula", "nombreCompleto"/*, "Apellido1", "Apellido2"*/);
         }
-
-        public ActionResult Unificado(string id)
-        {
-            if (id == null)
-            {//si id es null
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ProyectosViewModel proyecto = new ProyectosViewModel();//nuevo viewModel
-
-
-            //probar este
-            //proyecto.modeloProyecto = db.PROYECTO.Include(p => p.USUARIOS).Where(i => i.ID == id).Single();
-            proyecto.modeloProyecto = db.PROYECTO.Find(id);//encuentra al proyecto
-            
-
-            if (proyecto.modeloProyecto == null)
-            {//si el proyecto no existe
-                return HttpNotFound();
-            }
-
+               
         public ActionResult Unificado(string id) {
             if (id == null){//si id es null
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
