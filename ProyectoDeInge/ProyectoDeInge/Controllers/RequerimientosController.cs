@@ -75,7 +75,8 @@ namespace ProyectoDeInge.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 
-            /* REQ: Los campos de cada atributo fundamental llenos
+            /* EFE: Crea un nuevo requerimiento a un proyecto
+             * REQ: Los campos de cada atributo obligatorio llenos
              * MOD: La base de datos (Crea un nuevo requerimiento con los valores insertados como atributos) */
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -87,7 +88,6 @@ namespace ProyectoDeInge.Controllers
                 {
                     if (criterio.DEL == true)
                     {
-                        // Delete Phone Numbers which is marked to remov
                         rEQUERIMIENTOS.CRIT_ACEPTACION.Remove(criterio); //Quita un criterio en caso de que uno lo haya agregado por equivocación
                     }else
                     {
@@ -175,8 +175,10 @@ namespace ProyectoDeInge.Controllers
         }
 
         //Vista Unificada que carga los requerimientos
-        /* REQ: La información de llave primaria de un Requerimiento (ID, Versión)
-        MOD: Solo carga los requerimientos y los despliega en la lista */
+
+        /* EFE: Carga los requerimientos y los muestra 
+        REQ: La información de llave primaria de un Requerimiento (ID, Versión)
+        MOD:  */
         public ActionResult Unificado2(string id, int version)
         {
             if (id == null)
@@ -213,6 +215,9 @@ namespace ProyectoDeInge.Controllers
         }
 
         //Metodo que se llama en el eliminar para quitar el requerimiento de la base de datos
+        /* EFE: Elimina Requerimiento
+         * REQ: ID y Version del Requerimiento
+         * MOD: Base de Datos */
         public ActionResult eliminarReq(string id, int version)
         {
             REQUERIMIENTOS req = db.REQUERIMIENTOS.Find(id, version); //Encuentra el requerimiento en la BD.
@@ -222,12 +227,16 @@ namespace ProyectoDeInge.Controllers
         }
 
         //Botón que cancela en el Modificar y devuelve a la pantalla anterior.
+        /*EFE: Se sale del modificar y revierte cambios
+         *REQ:
+         *MOD: Nada */
         public ActionResult cancelar(REQUERIMIENTOS REQ)
         {
             return View(REQ);
         }
 
         // Método post de la vista Unificada, se llama unicamente en el botón Guardar de la sección modificar
+        //EFE: Modifica un requerimiento
         //Req: Un requerimiento que se quiera modificar
         //MOD: A ese requerimiento que se seleccionó y sus campos correspondientes.
         [HttpPost]
