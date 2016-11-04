@@ -37,7 +37,7 @@ namespace ProyectoDeInge.Controllers
 
             foreach (PERMISOS p in role.PERMISOS)
             {     //los copia a un HashSet<string>
-                verificaPermisos.Add(p.ID);
+                verificaPermisos.Add(p.ID); //Metodo que verifica el permiso del usuario actual.
             }
 
             ViewBag.Permisos = verificaPermisos;
@@ -74,6 +74,9 @@ namespace ProyectoDeInge.Controllers
         // POST: Requerimientos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+            /* REQ: Los campos de cada atributo fundamental llenos
+             * MOD: La base de datos (Crea un nuevo requerimiento con los valores insertados como atributos) */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,NOMBRE,ESFUERZO,IMAGEN,DESCRIPCION,PRIORIDAD,OBSERVACIONES,MODULO,FECHAINCIO,FECHAFINAL,ESTADO,ENCARGADO,PRYCTOID,VERSION_ID,CRIT_ACEPTACION")] REQUERIMIENTOS rEQUERIMIENTOS)
@@ -85,13 +88,13 @@ namespace ProyectoDeInge.Controllers
                     if (criterio.DEL == true)
                     {
                         // Delete Phone Numbers which is marked to remov
-                        rEQUERIMIENTOS.CRIT_ACEPTACION.Remove(criterio);
+                        rEQUERIMIENTOS.CRIT_ACEPTACION.Remove(criterio); //Quita un criterio en caso de que uno lo haya agregado por equivocación
                     }else
                     {
-                        criterio.ID = Guid.NewGuid().ToString().Substring(0, 7);
+                        criterio.ID = Guid.NewGuid().ToString().Substring(0, 7); //Le da un valor generado al ID de Criterio de Aceptación
                     }
                 }
-                db.REQUERIMIENTOS.Add(rEQUERIMIENTOS);
+                db.REQUERIMIENTOS.Add(rEQUERIMIENTOS);                  // Guarda los cambios en la base de datos.
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -171,6 +174,9 @@ namespace ProyectoDeInge.Controllers
             base.Dispose(disposing);
         }
 
+        //Vista Unificada que carga los requerimientos
+        /* REQ: La información de llave primaria de un Requerimiento (ID, Versión)
+        MOD: Solo carga los requerimientos y los despliega en la lista */
         public ActionResult Unificado2(string id, int version)
         {
             if (id == null)
@@ -206,20 +212,24 @@ namespace ProyectoDeInge.Controllers
             return View(rEQUERIMIENTOS);
         }
 
+        //Metodo que se llama en el eliminar para quitar el requerimiento de la base de datos
         public ActionResult eliminarReq(string id, int version)
         {
-            REQUERIMIENTOS req = db.REQUERIMIENTOS.Find(id, version);
+            REQUERIMIENTOS req = db.REQUERIMIENTOS.Find(id, version); //Encuentra el requerimiento en la BD.
             db.REQUERIMIENTOS.Remove(req);
             db.SaveChanges();
             return Json(new { success = true });
         }
 
+        //Botón que cancela en el Modificar y devuelve a la pantalla anterior.
         public ActionResult cancelar(REQUERIMIENTOS REQ)
         {
             return View(REQ);
         }
 
         // Método post de la vista Unificada, se llama unicamente en el botón Guardar de la sección modificar
+        //Req: Un requerimiento que se quiera modificar
+        //MOD: A ese requerimiento que se seleccionó y sus campos correspondientes.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Unificado2(REQUERIMIENTOS req)
@@ -229,21 +239,21 @@ namespace ProyectoDeInge.Controllers
                 var criterios = db.CRIT_ACEPTACION.Where(i => i.REQUERIMIENTO_ID == req.ID && i.VERSION_ID == req.VERSION_ID);
                 foreach(var c in criterios)
                 {
-                    db.CRIT_ACEPTACION.Remove(c);
+                    db.CRIT_ACEPTACION.Remove(c); //Elimina los criterios de la base para que no se guarden duplicados
                 }
                 foreach (CRIT_ACEPTACION criterio in req.CRIT_ACEPTACION.ToList())
                 {
                     if (criterio.DEL == true)
                     {
-                        // Delete Phone Numbers which is marked to remov
+                        // Borra los criterios que se decidió borrar
                         req.CRIT_ACEPTACION.Remove(criterio);
                     }
                     else
                     {
-                        criterio.ID = Guid.NewGuid().ToString().Substring(0, 7);
+                        criterio.ID = Guid.NewGuid().ToString().Substring(0, 7); //Le da un valor generado al ID de Criterio de Aceptación
                     }
                 }
-                db.REQUERIMIENTOS.Add(req);
+                db.REQUERIMIENTOS.Add(req); //Guarda los cambios en la base
                 db.Entry(req).State = EntityState.Modified;
                 var id = req.ID;
                 var vers = req.VERSION_ID;

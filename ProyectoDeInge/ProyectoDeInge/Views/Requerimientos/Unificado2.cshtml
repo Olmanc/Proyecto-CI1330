@@ -19,14 +19,15 @@
         $(container).append(content);
     }
 
-    function esconderEliminar()
+    function esconderEliminar() @*Esconde el botón eliminar cuando no se deba usar*@
     {
         $('.elementoModificar').find('input, textarea, select').attr('readonly', false);
         $('.ocultar').children().attr('disabled', true);
         $('.ocultar2').show();
     }
 
-    function confirmarEliminar(ID, VERSION_ID) {
+    function confirmarEliminar(ID, VERSION_ID) { @*REQ: ID y Versión del Requerimiento
+                                                   MOD: La base de Datos (Se borra el requerimiento)*@
 
         var respuesta = confirm('¿Confirma que desea eliminar este requerimiento del sistema? ');
 
