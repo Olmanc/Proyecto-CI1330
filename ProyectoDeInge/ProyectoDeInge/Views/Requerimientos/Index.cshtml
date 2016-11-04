@@ -8,7 +8,13 @@
 <h2>Gestión de requerimientos</h2>
 
 <p>
-    @Html.ActionLink("Agregar requerimiento", "Create")
+    @{
+        if (ViewBag.Permisos.Contains("10"))
+        {
+            @Html.ActionLink("Agregar requerimiento", "Create")
+        }/*else{ }*/
+    }
+    
 </p>
 
 @using (Html.BeginForm())
@@ -80,7 +86,13 @@
             @Html.DisplayFor(modelItem => item.USUARIOS.NOMBRE)
         </td>
         <td>
-            @Html.ActionLink("Consultar", "Unificado2", new { id = item.ID, version = item.VERSION_ID })
+            @{if (ViewBag.Permisos.Contains("11"))
+                {
+                    @Html.ActionLink("Consultar", "Unificado2", new { id = item.ID, version = item.VERSION_ID })
+                }
+
+            }
+            
 
         </td>
     </tr>

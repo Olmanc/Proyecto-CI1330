@@ -28,6 +28,45 @@ namespace ProyectoDeInge.Controllers
                     modelo.listaProyectos.Remove(proyecto); //elimino proyectos que no se deben mostrar en la aplicación
                 }
             }
+            modelo.verificaPermisos = obtienePermisos();
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual            
+            var listauser = db.AspNetUsers.ToArray();
+
+            for (int i = 0; i < listauser.Length; i++)
+            {                           //de todos los AspNetUser del sistema, encuentra el que tenga el email activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+
+            var rol = fg.AspNetRoles.First();
+            if (rol.Id == "2") {                
+                USUARIOS actual = db.USUARIOS.Where(i => i.ID_ASP == fg.Id).Single();
+                if (actual.PRYCTOID != null && actual.LIDER != null) {
+                    if (modelo.modeloProyecto != null) {
+                        if (modelo.modeloProyecto.ID != null)
+                        {
+                            if (actual.PRYCTOID == modelo.modeloProyecto.ID && actual.LIDER == true)
+                            {//permisos sobre los proyectos
+                                modelo.verificaPermisos.Add("06");
+                                modelo.verificaPermisos.Add("07");
+                                modelo.verificaPermisos.Add("08");
+                                modelo.verificaPermisos.Add("09");
+                                modelo.verificaPermisos.Add("10");
+                                modelo.verificaPermisos.Add("11");
+                                modelo.verificaPermisos.Add("12");
+                                modelo.verificaPermisos.Add("13");
+                                modelo.verificaPermisos.Add("14");
+                                modelo.verificaPermisos.Add("15");
+                                modelo.verificaPermisos.Add("16");
+                                modelo.verificaPermisos.Add("17");
+                            }
+                        }
+                    } 
+                }                    
+            }
+                       
             return View(modelo);
         }
 
@@ -64,7 +103,45 @@ namespace ProyectoDeInge.Controllers
             //ViewBag.liderProyecto = new SelectList(db.USUARIOS.Where(r => r.LIDER.Equals(true)), "ID", "NOMBRE");
             ViewBag.liderProyecto = new SelectList(proyecto.lideres, "Text", "Value");
             proyecto.verificaPermisos = obtienePermisos();
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual            
+            var listauser = db.AspNetUsers.ToArray();
 
+            for (int i = 0; i < listauser.Length; i++)
+            {                           //de todos los AspNetUser del sistema, encuentra el que tenga el email activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+            var role = fg.AspNetRoles.First();
+            if (role.Id == "2")
+            {
+                USUARIOS actual = db.USUARIOS.Where(i => i.ID_ASP == fg.Id).Single();
+                if (actual.PRYCTOID != null && actual.LIDER != null)
+                {
+                    if (proyecto.modeloProyecto != null)
+                    {
+                        if (proyecto.modeloProyecto.ID != null)
+                        {
+                            if (actual.PRYCTOID == proyecto.modeloProyecto.ID && actual.LIDER == true)
+                            {//permisos sobre los proyectos
+                                proyecto.verificaPermisos.Add("06");
+                                proyecto.verificaPermisos.Add("07");
+                                proyecto.verificaPermisos.Add("08");
+                                proyecto.verificaPermisos.Add("09");
+                                proyecto.verificaPermisos.Add("10");
+                                proyecto.verificaPermisos.Add("11");
+                                proyecto.verificaPermisos.Add("12");
+                                proyecto.verificaPermisos.Add("13");
+                                proyecto.verificaPermisos.Add("14");
+                                proyecto.verificaPermisos.Add("15");
+                                proyecto.verificaPermisos.Add("16");
+                                proyecto.verificaPermisos.Add("17");
+                            }
+                        }
+                    }
+                }
+            }
 
             populateUsuarios_Create(proyecto.modeloProyecto);
 
@@ -161,7 +238,8 @@ namespace ProyectoDeInge.Controllers
             foreach (PERMISOS p in role.PERMISOS)
             {     //los copia a un HashSet<string>
                 permisos.Add(p.ID);
-            }
+            }           
+
             return permisos;
         }
 
@@ -225,6 +303,7 @@ namespace ProyectoDeInge.Controllers
             var recursos = new HashSet<string>(proyecto.USUARIOS.Select(u => u.CEDULA));
             var recursosAsignados = new List<RecursosViewModel>();
             var recursosDisponibles = new List<RecursosViewModel>();
+            //var opcionLideres = new List<RecursosViewModel>();
             foreach (var rec in todosRecursos)
             {
                 if (rec.PRYCTOID == proyecto.ID)
@@ -252,10 +331,12 @@ namespace ProyectoDeInge.Controllers
                     });
                 }
             }
-            ViewBag.Asignados = new MultiSelectList(recursosAsignados, "Cedula", "nombreCompleto"/*, "Apellido1", "Apellido2"*/);
-            ViewBag.Disponibles = new MultiSelectList(recursosDisponibles, "Cedula", "nombreCompleto"/*, "Apellido1", "Apellido2"*/);
+                       
+            ViewBag.Asignados = new MultiSelectList(recursosAsignados, "Cedula", "nombreCompleto");
+            ViewBag.Disponibles = new MultiSelectList(recursosDisponibles, "Cedula", "nombreCompleto");
         }
-               
+
+                     
         public ActionResult Unificado(string id) {
             if (id == null){//si id es null
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -273,9 +354,38 @@ namespace ProyectoDeInge.Controllers
                 return HttpNotFound();
             }
 
-            List<USUARIOS> lideres = new List<USUARIOS>();
-
+            List<USUARIOS> lideres = new List<USUARIOS>();                        
             proyecto.verificaPermisos = obtienePermisos();
+
+            ////
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual            
+            var listauser = db.AspNetUsers.ToArray();
+
+            for (int i = 0; i < listauser.Length; i++)
+            {                           //de todos los AspNetUser del sistema, encuentra el que tenga el email activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+            USUARIOS actual = db.USUARIOS.Where(i => i.ID_ASP == fg.Id).Single();
+            if (actual.PRYCTOID == proyecto.modeloProyecto.ID && actual.LIDER == true)
+            {//permisos sobre los proyectos
+                proyecto.verificaPermisos.Add("06");
+                proyecto.verificaPermisos.Add("07");
+                proyecto.verificaPermisos.Add("08");
+                proyecto.verificaPermisos.Add("09");
+                proyecto.verificaPermisos.Add("10");
+                proyecto.verificaPermisos.Add("11");
+                proyecto.verificaPermisos.Add("12");
+                proyecto.verificaPermisos.Add("13");
+                proyecto.verificaPermisos.Add("14");
+                proyecto.verificaPermisos.Add("15");
+                proyecto.verificaPermisos.Add("16");
+                proyecto.verificaPermisos.Add("17");
+            }
+
+
             populateUsuarios(proyecto.modeloProyecto);
 
             return View(proyecto);
@@ -305,7 +415,9 @@ namespace ProyectoDeInge.Controllers
                         }
                         else
                         {
-                            //mensaje de error
+                            Response.Write("<Script>alert('ERROR - No es posible cambiar el estado del proyecto a Finalizado. Todavia tiene requerimientos sin finalizar/cancelar')</Script>");
+                            return this.Unificado(modelo.modeloProyecto.ID);
+                            //return this.RedirectToAction("Index", "Proyectos");
                         }
                     }
                 }
@@ -332,15 +444,58 @@ namespace ProyectoDeInge.Controllers
                     }
                 }
                 
+                if (modelo.modeloProyecto.FECHAINICIO == null) //fecha por defecto: La del día de creación del proyecto
+                {
+                    var fechaInicial = DateTime.Now;
+                    modelo.modeloProyecto.FECHAINICIO = fechaInicial;
+                }
+
+                if ((modelo.modeloProyecto.FECHAINICIO != null) && (modelo.modeloProyecto.FECHAFINAL != null)/* && ((modelo.modeloProyecto.DURACION == null) || (modelo.modeloProyecto.DURACION == 0))*/)
+                {
+                    bool b = false;
+                    var dias = "";
+                    int totalDias = 0;
+                    var fechaInicial = modelo.modeloProyecto.FECHAINICIO;
+                    var fechaFinal = modelo.modeloProyecto.FECHAFINAL;
+                    var duracion = fechaFinal - fechaInicial;
+                    var d = duracion.ToString();
+
+                    for (int i = 0; ((i < d.Length) && (b == false)); i++)
+                    {
+                        if (d[i].Equals('.'))
+                        {
+                            b = true;
+                            for (int j = 0; j < i; j++)
+                            {
+                                dias += d[j];
+                            }
+                            totalDias = Int32.Parse(dias.ToString());
+                        }
+                    }
+                    int meses = totalDias / 30;
+                    modelo.modeloProyecto.DURACION = meses;
+                    totalDias = 67890;
+                }
+
+                //foreach (var i in modelo.modeloProyecto.USUARIOS) {
+                //    if (i.LIDER == true) {
+                //        i.LIDER = false;
+                //    }
+                //    if (i.CEDULA != modelo.modeloUsuario.PRYCTOID) {
+                //        i.LIDER = true;
+                //    }
+                //}
 
                 db.Entry(modelo.modeloProyecto).State = EntityState.Modified;
                 db.SaveChanges();
+                Response.Write("<Script>alert('Proyecto modificado exitosamente')</Script>");
                 return RedirectToAction("Index");
             }
             catch (RetryLimitExceededException)
-            {
-                //mensaje?
-                ModelState.AddModelError("", "No fue posible modificar los datos del proyecto.");
+            {                
+                Response.Write("<Script>alert('ERROR - No es posible modificar este proyecto')</Script>");
+                //return this.Unificado(modelo.modeloProyecto.ID);
+                //ModelState.AddModelError("", "No fue posible modificar los datos del proyecto.");
             }
 
             //mensaje de error

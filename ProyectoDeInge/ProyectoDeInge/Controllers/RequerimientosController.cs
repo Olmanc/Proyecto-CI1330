@@ -20,6 +20,28 @@ namespace ProyectoDeInge.Controllers
             ViewBag.pro = new SelectList(db.PROYECTO, "ID", "NOMBRE");
             var rEQUERIMIENTOS = db.REQUERIMIENTOS.Include(r => r.PROYECTO).Include(r => r.USUARIOS);
             rEQUERIMIENTOS = rEQUERIMIENTOS.Where(s => s.PRYCTOID.Contains(pro));
+            List<string> verificaPermisos = new List<string>();
+
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
+            var listauser = db.AspNetUsers.ToArray();
+            for (int i = 0; i < listauser.Length; i++)
+            {  //de todos los AspNetUser del sistema, encuentra el que tenga el email activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+
+            AspNetRoles role = fg.AspNetRoles.First();  //consigue el rol del usuario
+            var per = role.PERMISOS;                    //copia los permisos que tiene asignado
+
+            foreach (PERMISOS p in role.PERMISOS)
+            {     //los copia a un HashSet<string>
+                verificaPermisos.Add(p.ID);
+            }
+
+            ViewBag.Permisos = verificaPermisos;
+
             return View(rEQUERIMIENTOS.ToList());
         }
 
@@ -44,7 +66,8 @@ namespace ProyectoDeInge.Controllers
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE");
             ViewBag.ENCARGADO = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
             var reque = new REQUERIMIENTOS();
-            reque.crearCriterios(0);
+            reque.crearCriterios(0);           
+
             return View(reque);
         }
 

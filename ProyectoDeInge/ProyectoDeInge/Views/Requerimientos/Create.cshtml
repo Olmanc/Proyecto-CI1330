@@ -128,11 +128,11 @@
             @Html.LabelFor(model => model.ESTADO, "Estado", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.ESTADO, new List<SelectListItem>{
-                    new SelectListItem{Text="Pendiente", Value="pendiente"},
-                    new SelectListItem{Text="Asignado", Value="asignado"},
-                    new SelectListItem{Text="Ejecución", Value="ejecucion"},
-                    new SelectListItem{Text="Finalizado", Value="finalizado"},
-                    new SelectListItem{Text="Cerrado", Value="cerrado"}
+                    new SelectListItem{Text="Pendiente", Value="Pendiente"},
+                    new SelectListItem{Text="Asignado", Value="Asignado"},
+                    new SelectListItem{Text="Ejecución", Value="Ejecucion"},
+                    new SelectListItem{Text="Finalizado", Value="Finalizado"},
+                    new SelectListItem{Text="Cerrado", Value="Cerrado"}
                 }, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ESTADO, "", new { @class = "text-danger" })
             </div>
@@ -157,7 +157,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Aceptar" class="btn btn-default" />
             </div>
         </div>
     </div>

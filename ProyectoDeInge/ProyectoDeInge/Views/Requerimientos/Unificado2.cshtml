@@ -51,8 +51,8 @@
 </script>
 <h2>Gestión de Requerimientos</h2>
 <div class="ocultar">
-    <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("04") ? "disabled":null)" onclick="esconderEliminar()">Modificar</a>
-    <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("05") ? "disabled":null)" onclick="confirmarEliminar('@(Model.ID)',@(Model.VERSION_ID))">Eliminar</a>
+    <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("12") ? "disabled":null)" onclick="esconderEliminar()">Modificar</a>
+    <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("13") ? "disabled":null)" onclick="confirmarEliminar('@(Model.ID)',@(Model.VERSION_ID))">Eliminar</a>
 </div>
 <div class="elementoModificar">
     @using (Html.BeginForm())
@@ -120,11 +120,11 @@
                 @Html.LabelFor(Model => Model.ESTADO, "Estado", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.ESTADO, new List<SelectListItem>{
-                    new SelectListItem{Text="Pendiente", Value="pendiente"},
-                    new SelectListItem{Text="Asignado", Value="asignado"},
-                    new SelectListItem{Text="Ejecución", Value="ejecucion"},
-                    new SelectListItem{Text="Finalizado", Value="finalizado"},
-                    new SelectListItem{Text="Cerrado", Value="cerrado"}
+                    new SelectListItem{Text="Pendiente", Value="Pendiente"},
+                    new SelectListItem{Text="Asignado", Value="Asignado"},
+                    new SelectListItem{Text="Ejecución", Value="Ejecucion"},
+                    new SelectListItem{Text="Finalizado", Value="Finalizado"},
+                    new SelectListItem{Text="Cerrado", Value="Cerrado"}
                     }, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                     @Html.ValidationMessageFor(Model => Model.ESTADO, "", new { @class = "text-danger" })
                 </div>

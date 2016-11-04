@@ -5,10 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Gestión de Proyectos</h2>
 
 <p>
-    @Html.ActionLink("Agregar proyecto", "Create")
+    @{
+        if (Model.verificaPermisos.Contains("06"))
+        {
+            @Html.ActionLink("Agregar proyecto", "Create")
+        }/*else{ }*/
+    }
+    
 </p>
 <table class="table">
     <tr>
@@ -43,7 +49,11 @@
                 @Html.DisplayFor(modelItem => item.ESTADO)
             </td>
             <td>
-                @Html.ActionLink("Consultar", "Unificado", new { id = item.ID })
+                @{if (Model.verificaPermisos.Contains("07"))
+                    {
+                        @Html.ActionLink("Consultar", "Unificado", new { id = item.ID })
+                    }
+                }                
             </td>
         </tr>
     }
