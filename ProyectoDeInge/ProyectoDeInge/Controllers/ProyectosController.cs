@@ -202,7 +202,7 @@ namespace ProyectoDeInge.Controllers
                             b = true;
                             for (int j = 0; j < i; j++)
                             {
-                                dias += d[j]; 
+                                dias += d[j];
                             }
                             totalDias = Int32.Parse(dias.ToString());
                         }
