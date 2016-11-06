@@ -6,7 +6,11 @@
 }
 
 <h2>Gestión de Proyectos</h2>
-
+@{ 
+    if ((string)TempData["exito"] == "exito") {
+        Response.Write("<Script>alert('Proyecto modificado exitosamente')</Script>");
+    }
+}
 <p>
     @{
         if (Model.verificaPermisos.Contains("06"))

@@ -7,13 +7,13 @@
 
 <h2>Gestión de Proyectos</h2>
 
-<div class="modos">
+<div class="modos">@*botones de los modos*@
     <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("08") ? "disabled":null)" onclick="habilitaModificar()">Modificar</a>
     <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("09") ? "disabled":null)" onclick="confirmarEliminar('@(Model.modeloProyecto.ID)')">Eliminar</a>
     <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("11") ? "disabled":null)" onclick="window.location = '@Url.Action("Index","Requerimientos")';">Consultar Requerimientos</a>
 </div>
 
-<div class="modificarProyecto">
+<div class="modificarProyecto">    
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
@@ -23,6 +23,7 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.modeloProyecto.ID)
 
+            @*Campos de los datos del proyecto*@
             <div class="form-group">
                 @Html.LabelFor(model => model.modeloProyecto.ID,"Id", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -71,10 +72,10 @@
                 </div>
             </div>
 
+            @*combobox para el estado*@
             <div class="form-group">
                 @Html.LabelFor(model => model.modeloProyecto.ESTADO, "Estado", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @*@Html.DropDownList("ESTADO", null, htmlAttributes: new { @class = "form-control" })*@
+                <div class="col-md-10">                    
                     @Html.DropDownListFor(model => model.modeloProyecto.ESTADO, new SelectList(
                   new List<Object>{
                        new { value = "Por iniciar" , text = "Por iniciar" },
@@ -86,6 +87,8 @@
                     @Html.ValidationMessageFor(model => model.modeloProyecto.ESTADO, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            @*Dropdownlist para escoger lider (sin terminar)*@
             @*@Html.HiddenFor(model => model.modeloUsuario.PRYCTOID);
             <div class="form-group">
                 @Html.LabelFor(model => model.modeloUsuario.PRYCTOID, "Líder", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -95,45 +98,46 @@
                 </div>
             </div>*@
 
+            @*listas para sisgnnar/desasignar recursos*@
             <div class="row">
                 <div class="col-md-2">&nbsp;</div>
                 <div class="form-group col-md-4">
-                <label class="control-label">Recursos Asignados</label>
-                @Html.ListBox("recursosAsignados", (MultiSelectList)ViewBag.Asignados, new { @class = "form-control" })
-            </div>
-            <div class="botones" style="display:none">
-                <div class="form-group col-md-1">
-                    <div class="form-group">
-                        <button type="button" id="btnRight" class="btn btn-warning btn-lg" >
-                            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-                        </button>
+                    <label class="control-label">Recursos Asignados</label>
+                    @Html.ListBox("recursosAsignados", (MultiSelectList)ViewBag.Asignados, new { @class = "form-control" })
+                </div>
+                <div class="botones" style="display:none">
+                    <div class="form-group col-md-1">
+                        <div class="form-group">
+                            <button type="button" id="btnRight" class="btn btn-warning btn-lg" >
+                                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="btnLeft" class="btn btn-warning btn-lg" >
+                                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                            </button>
+                            <div></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <button type="button" id="btnLeft" class="btn btn-warning btn-lg" >
-                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-                        </button>
-                        <div></div>
+                </div>
+
+                <div class="listaDisp" style="display:none">
+                    <div class="form-group col-md-4">
+                        <label class="control-label">Recursos Disponibles</label>
+                        @Html.ListBox("recursosDisponibles", (MultiSelectList)ViewBag.Disponibles, new { @class = "form-control" })
                     </div>
                 </div>
             </div>
 
-            <div class="listaDisp" style="display:none">
-                <div class="form-group col-md-4">
-                <label class="control-label">Recursos Disponibles</label>
-                @Html.ListBox("recursosDisponibles", (MultiSelectList)ViewBag.Disponibles, new { @class = "form-control" })
-            </div>
-        </div>
-
-        </div>
-
-        <div class="botonesModificar" style="display:none">
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" id="btnSubmit" value="Aceptar" class="btn btn-default" />
-                    <a class="btn btn-default" onclick="window.location = '@Url.Action("Unificado", new { id = Model.modeloProyecto.ID })';">Cancelar</a>
+            @*botones para aceptar o cancelar modificacion*@
+            <div class="botonesModificar" style="display:none">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" id="btnSubmit" value="Aceptar" class="btn btn-default" />
+                        <a class="btn btn-default" onclick="window.location = '@Url.Action("Unificado", new { id = Model.modeloProyecto.ID })';">Cancelar</a>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     }
 </div>
@@ -142,7 +146,7 @@
 
 <script>
 
-    function habilitaModificar() {
+    function habilitaModificar() {//habilita los campos para modificar los datos del proyecto
         $('.modificarProyecto').find('input, textarea, select').attr('readonly', false);
         $('.modos').children().attr('disabled', true);
         $('.botonesModificar').show();
