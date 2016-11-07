@@ -71,6 +71,11 @@ namespace ProyectoDeInge.Controllers
         }
 
         // GET: Proyectos/Create
+        /*
+         REQ: No aplica
+         EFE: Carga las opciones de posibles líderes y recursos para el proyecto que se quiere crear
+         MOD: Vista para agregar proyecto       
+        */
         public ActionResult Create()
         {
 
@@ -100,14 +105,13 @@ namespace ProyectoDeInge.Controllers
                 Value = o.NOMBRE + " " + o.APELLIDO1 + " " + o.APELLIDO2 
                 //Value = o.CEDULA.ToString()
             });
-            //ViewBag.liderProyecto = new SelectList(db.USUARIOS.Where(r => r.LIDER.Equals(true)), "ID", "NOMBRE");
             ViewBag.liderProyecto = new SelectList(proyecto.lideres, "Text", "Value");
             proyecto.verificaPermisos = obtienePermisos();
-            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual            
-            var listauser = db.AspNetUsers.ToArray();
+            var fg = new AspNetUsers();    //instancia AspNetUser para usuario actual            
+            var listauser = db.AspNetUsers.ToArray(); // array de users de ASP
 
             for (int i = 0; i < listauser.Length; i++)
-            {                           //de todos los AspNetUser del sistema, encuentra el que tenga el email activo actualmente
+            {    
                 if (listauser[i].Email == User.Identity.Name)
                 {
                     fg = listauser[i];                  //obtiene el AspNetUser actual
@@ -115,7 +119,7 @@ namespace ProyectoDeInge.Controllers
             }
             var role = fg.AspNetRoles.First();   //obtiene el rol del ususario
             if (role.Id == "2")
-            {                //si el usuario es desarrollador
+            {      //si el usuario es desarrollador
                 USUARIOS actual = db.USUARIOS.Where(i => i.ID_ASP == fg.Id).Single();
                 if (actual.PRYCTOID != null && actual.LIDER != null)
                 {  //si el desarrollador es lider en un proyecto
@@ -143,7 +147,7 @@ namespace ProyectoDeInge.Controllers
                 }
             }
 
-            populateUsuarios_Create(proyecto.modeloProyecto);
+            populateUsuarios_Create(proyecto.modeloProyecto); //llenar tabla de recursos asignados y disponibles
 
             return View();
         }
@@ -152,22 +156,27 @@ namespace ProyectoDeInge.Controllers
         // POST: Proyectos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /*
+         REQ: ModeloIntermedio del proyecto por crearse y campos obligatorios llenos
+         EFE: Crea un nuevo proyecto
+         MOD: La base de datos (modifica los atributos respectivos de acuerdo a lo que el usuario digitó)        
+        */
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(/*Bind(Include = "ID,NOMBRE,DESCRIPCION,FECHAINICIO,FECHAFINAL,DURACION,ESTADO")] PROYECTO pROYECTO*/ ModeloIntermedio pROYECTO)
+        public ActionResult Create(ModeloIntermedio pROYECTO)
         {
             if (ModelState.IsValid)
             {
                 ProyectosViewModel proyecto = new ProyectosViewModel();//nuevo viewModel
-                ViewBag.ESTADO = new SelectList(db.PROYECTO, "ESTADO");
+                ViewBag.ESTADO = new SelectList(db.PROYECTO, "ESTADO"); //Viewbag de estados de proyecto
                 db.PROYECTO.Add(pROYECTO.modeloProyecto);
 
-                var proyectoID = pROYECTO.modeloUsuario.PRYCTOID;
-                string cedula = string.Empty;
-                int val;
+                var proyectoID = pROYECTO.modeloUsuario.PRYCTOID; //id del proyecto donde se asignó el usuario
+                string cedula = string.Empty; // nuevo string
+                int val; //nuevo entero
 
                 for (int i = 0; i < proyectoID.Length; i++)
-                {
+                { //buscar id del usuario para asignarle el proyecto
                     if (Char.IsDigit(proyectoID[i]))
                         cedula += proyectoID[i];
                 }
@@ -176,17 +185,17 @@ namespace ProyectoDeInge.Controllers
                 {
                     val = int.Parse(cedula);
                 }
-                USUARIOS uSUARIO = db.USUARIOS.Find(cedula);
-                uSUARIO.PRYCTOID = pROYECTO.modeloProyecto.ID;
+                USUARIOS uSUARIO = db.USUARIOS.Find(cedula); //buscar usuario por cédula
+                uSUARIO.PRYCTOID = pROYECTO.modeloProyecto.ID; //asignarle el proyecto al usuario
 
-                if (pROYECTO.modeloProyecto.FECHAINICIO == null) //fecha por defecto: La del día de creación del proyecto
+                if (pROYECTO.modeloProyecto.FECHAINICIO == null) //Si la fecha de inicio es nula la fecha por defecto corresponde la del día de creación del proyecto
                 {
-                    var fechaInicial = DateTime.Now;
-                    pROYECTO.modeloProyecto.FECHAINICIO = fechaInicial;
+                    var fechaInicial = DateTime.Now; //fecha del día respectivo a la creación del proyecto
+                    pROYECTO.modeloProyecto.FECHAINICIO = fechaInicial; //se le asigna tal fecha a la fecha inicial de modeloProyecto
                 }
 
                 if ((pROYECTO.modeloProyecto.FECHAINICIO != null) && (pROYECTO.modeloProyecto.FECHAFINAL != null) && ((pROYECTO.modeloProyecto.DURACION == null) || (pROYECTO.modeloProyecto.DURACION == 0)))
-                {
+                { //calculo de la duracion, a partir de fechaFinalizacion-FechaInicial, por si el usuario la deja nula
                     bool b = false;
                     var dias = "";
                     int totalDias = 0;
@@ -196,7 +205,7 @@ namespace ProyectoDeInge.Controllers
                     var d = duracion.ToString();
 
                     for (int i = 0; ((i < d.Length) && (b == false)); i++)
-                    {
+                    { //conversion de formato date a int
                         if (d[i].Equals('.'))
                         {
                             b = true;
@@ -207,11 +216,12 @@ namespace ProyectoDeInge.Controllers
                             totalDias = Int32.Parse(dias.ToString());
                         }
                     }
-                    int meses = totalDias / 30;
-                    totalDias = 67890;
+                    int meses = totalDias / 30; // convertir de dias a meses
+                    pROYECTO.modeloProyecto.DURACION = meses; //se le asigna al atributo duracion de modeloProyecto
+                    //totalDias = 67890;
                 }
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                db.SaveChanges(); //guarda todos los cambios
+                return RedirectToAction("Index"); //regresa al Index de proyectos
             }
 
             return View(pROYECTO);
@@ -220,9 +230,9 @@ namespace ProyectoDeInge.Controllers
 
 
         /*
-         Recibe: NA
-         Efecto: carga los Id de los permisos del rol asignado al usuario activo
-         Retorna: Hashset de los Id de los permisos concdidos (string)
+         REQ: NA
+         EFE: carga los Id de los permisos del rol asignado al usuario activo
+         MOD: Hashset de los Id de los permisos concdidos (string)
              */
         public HashSet<string> obtienePermisos()
         {
@@ -251,9 +261,9 @@ namespace ProyectoDeInge.Controllers
 
 
         /*
-         Recibe: string (Id del rol que se quiere buscar)
-         Efecto: obtiene a todos los usuarios del rol especificado
-         Retorna: Lista de los usuarios pertenecientes al rol
+         REQ: string (Id del rol que se quiere buscar)
+         EFE: obtiene a todos los usuarios del rol especificado
+         MOD: Lista de los usuarios pertenecientes al rol
              */
         public List<USUARIOS> buscaUsuariosRol(string rolId)
         {
@@ -269,20 +279,26 @@ namespace ProyectoDeInge.Controllers
                     usuariosDeRol.Add(item);//es agregado a la lista
                 }
             }
-            return usuariosDeRol;//retorna lista de usuarios con el rol buscado
+            return usuariosDeRol;//MOD lista de usuarios con el rol buscado
         }
 
 
         /*
-         Recibe: NA
-         Efecto: busca a todos los desarrolladores de la base de datos
-         Retorna: lista de todos los desarrolladores
+         REQ: NA
+         EFE: busca a todos los desarrolladores de la base de datos
+         MOD: lista de todos los desarrolladores
              */
         public List<USUARIOS> buscaResursos()
         {
             return buscaUsuariosRol("2");//devuelve a todos los desarrolladores
         }
 
+
+        /*
+        REQ: proyecto que se está agregando
+        EFE: carga ViewBags con los desarrolladores asignados al proyecto (parametro) y los que no estan asignados a ningun proyecto
+        MOD: NA
+       */
         public void populateUsuarios_Create(PROYECTO proyecto)
         {
             var todosRecursos = buscaResursos();            
@@ -314,9 +330,9 @@ namespace ProyectoDeInge.Controllers
 
 
         /*
-         Recibe: proyecto que se va a consultar/modificar/eliminar
-         Efecto: carga ViewBags con los desarrolladores asignados al proyecto (parametro) y los que no estan asignados a ningun proyecto
-         Retorna: NA
+         REQ: proyecto que se va a consultar/modificar/eliminar
+         EFE: carga ViewBags con los desarrolladores asignados al proyecto (parametro) y los que no estan asignados a ningun proyecto
+         MOD: NA
              */
         public void populateUsuarios(PROYECTO proyecto)
         {
@@ -362,9 +378,9 @@ namespace ProyectoDeInge.Controllers
         }
 
         /*
-         Recibe: string del Id del proyecto consultado
-         Efecto: carga los datos del proyecto con sus recursos asiganados y los permisos del usuario actual
-         Retorna: Vista unificada para consulta/modificacion/eliminado de proyectos
+         REQ: string del Id del proyecto consultado
+         EFE: carga los datos del proyecto con sus recursos asignados y los permisos del usuario actual
+         MOD: Vista unificada para consulta/modificacion/eliminado de proyectos
             */
         public ActionResult Unificado(string id) {
             if (id == null){//si id es null
@@ -417,10 +433,10 @@ namespace ProyectoDeInge.Controllers
         }
 
         /*
-         Recibe: ProyectoViewmodel del proyecto modificado y arrays de las cedula de los recursos asignados y desasignados
-         Efecto: guarda cambios efectuados a los datos del proyecto y asigna/desasigna recursos de acuerdo a los arrays
-         Retorna: Vista unificada para consulta, con los datos modificados         
-             */
+         REQ: ProyectoViewmodel del proyecto modificado y arrays de las cedula de los recursos asignados y desasignados
+         EFE: guarda cambios efectuados a los datos del proyecto y asigna/desasigna recursos de acuerdo a los arrays
+         MOD: Vista unificada para consulta, con los datos modificados         
+        */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Unificado(ProyectosViewModel modelo, string[] recursosAsignados, string[] recursosDisponibles)
@@ -454,7 +470,7 @@ namespace ProyectoDeInge.Controllers
                 }
             }
 
-            if (modelo.modeloProyecto.FECHAINICIO == null) //fecha por defecto: La del día de creación del proyecto (del sistema)
+            if (modelo.modeloProyecto.FECHAINICIO == null) //fecha por dEFE: La del día de creación del proyecto (del sistema)
             {
                 var fechaInicial = DateTime.Now;
                 modelo.modeloProyecto.FECHAINICIO = fechaInicial;

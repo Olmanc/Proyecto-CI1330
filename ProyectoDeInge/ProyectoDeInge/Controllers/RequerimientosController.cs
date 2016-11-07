@@ -66,7 +66,7 @@ namespace ProyectoDeInge.Controllers
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE");
             ViewBag.ENCARGADO = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
             var reque = new REQUERIMIENTOS();
-            reque.crearCriterios(0);           
+            reque.crearCriterios(0);
 
             return View(reque);
         }
@@ -75,9 +75,9 @@ namespace ProyectoDeInge.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 
-            /* EFE: Crea un nuevo requerimiento a un proyecto
-             * REQ: Los campos de cada atributo obligatorio llenos
-             * MOD: La base de datos (Crea un nuevo requerimiento con los valores insertados como atributos) */
+        /* EFE: Crea un nuevo requerimiento a un proyecto
+         * REQ: Los campos de cada atributo obligatorio llenos
+         * MOD: La base de datos (Crea un nuevo requerimiento con los valores insertados como atributos) */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,NOMBRE,ESFUERZO,IMAGEN,DESCRIPCION,PRIORIDAD,OBSERVACIONES,MODULO,FECHAINCIO,FECHAFINAL,ESTADO,ENCARGADO,PRYCTOID,VERSION_ID,CRIT_ACEPTACION")] REQUERIMIENTOS rEQUERIMIENTOS)
@@ -89,7 +89,8 @@ namespace ProyectoDeInge.Controllers
                     if (criterio.DEL == true)
                     {
                         rEQUERIMIENTOS.CRIT_ACEPTACION.Remove(criterio); //Quita un criterio en caso de que uno lo haya agregado por equivocación
-                    }else
+                    }
+                    else
                     {
                         criterio.ID = Guid.NewGuid().ToString().Substring(0, 7); //Le da un valor generado al ID de Criterio de Aceptación
                     }
@@ -246,7 +247,7 @@ namespace ProyectoDeInge.Controllers
             if (ModelState.IsValid)
             {
                 var criterios = db.CRIT_ACEPTACION.Where(i => i.REQUERIMIENTO_ID == req.ID && i.VERSION_ID == req.VERSION_ID);
-                foreach(var c in criterios)
+                foreach (var c in criterios)
                 {
                     db.CRIT_ACEPTACION.Remove(c); //Elimina los criterios de la base para que no se guarden duplicados
                 }

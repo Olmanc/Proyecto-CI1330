@@ -36,7 +36,7 @@
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("eliminarReq")',
-                data: 'id='+ID+'&version=' +VERSION_ID,      
+                data: 'id='+ID+'&version=' +VERSION_ID,
                 success: function (result) {
                     if (result.success)
 					{
@@ -156,7 +156,7 @@
                 </div>
             </div>
 
-          
+
             <div class="form-group">
                 @Html.LabelFor(Model => Model.MODULO, "Modulo", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -179,23 +179,23 @@
                     @Html.ValidationMessageFor(Model => Model.ESTADO, "", new { @class = "text-danger" })
                 </div>
             </div>
-           
+
             <div class="form-group">
-                @Html.LabelFor(Model => Model.VERSION_ID, "Versión",htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(Model => Model.VERSION_ID, "Versión", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(Model => Model.VERSION_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
                     @Html.ValidationMessageFor(Model => Model.VERSION_ID, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-           
+
             <div class="form-group">
                 @Html.LabelFor(model => model.CRIT_ACEPTACION, "Criterios", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10" id="crite">
                     @Html.AddLink("Agregar criterio", "#crite", ".criterios", "CRIT_ACEPTACION", typeof(ProyectoDeInge.Models.CRIT_ACEPTACION))
                     @Html.EditorFor(model => model.CRIT_ACEPTACION)
                     @Html.ValidationMessageFor(model => model.CRIT_ACEPTACION, "", new { @class = "text-danger" })
-                    
+
                 </div>
             </div>
 
