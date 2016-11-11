@@ -12,7 +12,7 @@
    <!-- <p>TempData["Exito"]</p>-->
     <Script>alert('Permisos actualizados exitosamente')</Script>
 }
-else
+else if (TempData["Error"] != null)
 {
     <Script>alert('Error - No actualizaron los permisos asignados')</Script>
     <!--<p>Error - Cambio en permisos no fue exitoso.</p>-->

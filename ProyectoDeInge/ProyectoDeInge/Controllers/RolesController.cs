@@ -135,6 +135,8 @@ namespace ProyectoDeInge.Controllers
             }
             Usuario.permisosAsignados = permisosUsuario;                //asigna nuevos permisos al usuario
 
+            TempData["Error"] = "error";
+
             try
             {       //intenta actualizar la base
                 if (ModelState.IsValid)                             //verifica que el modelo es válido
@@ -210,7 +212,8 @@ namespace ProyectoDeInge.Controllers
                         db.Entry(usuActualiza).State = System.Data.Entity.EntityState.Modified;     //actualiza la base de datos
                         db.SaveChanges();       //guarda los cambios
                     }
-                    TempData["Exito"] = "Permisos asignados exitosamente!";                    
+                    TempData["Exito"] = "Permisos asignados exitosamente!";
+                    TempData["Error"] = null;                 
                     return RedirectToAction("Index");
                 }
             }

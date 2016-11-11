@@ -26,15 +26,16 @@
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>  
                         <li>
-                            <a href="#">Gestión</a>
+                            <a href="#">Permisos</a>
                             <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Usuarios", "Index", "Usuarios")</li>
-                                <li>@Html.ActionLink("Permisos", "Edit", "Roles")</li>
-                                <li>@Html.ActionLink("Proyectos", "Index", "Proyectos")</li>
-                                <li>@Html.ActionLink("Requerimientos", "Index", "Requerimientos")</li>
+                                <li>@Html.ActionLink("Informacion de permisos", "Index", "Roles")</li>
+                                <li>@Html.ActionLink("Asignar permisos", "Edit", "Roles")</li>
                             </ul>
                         </li>
+                        <li>@Html.ActionLink("Proyectos", "Index", "Proyectos")</li>
+                        <li>@Html.ActionLink("Requerimientos", "Index", "Requerimientos")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
