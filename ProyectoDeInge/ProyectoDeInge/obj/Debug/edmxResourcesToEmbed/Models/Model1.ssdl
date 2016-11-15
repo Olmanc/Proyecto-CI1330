@@ -70,8 +70,13 @@
     <Property Name="FECHA" Type="date" />
     <Property Name="DESCRIPCION" Type="varchar" MaxLength="200" />
     <Property Name="JUSTIFICACION" Type="varchar" MaxLength="700" />
-    <Property Name="REQUERIMIENTO_ID" Type="char" MaxLength="7" />
-    <Property Name="VERSION_ID" Type="int" />
+    <Property Name="VIEJO_REQ_ID" Type="char" MaxLength="7" />
+    <Property Name="VIEJO_VER_ID" Type="int" />
+    <Property Name="NUEVO_REQ_ID" Type="char" MaxLength="7" />
+    <Property Name="NUEVO_VER_ID" Type="int" />
+    <Property Name="JUST_REV" Type="varchar" MaxLength="200" />
+    <Property Name="FECHA_REV" Type="date" />
+    <Property Name="CED_REV" Type="char" MaxLength="9" />
   </EntityType>
   <EntityType Name="CORREOS">
     <Key>
@@ -139,6 +144,8 @@
     <Property Name="ENCARGADO" Type="char" MaxLength="9" />
     <Property Name="PRYCTOID" Type="char" MaxLength="7" />
     <Property Name="VERSION_ID" Type="int" Nullable="false" />
+    <Property Name="ESTADO_CAMBIOS" Type="varchar" MaxLength="12" />
+    <Property Name="SPRINT" Type="int" />
   </EntityType>
   <EntityType Name="TELEFONOS">
     <Key>
@@ -169,8 +176,20 @@
         <PropertyRef Name="VERSION_ID" />
       </Principal>
       <Dependent Role="CAMBIOS">
-        <PropertyRef Name="REQUERIMIENTO_ID" />
-        <PropertyRef Name="VERSION_ID" />
+        <PropertyRef Name="VIEJO_REQ_ID" />
+        <PropertyRef Name="VIEJO_VER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CAMBIOS__CED_REV__656C112C">
+    <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1" />
+    <End Role="CAMBIOS" Type="Self.CAMBIOS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIOS">
+        <PropertyRef Name="CEDULA" />
+      </Principal>
+      <Dependent Role="CAMBIOS">
+        <PropertyRef Name="CED_REV" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -346,6 +365,20 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="REQUERIMIENTO_NUEVO_FK">
+    <End Role="REQUERIMIENTOS" Type="Self.REQUERIMIENTOS" Multiplicity="0..1" />
+    <End Role="CAMBIOS" Type="Self.CAMBIOS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="REQUERIMIENTOS">
+        <PropertyRef Name="ID" />
+        <PropertyRef Name="VERSION_ID" />
+      </Principal>
+      <Dependent Role="CAMBIOS">
+        <PropertyRef Name="NUEVO_REQ_ID" />
+        <PropertyRef Name="NUEVO_VER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="RolFk">
     <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
     <End Role="MANEJA" Type="Self.MANEJA" Multiplicity="*" />
@@ -376,6 +409,10 @@
     <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__CAMBIOS__1ED998B2" Association="Self.FK__CAMBIOS__1ED998B2">
       <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
+      <End Role="CAMBIOS" EntitySet="CAMBIOS" />
+    </AssociationSet>
+    <AssociationSet Name="FK__CAMBIOS__CED_REV__656C112C" Association="Self.FK__CAMBIOS__CED_REV__656C112C">
+      <End Role="USUARIOS" EntitySet="USUARIOS" />
       <End Role="CAMBIOS" EntitySet="CAMBIOS" />
     </AssociationSet>
     <AssociationSet Name="FK__CAMBIOS__CEDULA__1FCDBCEB" Association="Self.FK__CAMBIOS__CEDULA__1FCDBCEB">
@@ -429,6 +466,10 @@
     <AssociationSet Name="PermisoFK" Association="Self.PermisoFK">
       <End Role="PERMISOS" EntitySet="PERMISOS" />
       <End Role="MANEJA" EntitySet="MANEJA" />
+    </AssociationSet>
+    <AssociationSet Name="REQUERIMIENTO_NUEVO_FK" Association="Self.REQUERIMIENTO_NUEVO_FK">
+      <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
+      <End Role="CAMBIOS" EntitySet="CAMBIOS" />
     </AssociationSet>
     <AssociationSet Name="RolFk" Association="Self.RolFk">
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />

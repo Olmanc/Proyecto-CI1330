@@ -18,10 +18,9 @@ namespace ProyectoDeInge.Models
         public REQUERIMIENTOS()
         {
             this.CAMBIOS = new HashSet<CAMBIOS>();
-            this.CAMBIOS1 = new HashSet<CAMBIOS>();
             this.CRIT_ACEPTACION = new HashSet<CRIT_ACEPTACION>();
         }
-    
+
         public string ID { get; set; }
         public string NOMBRE { get; set; }
         public Nullable<int> ESFUERZO { get; set; }
@@ -38,16 +37,14 @@ namespace ProyectoDeInge.Models
         public string ENCARGADO { get; set; }
         public string PRYCTOID { get; set; }
         public int VERSION_ID { get; set; }
-        public string ESTADO_CAMBIOS { get; set; }
-        public Nullable<int> SPRINT { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CAMBIOS> CAMBIOS { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CAMBIOS> CAMBIOS1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CRIT_ACEPTACION> CRIT_ACEPTACION { get; set; }
         public virtual PROYECTO PROYECTO { get; set; }
+
+        public HashSet<string> verificaPermisos = new HashSet<string>();
         public virtual USUARIOS USUARIOS { get; set; }
         internal void crearCriterios(int c = 1)
         {
