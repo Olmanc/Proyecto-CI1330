@@ -19,10 +19,17 @@ namespace ProyectoDeInge.Models
         public Nullable<System.DateTime> FECHA { get; set; }
         public string DESCRIPCION { get; set; }
         public string JUSTIFICACION { get; set; }
-        public string REQUERIMIENTO_ID { get; set; }
-        public Nullable<int> VERSION_ID { get; set; }
+        public string VIEJO_REQ_ID { get; set; }
+        public Nullable<int> VIEJO_VER_ID { get; set; }
+        public string NUEVO_REQ_ID { get; set; }
+        public Nullable<int> NUEVO_VER_ID { get; set; }
+        public string JUST_REV { get; set; }
+        public Nullable<System.DateTime> FECHA_REV { get; set; }
+        public string CED_REV { get; set; }
     
         public virtual REQUERIMIENTOS REQUERIMIENTOS { get; set; }
         public virtual USUARIOS USUARIOS { get; set; }
+        public virtual USUARIOS USUARIOS1 { get; set; }
+        public virtual REQUERIMIENTOS REQUERIMIENTOS1 { get; set; }
     }
 }

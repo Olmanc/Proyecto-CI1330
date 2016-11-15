@@ -18,6 +18,7 @@ namespace ProyectoDeInge.Models
         public USUARIOS()
         {
             this.CAMBIOS = new HashSet<CAMBIOS>();
+            this.CAMBIOS1 = new HashSet<CAMBIOS>();
             this.CORREOS = new HashSet<CORREOS>();
             this.REQUERIMIENTOS = new HashSet<REQUERIMIENTOS>();
             this.TELEFONOS = new HashSet<TELEFONOS>();
@@ -34,6 +35,8 @@ namespace ProyectoDeInge.Models
         public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CAMBIOS> CAMBIOS { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CAMBIOS> CAMBIOS1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CORREOS> CORREOS { get; set; }
         public virtual PROYECTO PROYECTO { get; set; }
