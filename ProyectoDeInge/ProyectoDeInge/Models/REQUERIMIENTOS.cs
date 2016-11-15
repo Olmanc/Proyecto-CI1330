@@ -49,6 +49,7 @@ namespace ProyectoDeInge.Models
         public virtual ICollection<CRIT_ACEPTACION> CRIT_ACEPTACION { get; set; }
         public virtual PROYECTO PROYECTO { get; set; }
         public virtual USUARIOS USUARIOS { get; set; }
+        public HashSet<string> verificaPermisos = new HashSet<string>();
         internal void crearCriterios(int c = 1)
         {
             for (int i = 0; i < c; i++)

@@ -30,8 +30,16 @@
       <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
       <End Role="CAMBIOS" EntitySet="CAMBIOS" />
     </AssociationSet>
+    <AssociationSet Name="FK__CAMBIOS__CED_REV__656C112C" Association="Modelo.FK__CAMBIOS__CED_REV__656C112C">
+      <End Role="USUARIOS" EntitySet="USUARIOS" />
+      <End Role="CAMBIOS" EntitySet="CAMBIOS" />
+    </AssociationSet>
     <AssociationSet Name="FK__CAMBIOS__CEDULA__1FCDBCEB" Association="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB">
       <End Role="USUARIOS" EntitySet="USUARIOS" />
+      <End Role="CAMBIOS" EntitySet="CAMBIOS" />
+    </AssociationSet>
+    <AssociationSet Name="REQUERIMIENTO_NUEVO_FK" Association="Modelo.REQUERIMIENTO_NUEVO_FK">
+      <End Role="REQUERIMIENTOS" EntitySet="REQUERIMIENTOS" />
       <End Role="CAMBIOS" EntitySet="CAMBIOS" />
     </AssociationSet>
     <AssociationSet Name="FK__CORREOS__CEDULA__182C9B23" Association="Modelo.FK__CORREOS__CEDULA__182C9B23">
@@ -137,10 +145,17 @@
     <Property Name="FECHA" Type="DateTime" Precision="0" />
     <Property Name="DESCRIPCION" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
     <Property Name="JUSTIFICACION" Type="String" MaxLength="700" FixedLength="false" Unicode="false" />
-    <Property Name="REQUERIMIENTO_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
-    <Property Name="VERSION_ID" Type="Int32" />
+    <Property Name="VIEJO_REQ_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
+    <Property Name="VIEJO_VER_ID" Type="Int32" />
+    <Property Name="NUEVO_REQ_ID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
+    <Property Name="NUEVO_VER_ID" Type="Int32" />
+    <Property Name="JUST_REV" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="FECHA_REV" Type="DateTime" Precision="0" />
+    <Property Name="CED_REV" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
     <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__CAMBIOS__1ED998B2" FromRole="CAMBIOS" ToRole="REQUERIMIENTOS" />
-    <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" FromRole="CAMBIOS" ToRole="USUARIOS" />
+    <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__CAMBIOS__CED_REV__656C112C" FromRole="CAMBIOS" ToRole="USUARIOS" />
+    <NavigationProperty Name="USUARIOS1" Relationship="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" FromRole="CAMBIOS" ToRole="USUARIOS" />
+    <NavigationProperty Name="REQUERIMIENTOS1" Relationship="Modelo.REQUERIMIENTO_NUEVO_FK" FromRole="CAMBIOS" ToRole="REQUERIMIENTOS" />
   </EntityType>
   <EntityType Name="CORREOS">
     <Key>
@@ -182,9 +197,9 @@
     <Property Name="FECHAFINAL" Type="DateTime" Precision="0" />
     <Property Name="DURACION" Type="Int32" />
     <Property Name="ESTADO" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="BORRADO" Type="Boolean" />
     <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__REQUERIMI__PRYCT__1BFD2C07" FromRole="PROYECTO" ToRole="REQUERIMIENTOS" />
     <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__USUARIOS__PRYCTO__1273C1CD" FromRole="PROYECTO" ToRole="USUARIOS" />
-    <Property Name="BORRADO" Type="Boolean" />
   </EntityType>
   <EntityType Name="REQUERIMIENTOS">
     <Key>
@@ -205,7 +220,10 @@
     <Property Name="ENCARGADO" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
     <Property Name="PRYCTOID" Type="String" MaxLength="7" FixedLength="true" Unicode="false" />
     <Property Name="VERSION_ID" Type="Int32" Nullable="false" />
+    <Property Name="ESTADO_CAMBIOS" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="SPRINT" Type="Int32" />
     <NavigationProperty Name="CAMBIOS" Relationship="Modelo.FK__CAMBIOS__1ED998B2" FromRole="REQUERIMIENTOS" ToRole="CAMBIOS" />
+    <NavigationProperty Name="CAMBIOS1" Relationship="Modelo.REQUERIMIENTO_NUEVO_FK" FromRole="REQUERIMIENTOS" ToRole="CAMBIOS" />
     <NavigationProperty Name="CRIT_ACEPTACION" Relationship="Modelo.FK__CRIT_ACEPTACION__22AA2996" FromRole="REQUERIMIENTOS" ToRole="CRIT_ACEPTACION" />
     <NavigationProperty Name="PROYECTO" Relationship="Modelo.FK__REQUERIMI__PRYCT__1BFD2C07" FromRole="REQUERIMIENTOS" ToRole="PROYECTO" />
     <NavigationProperty Name="USUARIOS" Relationship="Modelo.FK__REQUERIMI__ENCAR__1B0907CE" FromRole="REQUERIMIENTOS" ToRole="USUARIOS" />
@@ -231,7 +249,8 @@
     <Property Name="ID_ASP" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
     <Property Name="LIDER" Type="Boolean" />
     <NavigationProperty Name="AspNetUsers" Relationship="Modelo.ID_ASP_Users" FromRole="USUARIOS" ToRole="AspNetUsers" />
-    <NavigationProperty Name="CAMBIOS" Relationship="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" FromRole="USUARIOS" ToRole="CAMBIOS" />
+    <NavigationProperty Name="CAMBIOS" Relationship="Modelo.FK__CAMBIOS__CED_REV__656C112C" FromRole="USUARIOS" ToRole="CAMBIOS" />
+    <NavigationProperty Name="CAMBIOS1" Relationship="Modelo.FK__CAMBIOS__CEDULA__1FCDBCEB" FromRole="USUARIOS" ToRole="CAMBIOS" />
     <NavigationProperty Name="CORREOS" Relationship="Modelo.FK__CORREOS__CEDULA__182C9B23" FromRole="USUARIOS" ToRole="CORREOS" />
     <NavigationProperty Name="PROYECTO" Relationship="Modelo.FK__USUARIOS__PRYCTO__1273C1CD" FromRole="USUARIOS" ToRole="PROYECTO" />
     <NavigationProperty Name="REQUERIMIENTOS" Relationship="Modelo.FK__REQUERIMI__ENCAR__1B0907CE" FromRole="USUARIOS" ToRole="REQUERIMIENTOS" />
@@ -286,8 +305,20 @@
         <PropertyRef Name="VERSION_ID" />
       </Principal>
       <Dependent Role="CAMBIOS">
-        <PropertyRef Name="REQUERIMIENTO_ID" />
-        <PropertyRef Name="VERSION_ID" />
+        <PropertyRef Name="VIEJO_REQ_ID" />
+        <PropertyRef Name="VIEJO_VER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__CAMBIOS__CED_REV__656C112C">
+    <End Type="Modelo.USUARIOS" Role="USUARIOS" Multiplicity="0..1" />
+    <End Type="Modelo.CAMBIOS" Role="CAMBIOS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USUARIOS">
+        <PropertyRef Name="CEDULA" />
+      </Principal>
+      <Dependent Role="CAMBIOS">
+        <PropertyRef Name="CED_REV" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -302,6 +333,20 @@
       </Principal>
       <Dependent Role="CAMBIOS">
         <PropertyRef Name="CEDULA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="REQUERIMIENTO_NUEVO_FK">
+    <End Type="Modelo.REQUERIMIENTOS" Role="REQUERIMIENTOS" Multiplicity="0..1" />
+    <End Type="Modelo.CAMBIOS" Role="CAMBIOS" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="REQUERIMIENTOS">
+        <PropertyRef Name="ID" />
+        <PropertyRef Name="VERSION_ID" />
+      </Principal>
+      <Dependent Role="CAMBIOS">
+        <PropertyRef Name="NUEVO_REQ_ID" />
+        <PropertyRef Name="NUEVO_VER_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

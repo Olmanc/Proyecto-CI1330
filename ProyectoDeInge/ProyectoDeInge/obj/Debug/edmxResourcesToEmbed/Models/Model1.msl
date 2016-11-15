@@ -59,8 +59,13 @@
     <EntitySetMapping Name="CAMBIOS">
       <EntityTypeMapping TypeName="Modelo.CAMBIOS">
         <MappingFragment StoreEntitySet="CAMBIOS">
-          <ScalarProperty Name="VERSION_ID" ColumnName="VERSION_ID" />
-          <ScalarProperty Name="REQUERIMIENTO_ID" ColumnName="REQUERIMIENTO_ID" />
+          <ScalarProperty Name="CED_REV" ColumnName="CED_REV" />
+          <ScalarProperty Name="FECHA_REV" ColumnName="FECHA_REV" />
+          <ScalarProperty Name="JUST_REV" ColumnName="JUST_REV" />
+          <ScalarProperty Name="NUEVO_VER_ID" ColumnName="NUEVO_VER_ID" />
+          <ScalarProperty Name="NUEVO_REQ_ID" ColumnName="NUEVO_REQ_ID" />
+          <ScalarProperty Name="VIEJO_VER_ID" ColumnName="VIEJO_VER_ID" />
+          <ScalarProperty Name="VIEJO_REQ_ID" ColumnName="VIEJO_REQ_ID" />
           <ScalarProperty Name="JUSTIFICACION" ColumnName="JUSTIFICACION" />
           <ScalarProperty Name="DESCRIPCION" ColumnName="DESCRIPCION" />
           <ScalarProperty Name="FECHA" ColumnName="FECHA" />
@@ -114,6 +119,8 @@
     <EntitySetMapping Name="REQUERIMIENTOS">
       <EntityTypeMapping TypeName="Modelo.REQUERIMIENTOS">
         <MappingFragment StoreEntitySet="REQUERIMIENTOS">
+          <ScalarProperty Name="SPRINT" ColumnName="SPRINT" />
+          <ScalarProperty Name="ESTADO_CAMBIOS" ColumnName="ESTADO_CAMBIOS" />
           <ScalarProperty Name="VERSION_ID" ColumnName="VERSION_ID" />
           <ScalarProperty Name="PRYCTOID" ColumnName="PRYCTOID" />
           <ScalarProperty Name="ENCARGADO" ColumnName="ENCARGADO" />
