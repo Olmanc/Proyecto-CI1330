@@ -46,7 +46,6 @@ namespace ProyectoDeInge.Models
 
         public HashSet<string> verificaPermisos = new HashSet<string>();
         public virtual USUARIOS USUARIOS { get; set; }
-        public HashSet<string> verificaPermisos = new HashSet<string>();
         internal void crearCriterios(int c = 1)
         {
             for (int i = 0; i < c; i++)

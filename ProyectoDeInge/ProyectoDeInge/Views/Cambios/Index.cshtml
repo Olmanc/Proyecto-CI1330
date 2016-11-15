@@ -1,0 +1,82 @@
+﻿@model IEnumerable<ProyectoDeInge.Models.CAMBIOS>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FECHA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DESCRIPCION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JUSTIFICACION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JUST_REV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FECHA_REV)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.REQUERIMIENTOS.NOMBRE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.USUARIOS.NOMBRE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.USUARIOS1.NOMBRE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.REQUERIMIENTOS1.NOMBRE)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FECHA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DESCRIPCION)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JUSTIFICACION)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JUST_REV)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FECHA_REV)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.REQUERIMIENTOS.NOMBRE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.USUARIOS.NOMBRE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.USUARIOS1.NOMBRE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.REQUERIMIENTOS1.NOMBRE)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
