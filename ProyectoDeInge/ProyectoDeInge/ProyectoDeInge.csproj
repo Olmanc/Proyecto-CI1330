@@ -198,6 +198,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CambiosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProyectosController.cs" />
@@ -376,6 +377,11 @@
     <Content Include="Views\Requerimientos\Unificado2.cshtml" />
     <Content Include="Views\Requerimientos\EditorTemplates\CRIT_ACEPTACION.cshtml" />
     <Content Include="Views\Proyectos\Unificado.cshtml" />
+    <Content Include="Views\Cambios\Create.cshtml" />
+    <Content Include="Views\Cambios\Delete.cshtml" />
+    <Content Include="Views\Cambios\Details.cshtml" />
+    <Content Include="Views\Cambios\Edit.cshtml" />
+    <Content Include="Views\Cambios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
