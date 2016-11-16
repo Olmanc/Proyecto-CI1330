@@ -381,7 +381,7 @@
     <Content Include="Views\Cambios\Create.cshtml" />
     <Content Include="Views\Cambios\Delete.cshtml" />
     <Content Include="Views\Cambios\Details.cshtml" />
-    <Content Include="Views\Cambios\Edit.cshtml" />
+    <Content Include="Views\Cambios\Unificado.cshtml" />
     <Content Include="Views\Cambios\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
