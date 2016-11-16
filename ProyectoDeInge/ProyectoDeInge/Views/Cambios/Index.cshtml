@@ -13,31 +13,22 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FECHA)
+            Requerimiento
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DESCRIPCION)
+            Fecha de solicitud
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.JUSTIFICACION)
+            Solicitante
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.JUST_REV)
+            Encargado de revisión
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FECHA_REV)
+            Versión
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.REQUERIMIENTOS.NOMBRE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USUARIOS.NOMBRE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USUARIOS1.NOMBRE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.REQUERIMIENTOS1.NOMBRE)
+            Estado
         </th>
         <th></th>
     </tr>
@@ -46,9 +37,6 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.FECHA)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DESCRIPCION)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.JUSTIFICACION)
@@ -63,13 +51,13 @@
             @Html.DisplayFor(modelItem => item.REQUERIMIENTOS.NOMBRE)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.REQUERIMIENTOS1.NOMBRE)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.USUARIOS.NOMBRE)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.USUARIOS1.NOMBRE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.REQUERIMIENTOS1.NOMBRE)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
