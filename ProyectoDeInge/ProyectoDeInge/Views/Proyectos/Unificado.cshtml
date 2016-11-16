@@ -10,7 +10,7 @@
 <div class="modos">@*botones de los modos*@
     <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("08") ? "disabled":null)" onclick="habilitaModificar()">Modificar</a>
     <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("09") ? "disabled":null)" onclick="confirmarEliminar('@(Model.modeloProyecto.ID)')">Eliminar</a>
-    <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("11") ? "disabled":null)" onclick="window.location = '@Url.Action("Index","Requerimientos")';">Consultar Requerimientos</a>
+    <a class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("11") ? "disabled":null)" onclick="window.location = '@Url.Action("Index","Requerimientos", new { pro= Model.modeloProyecto.ID})';">Consultar Requerimientos</a>
 </div>
 
 <div class="modificarProyecto">    

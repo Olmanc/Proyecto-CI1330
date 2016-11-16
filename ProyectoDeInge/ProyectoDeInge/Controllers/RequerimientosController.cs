@@ -18,8 +18,9 @@ namespace ProyectoDeInge.Controllers
         public ActionResult Index(string pro)
         {
             ViewBag.pro = new SelectList(db.PROYECTO, "ID", "NOMBRE");
-            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Include(r => r.PROYECTO).Include(r => r.USUARIOS);
-            rEQUERIMIENTOS = rEQUERIMIENTOS.Where(s => s.PRYCTOID.Contains(pro));
+            if (pro == "") pro = null;
+            ViewBag.pid = pro;
+            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Where(s => s.PRYCTOID.Contains(pro));
             List<string> verificaPermisos = new List<string>();
 
             var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
@@ -61,13 +62,13 @@ namespace ProyectoDeInge.Controllers
         }
 
         // GET: Requerimientos/Create
-        public ActionResult Create()
+        public ActionResult Create(String pro)
         {
-            ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE");
-            ViewBag.ENCARGADO = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
             var reque = new REQUERIMIENTOS();
+            reque.PRYCTOID = pro;
+            ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", pro);
+            ViewBag.ENCARGADO = new SelectList(db.USUARIOS.Where(s => s.PRYCTOID.Contains(pro)), "CEDULA", "NOMBRE");
             reque.crearCriterios(0);
-
             return View(reque);
         }
 

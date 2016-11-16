@@ -9,9 +9,9 @@
 
 <p>
     @{
-        if (ViewBag.Permisos.Contains("10"))
+        if (ViewBag.Permisos.Contains("10") && ViewData["pid"] != null)
         {
-            @Html.ActionLink("Agregar requerimiento", "Create")
+            @Html.ActionLink("Agregar requerimiento", "Create", new { pro = ViewData["pid"] })
         }/*else{ }*/
     }
     
@@ -20,7 +20,7 @@
 @using (Html.BeginForm())
 {
     <p>
-        @Html.DropDownList("pro", null, htmlAttributes: new { @class = "form-control", onchange = "this.form.submit()"})
+        @Html.DropDownList("pro", null, "Seleccione un proyecto" , htmlAttributes: new { @class = "form-control", onchange = "this.form.submit()"})
     </p>
 }
 <table class="table">
