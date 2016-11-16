@@ -1,82 +1,79 @@
 ﻿@model IEnumerable<ProyectoDeInge.Models.CAMBIOS>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Versiones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Versiones</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+*@
+@*@using (Html.BeginForm())
+    {
+        <p>
+            @Html.DropDownList("pro", null, htmlAttributes: new { @class = "form-control", onchange = "this.form.submit()" })
+        </p>
+    }*@
+
 <table class="table">
+
     <tr>
+
         <th>
-            @Html.DisplayNameFor(model => model.FECHA)
+            ID de Cambio
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.DESCRIPCION)
+            ID de Requerimiento
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.JUSTIFICACION)
+            Versión
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.JUST_REV)
+            Fecha
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FECHA_REV)
+            Descripción
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.REQUERIMIENTOS.NOMBRE)
+            Justificación
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.USUARIOS.NOMBRE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.USUARIOS1.NOMBRE)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.REQUERIMIENTOS1.NOMBRE)
+            Cédula
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FECHA)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DESCRIPCION)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JUSTIFICACION)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.JUST_REV)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FECHA_REV)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.REQUERIMIENTOS.NOMBRE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.USUARIOS.NOMBRE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.USUARIOS1.NOMBRE)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.REQUERIMIENTOS1.NOMBRE)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NUEVO_REQ_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NUEVO_VER_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FECHA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DESCRIPCION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JUSTIFICACION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CEDULA)
+            </td>
+            <td>
+                | @Html.ActionLink("Consultar", "ConsultarVers", new { id = item.ID }) |
+                @Html.ActionLink("Solicitar Cambio", "Unificado", new { id = item.ID }) |
+            </td>
+        </tr>
+    }
 </table>

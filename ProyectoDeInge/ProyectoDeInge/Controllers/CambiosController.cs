@@ -21,8 +21,15 @@ namespace ProyectoDeInge.Controllers
             return View(cAMBIOS.ToList());
         }
 
+        public ActionResult Versiones()
+        {
+            var cAMBIOS = db.CAMBIOS.Include(c => c.REQUERIMIENTOS).Include(c => c.USUARIOS).Include(c => c.USUARIOS1).Include(c => c.REQUERIMIENTOS1);
+            return View(cAMBIOS.ToList());
+        }
+
+
         // GET: Cambios/Details/5
-        public ActionResult Details(string id)
+        public ActionResult ConsultarVers(string id)
         {
             if (id == null)
             {

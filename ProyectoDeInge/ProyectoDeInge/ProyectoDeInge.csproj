@@ -192,11 +192,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
-    <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Data\App_Start\BundleConfig.cs" />
+    <Compile Include="App_Data\App_Start\FilterConfig.cs" />
+    <Compile Include="App_Data\App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Data\App_Start\RouteConfig.cs" />
+    <Compile Include="App_Data\App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CambiosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -379,13 +379,11 @@
     <Content Include="Views\Proyectos\Unificado.cshtml" />
     <Content Include="Views\Cambios\Create.cshtml" />
     <Content Include="Views\Cambios\Delete.cshtml" />
-    <Content Include="Views\Cambios\Details.cshtml" />
+    <Content Include="Views\Cambios\ConsultarVers.cshtml" />
     <Content Include="Views\Cambios\Edit.cshtml" />
     <Content Include="Views\Cambios\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
