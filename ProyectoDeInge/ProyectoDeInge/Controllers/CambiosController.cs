@@ -17,8 +17,10 @@ namespace ProyectoDeInge.Controllers
         // GET: Cambios
         public ActionResult Index()
         {
+            CambiosViewModel modelo = new CambiosViewModel();
+            modelo.listaCambios = db.CAMBIOS.ToList();
             var cAMBIOS = db.CAMBIOS.Include(c => c.REQUERIMIENTOS).Include(c => c.USUARIOS).Include(c => c.USUARIOS1).Include(c => c.REQUERIMIENTOS1);
-            return View(cAMBIOS.ToList());
+            return View(/*cAMBIOS.ToList()*/modelo);
         }
 
         public ActionResult Versiones()

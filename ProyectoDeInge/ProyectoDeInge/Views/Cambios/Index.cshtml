@@ -1,79 +1,69 @@
-﻿@model IEnumerable<ProyectoDeInge.Models.CAMBIOS>
+﻿@model ProyectoDeInge.Models.CambiosViewModel
 
 @{
-    ViewBag.Title = "Versiones";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Versiones</h2>
+<h2>Index</h2>
 
-@*<p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-*@
-@*@using (Html.BeginForm())
-    {
-        <p>
-            @Html.DropDownList("pro", null, htmlAttributes: new { @class = "form-control", onchange = "this.form.submit()" })
-        </p>
-    }*@
-
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
-
     <tr>
-
         <th>
-            ID de Cambio
+            ID
         </th>
         <th>
-            ID de Requerimiento
+            Requerimiento
+        </th>
+        <th>
+            Fecha solicitud
+        </th>
+        <th>
+            Solicitante
+        </th>
+        <th>
+            Encargado revisión
         </th>
         <th>
             Versión
         </th>
         <th>
-            Fecha
-        </th>
-        <th>
-            Descripción
-        </th>
-        <th>
-            Justificación
-        </th>
-        <th>
-            Cédula
+            Estado
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NUEVO_REQ_ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NUEVO_VER_ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FECHA)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DESCRIPCION)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.JUSTIFICACION)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CEDULA)
-            </td>
-            <td>
-                | @Html.ActionLink("Consultar", "ConsultarVers", new { id = item.ID }) |
-                @Html.ActionLink("Solicitar Cambio", "Unificado", new { id = item.ID }) |
-            </td>
-        </tr>
-    }
+@foreach (var item in Model.listaCambios)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.REQUERIMIENTOS.NOMBRE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FECHA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.USUARIOS.NOMBRE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.USUARIOS1.NOMBRE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NUEVO_VER_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.REQUERIMIENTOS.ESTADO)
+        </td>
+        <td>
+            @Html.ActionLink("Consultar", "Unificado", new { id=item.ID }) 
+        </td>
+    </tr>
+}
+
 </table>
