@@ -1,0 +1,239 @@
+﻿@model ProyectoDeInge.Models.CAMBIOS
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Consultar Versión</h2>
+
+<div>
+    <h4>Versión @Html.DisplayFor(model => model.NUEVO_VER_ID)</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Autor")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USUARIOS1.NOMBRE)
+            @Html.DisplayFor(model => model.USUARIOS1.APELLIDO1)
+            @Html.DisplayFor(model => model.USUARIOS1.APELLIDO2)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Descripcion:")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DESCRIPCION)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Fecha:")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FECHA)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Justificación:")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JUSTIFICACION)
+        </dd>
+    </dl>
+    <hr />
+            <h4>Versión Actual del Requerimiento</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayName("Nombre")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS1.NOMBRE)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Descripción:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS1.DESCRIPCION)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Prioridad")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS1.PRIORIDAD)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Esfuerzo")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS1.ESFUERZO)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Fecha Inicio:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS1.FECHAINCIO)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Fecha Final:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS1.FECHAFINAL)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Imagen:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS1.IMAGEN)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Observaciones:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS1.OBSERVACIONES)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Encargado:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS1.ENCARGADO)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Sprint:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS1.SPRINT)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Criterios:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS1.CRIT_ACEPTACION)
+                </dd>
+
+            </dl>
+
+            <hr />
+            <h4>Versión Anterior del Requerimiento</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayName("Nombre")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS.NOMBRE)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Descripción:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS.DESCRIPCION)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Prioridad")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS.PRIORIDAD)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Esfuerzo")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS.ESFUERZO)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Fecha Inicio:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS.FECHAINCIO)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Fecha Final:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS.FECHAFINAL)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Imagen:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS.IMAGEN)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Observaciones:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS.OBSERVACIONES)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Encargado:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS.ENCARGADO)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Sprint:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS.SPRINT)
+                </dd>
+
+                <dt>
+                    @Html.DisplayName("Criterios:")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.REQUERIMIENTOS.CRIT_ACEPTACION)
+                </dd>
+            </dl>
+</div>
+<p>
+    @*Html.ActionLink("Edit", "Edit", new { id = Model.ID })*@ 
+    @Html.ActionLink("Volver", "Index")
+</p>

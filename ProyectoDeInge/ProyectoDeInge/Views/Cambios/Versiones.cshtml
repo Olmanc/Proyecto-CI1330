@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ProyectoDeInge.Models.CAMBIOS>
+
+@{
+    ViewBag.Title = "Versiones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Versiones</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@*@using (Html.BeginForm())
+    {
+        <p>
+            @Html.DropDownList("pro", null, htmlAttributes: new { @class = "form-control", onchange = "this.form.submit()" })
+        </p>
+    }*@
+
+<table class="table">
+
+    <tr>
+
+        <th>
+            ID de Cambio
+        </th>
+        <th>
+            ID de Requerimiento
+        </th>
+        <th>
+            Versión
+        </th>
+        <th>
+            Fecha
+        </th>
+        <th>
+            Descripción
+        </th>
+        <th>
+            Justificación
+        </th>
+        <th>
+            Cédula
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NUEVO_REQ_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NUEVO_VER_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FECHA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DESCRIPCION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JUSTIFICACION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CEDULA)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+</table>
