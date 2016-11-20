@@ -1,0 +1,64 @@
+﻿@model ProyectoDeInge.Models.CambiosViewModel
+
+@{
+    ViewBag.Title = "IndexSolicitudes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index Solicitudes de Cambios</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Solicitante
+        </th>
+        <th>
+            Fecha en que se realizó
+        </th>
+        <th>
+            Requerimiento
+        </th>
+        <th>
+            Descripción
+        </th>
+        <th>
+            Fecha revisión
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.listaCambios)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CEDULA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FECHA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VIEJO_REQ_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DESCRIPCION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FECHA_REV)
+            </td>
+            <td>
+                @*@{if (Model.verificaPermisos.Contains("15"))
+                    {
+                        @Html.ActionLink("Consultar", "DetallesSolicitud", new { id = item.ID })
+                    }
+                }*@
+                @Html.ActionLink("Consultar", "DetallesSolicitud", new { id = item.ID } )
+            </td>
+        </tr>
+    }
+</table>

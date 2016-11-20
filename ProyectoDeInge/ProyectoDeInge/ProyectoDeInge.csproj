@@ -224,6 +224,7 @@
     <Compile Include="Models\CAMBIOS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CambiosViewModel.cs" />
     <Compile Include="Models\CORREOS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -382,6 +383,10 @@
     <Content Include="Views\Cambios\ConsultarVers.cshtml" />
     <Content Include="Views\Cambios\Edit.cshtml" />
     <Content Include="Views\Cambios\Index.cshtml" />
+    <Content Include="Views\Cambios\Unificado.cshtml" />
+    <Content Include="Views\Cambios\Versiones.cshtml" />
+    <Content Include="Views\Cambios\IndexSolicitudes.cshtml" />
+    <Content Include="Views\Cambios\DetallesSolicitud.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -36,7 +36,15 @@
                         </li>
                         <li>@Html.ActionLink("Proyectos", "Index", "Proyectos")</li>
                         <li>@Html.ActionLink("Requerimientos", "Index", "Requerimientos")</li>
-                        <li>@Html.ActionLink("Cambios", "Index", "Cambios")</li>
+                        @*<li>@Html.ActionLink("Cambios", "Index", "Cambios")</li>
+                        *Como la profe pidió que aparezca la opción de versiones y para ir a las solicitudes *@
+                        <li>
+                            <a href="#">Cambios</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Consultar Versiones de Requerimiento", "Versiones", "Cambios")</li>
+                                <li>@Html.ActionLink("Consultar Solicitudes de Cambios", "IndexSolicitudes", "Cambios")</li>
+                            </ul>
+                        </li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

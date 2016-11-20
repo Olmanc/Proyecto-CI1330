@@ -1,0 +1,334 @@
+﻿@model ProyectoDeInge.Models.CambiosViewModel
+
+@{
+    ViewBag.Title = "DetallesSolicitud";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalles de la Solicitud de Cambio</h2>
+
+<div>
+    <h4>Solicitud de Cambio @Html.DisplayFor(model => model.solicitud.ID)</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Autor: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.solicitud.CEDULA)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Descripcion:")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.solicitud.DESCRIPCION)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Fecha:")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.solicitud.FECHA)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Justificación:")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.solicitud.JUSTIFICACION)
+        </dd>
+    </dl>
+</div>
+
+<hr />
+<h4>Comparación de Datos</h4>
+@*Tabla de REQ Propuesto REQ Actual*@
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            <div style="solid #fbb; text-align: center;">
+                Requerimiento Propuesto
+            </div>
+</th>
+        <th>
+            <div style="solid #fbb; text-align: center;">
+                Requerimiento Actual
+            </div>
+        </th>
+    </tr>
+    @*ID de los requerimientos*@
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            <div class="col-md-10">
+                    @Html.EditorFor(model => model.propuesto.ID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.propuesto.ID, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.ID)
+        </th>
+    </tr>
+    @*Nombre de los requerimientos*@
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.NOMBRE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.NOMBRE, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.NOMBRE)
+        </th>
+    </tr>
+    @*Esfuerzo de los requerimientos*@
+    <tr>
+        <th>
+            Esfuerzo
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.ESFUERZO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.ESFUERZO, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.ESFUERZO)
+        </th>
+    </tr>
+    @*Descripción de los requerimientos*@
+    <tr>
+        <th>
+            Descripción
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.DESCRIPCION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.DESCRIPCION, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.DESCRIPCION)
+        </th>
+    </tr>
+    @*Prioridad de los requerimientos*@
+    <tr>
+        <th>
+            Prioridad
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.PRIORIDAD, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.PRIORIDAD, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.PRIORIDAD)
+        </th>
+    </tr>
+    @*Observaciones de los requerimientos*@
+    <tr>
+        <th>
+            Observaciones
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.OBSERVACIONES, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.OBSERVACIONES, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.OBSERVACIONES)
+        </th>
+    </tr>
+    @*Módulo de los requerimientos*@
+    <tr>
+        <th>
+            Módulo
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.MODULO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.MODULO, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.MODULO)
+        </th>
+    </tr>
+    @*Fecha inicio de los requerimientos*@
+    <tr>
+        <th>
+            Fecha de inicio
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.FECHAINCIO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.FECHAINCIO, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.FECHAINCIO)
+        </th>
+    </tr>
+    @*Fecha finalización de los requerimientos*@
+    <tr>
+        <th>
+            Fecha finalización
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.FECHAFINAL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.FECHAFINAL, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.FECHAFINAL)
+        </th>
+    </tr>
+    @*Encargado de los requerimientos*@
+    <tr>
+        <th>
+            Encargado
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.ENCARGADO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.ENCARGADO, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.ENCARGADO)
+        </th>
+    </tr>
+    @*Proyecto al que pertenecen los requerimientos*@
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.PRYCTOID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.PRYCTOID, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.PRYCTOID)
+        </th>
+    </tr>
+    @*version de los requerimientos*@
+    <tr>
+        <th>
+            Versión
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.VERSION_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.VERSION_ID, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.VERSION_ID)
+        </th>
+    </tr>
+    @*Estado de los requerimientos*@
+    <tr>
+        <th>
+            Estado
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.ESTADO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.ESTADO, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.ESTADO)
+        </th>
+    </tr>
+    @*Sprint de los requerimientos*@
+    <tr>
+        <th>
+            Sprint
+        </th>
+        <th>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.SPRINT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.propuesto.SPRINT, "", new { @class = "text-danger" })
+            </div>
+        </th>
+        <th>
+            @Html.DisplayFor(model => model.vigente.SPRINT)
+        </th>
+    </tr>
+</table>
+
+<hr />
+<h4>Datos de la Revisión</h4>
+<hr />
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayName("Estado de Revisión: ")
+    </dt>
+
+    <dd>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.propuesto.ESTADO_CAMBIOS, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.propuesto.ESTADO_CAMBIOS, "", new { @class = "text-danger" })
+        </div>
+    </dd>
+    <dd></dd>
+    <dt>
+        @Html.DisplayName("Realizada por: ")
+    </dt>
+
+    <dd>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.solicitud.CED_REV, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.solicitud.CED_REV, "", new { @class = "text-danger" })
+        </div>
+    </dd>
+
+    <dt>
+        @Html.DisplayName("Fecha en que se realizó: ")
+    </dt>
+
+    <dd>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.solicitud.FECHA_REV, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.solicitud.FECHA_REV, "", new { @class = "text-danger" })
+        </div>
+    </dd>
+
+    <dt>
+        @Html.DisplayName("Justificación: ")
+    </dt>
+
+    <dd>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.solicitud.JUST_REV, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.solicitud.JUST_REV, "", new { @class = "text-danger" })
+        </div>
+    </dd>
+</dl>
+<p>
+    @*Html.ActionLink("Edit", "Edit", new { id = Model.ID })*@
+    @Html.ActionLink("Volver", "Index")
+</p>
+</div>
+
+    
+

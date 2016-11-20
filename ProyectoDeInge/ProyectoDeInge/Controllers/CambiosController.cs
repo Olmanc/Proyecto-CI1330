@@ -149,5 +149,35 @@ namespace ProyectoDeInge.Controllers
             }
             base.Dispose(disposing);
         }
+
+        /*/////////////////////////////////////////////////////////////////////////////////////////////////////////
+         INDEX de las SOLICITUDES*/
+        public ActionResult IndexSolicitudes()
+        {
+            CambiosViewModel modelo = new CambiosViewModel();
+            modelo.listaCambios = db.CAMBIOS.ToList();
+            //var cAMBIOS = db.CAMBIOS.Include(c => c.REQUERIMIENTOS).Include(c => c.USUARIOS).Include(c => c.USUARIOS1).Include(c => c.REQUERIMIENTOS1);
+            return View(/*cAMBIOS.ToList()*/modelo);
+        }
+
+        /*////////////////////////////////////////////////////////////////////////////////////////////////////////////
+         Detalles de una solicitud*/
+        public ActionResult DetallesSolicitud(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CambiosViewModel modelo = new CambiosViewModel();
+            modelo.solicitud = db.CAMBIOS.Find(id);
+            //CAMBIOS solicitud = db.CAMBIOS.Find(id);
+            if (modelo.solicitud == null)
+            {
+                return HttpNotFound();
+            }
+            modelo.propuesto = db.REQUERIMIENTOS.Find(modelo.solicitud.NUEVO_REQ_ID,modelo.solicitud.NUEVO_VER_ID);
+            modelo.vigente = db.REQUERIMIENTOS.Find(modelo.solicitud.VIEJO_REQ_ID,modelo.solicitud.VIEJO_VER_ID);
+            return View(modelo);
+        }
     }
 }

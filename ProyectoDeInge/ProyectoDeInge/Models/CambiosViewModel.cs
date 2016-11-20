@@ -16,5 +16,10 @@ namespace ProyectoDeInge.Models
 
         public List<CAMBIOS> listaCambios = new List<CAMBIOS>();
         //public List<USUARIOS> listaUsuarios = new List<USUARIOS>();
+
+        //PARA SOLICITUD DE CAMBIOS se necesita
+        public CAMBIOS solicitud { get; set; }
+        public REQUERIMIENTOS propuesto { get; set; }   // Nuevo requerimiento propuesto
+        public REQUERIMIENTOS vigente { get; set; }     // Requerimiento actual (ultimo version aprobada)
     }
 }
