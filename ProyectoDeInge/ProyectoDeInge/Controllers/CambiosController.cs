@@ -170,13 +170,13 @@ namespace ProyectoDeInge.Controllers
             }
             CambiosViewModel modelo = new CambiosViewModel();
             modelo.solicitud = db.CAMBIOS.Find(id);
-            //CAMBIOS solicitud = db.CAMBIOS.Find(id);
             if (modelo.solicitud == null)
             {
                 return HttpNotFound();
             }
             modelo.propuesto = db.REQUERIMIENTOS.Find(modelo.solicitud.NUEVO_REQ_ID,modelo.solicitud.NUEVO_VER_ID);
             modelo.vigente = db.REQUERIMIENTOS.Find(modelo.solicitud.VIEJO_REQ_ID,modelo.solicitud.VIEJO_VER_ID);
+            modelo.solicitante = db.USUARIOS.Find(modelo.solicitud.CEDULA);
             return View(modelo);
         }
     }
