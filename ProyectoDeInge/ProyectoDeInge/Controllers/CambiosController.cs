@@ -49,10 +49,15 @@ namespace ProyectoDeInge.Controllers
         public ActionResult Create(string id, int version)
         {
             var cambio = new CAMBIOS();
+            int v = db.REQUERIMIENTOS.Where(s => s.ID.Contains(id)).Select(s => s.VERSION_ID).Max() + 1;
             REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id, version);
-            cambio.REQUERIMIENTOS = db.REQUERIMIENTOS.Find(id, version);
-            rEQUERIMIENTOS.VERSION_ID = rEQUERIMIENTOS.VERSION_ID + 1;
+            rEQUERIMIENTOS.VERSION_ID = v;
+            rEQUERIMIENTOS.ESTADO_CAMBIOS = "Pendiente";
             cambio.REQUERIMIENTOS1 = rEQUERIMIENTOS;
+            cambio.VIEJO_REQ_ID = id;
+            cambio.VIEJO_VER_ID = version;
+            cambio.NUEVO_REQ_ID = id;
+            cambio.NUEVO_VER_ID = v;
             ViewBag.VIEJO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE");
             ViewBag.CED_REV = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
             ViewBag.CEDULA = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
@@ -65,19 +70,15 @@ namespace ProyectoDeInge.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,CEDULA,FECHA,DESCRIPCION,JUSTIFICACION,VIEJO_REQ_ID,VIEJO_VER_ID,NUEVO_REQ_ID,NUEVO_VER_ID,JUST_REV,FECHA_REV,CED_REV")] CAMBIOS cAMBIOS)
+        public ActionResult Create(/*[Bind(Include = "ID,CEDULA,FECHA,DESCRIPCION,JUSTIFICACION,VIEJO_REQ_ID,VIEJO_VER_ID,NUEVO_REQ_ID,NUEVO_VER_ID,JUST_REV,FECHA_REV,CED_REV,REQUERIMIENTOS1")] */CAMBIOS cAMBIOS)
         {
             if (ModelState.IsValid)
             {
                 db.CAMBIOS.Add(cAMBIOS);
+                db.REQUERIMIENTOS.Add(cAMBIOS.REQUERIMIENTOS1);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.VIEJO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE", cAMBIOS.VIEJO_REQ_ID);
-            ViewBag.CED_REV = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", cAMBIOS.CED_REV);
-            ViewBag.CEDULA = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", cAMBIOS.CEDULA);
-            ViewBag.NUEVO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE", cAMBIOS.NUEVO_REQ_ID);
             return View(cAMBIOS);
         }
 
