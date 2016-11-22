@@ -1,15 +1,11 @@
-﻿@model IEnumerable<ProyectoDeInge.Models.CAMBIOS>
+@model IEnumerable<ProyectoDeInge.Models.CAMBIOS>
 
 @{
     ViewBag.Title = "Versiones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Versiones</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>Historial de Versiones</h2>
 
 @*@using (Html.BeginForm())
     {
@@ -71,9 +67,7 @@
                 @Html.DisplayFor(modelItem => item.CEDULA)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                @Html.ActionLink("Consultar", "ConsultarVers", new { id = item.ID })
             </td>
         </tr>
     }
