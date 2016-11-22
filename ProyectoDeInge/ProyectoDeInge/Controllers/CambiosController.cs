@@ -28,7 +28,7 @@ namespace ProyectoDeInge.Controllers
             ViewBag.pro = new SelectList(db.PROYECTO, "ID", "NOMBRE");
             if (pro == "") pro = null;
             ViewBag.pid = pro;
-            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Where(s => s.PRYCTOID.Contains(pro));
+            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Where(s => s.PRYCTOID.Contains(pro) && s.ESTADO_CAMBIOS.Contains("Aprobado"));
             List<string> verificaPermisos = new List<string>();
 
             var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
