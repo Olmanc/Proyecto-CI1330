@@ -21,5 +21,6 @@ namespace ProyectoDeInge.Models
         public CAMBIOS solicitud { get; set; }
         public REQUERIMIENTOS propuesto { get; set; }   // Nuevo requerimiento propuesto
         public REQUERIMIENTOS vigente { get; set; }     // Requerimiento actual (ultimo version aprobada)
+        public USUARIOS solicitante { get; set; }   // Persona que realizó la solicitud
     }
 }

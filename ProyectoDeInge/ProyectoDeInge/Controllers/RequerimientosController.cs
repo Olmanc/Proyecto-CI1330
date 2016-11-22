@@ -81,7 +81,7 @@ namespace ProyectoDeInge.Controllers
          * MOD: La base de datos (Crea un nuevo requerimiento con los valores insertados como atributos) */
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,NOMBRE,ESFUERZO,IMAGEN,DESCRIPCION,PRIORIDAD,OBSERVACIONES,MODULO,FECHAINCIO,FECHAFINAL,ESTADO,ENCARGADO,PRYCTOID,VERSION_ID,CRIT_ACEPTACION")] REQUERIMIENTOS rEQUERIMIENTOS)
+          public ActionResult Create([Bind(Include = "ID,NOMBRE,ESFUERZO,IMAGEN,DESCRIPCION,PRIORIDAD,OBSERVACIONES,MODULO,FECHAINCIO,FECHAFINAL,ESTADO,ENCARGADO,PRYCTOID,VERSION_ID,CRIT_ACEPTACION, rutaImagen")] REQUERIMIENTOS rEQUERIMIENTOS)
         {
             if (ModelState.IsValid)
             {
@@ -96,11 +96,11 @@ namespace ProyectoDeInge.Controllers
                         criterio.ID = Guid.NewGuid().ToString().Substring(0, 7); //Le da un valor generado al ID de Criterio de Aceptación
                     }
                 }
+                rEQUERIMIENTOS.IMAGEN = Encoding.ASCII.GetBytes(rEQUERIMIENTOS.rutaImagen);
                 db.REQUERIMIENTOS.Add(rEQUERIMIENTOS);                  // Guarda los cambios en la base de datos.
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", rEQUERIMIENTOS.PRYCTOID);
             ViewBag.ENCARGADO = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", rEQUERIMIENTOS.ENCARGADO);
             return View(rEQUERIMIENTOS);
