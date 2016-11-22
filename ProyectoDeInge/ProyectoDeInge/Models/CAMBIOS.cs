@@ -26,7 +26,7 @@ namespace ProyectoDeInge.Models
         public string JUST_REV { get; set; }
         public Nullable<System.DateTime> FECHA_REV { get; set; }
         public string CED_REV { get; set; }
-    
+        public string nombreCompleto { get { return string.Format("{0} {1} {2}", USUARIOS1.NOMBRE, USUARIOS1.APELLIDO1, USUARIOS1.APELLIDO2); } }
         public virtual REQUERIMIENTOS REQUERIMIENTOS { get; set; }
         public virtual USUARIOS USUARIOS { get; set; }
         public virtual USUARIOS USUARIOS1 { get; set; }
