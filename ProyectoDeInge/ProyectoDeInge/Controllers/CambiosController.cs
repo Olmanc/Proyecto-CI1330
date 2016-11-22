@@ -23,26 +23,69 @@ namespace ProyectoDeInge.Controllers
             return View(/*cAMBIOS.ToList()*/modelo);
         }
 
-        public ActionResult Versiones()
+        public ActionResult Requerimientos(string pro)
         {
-            var cAMBIOS = db.CAMBIOS.Include(c => c.REQUERIMIENTOS).Include(c => c.USUARIOS).Include(c => c.USUARIOS1).Include(c => c.REQUERIMIENTOS1);
-            return View(cAMBIOS.ToList());
+            ViewBag.pro = new SelectList(db.PROYECTO, "ID", "NOMBRE");
+            if (pro == "") pro = null;
+            ViewBag.pid = pro;
+            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Where(s => s.PRYCTOID.Contains(pro) && s.ESTADO_CAMBIOS.Contains("Aprobado"));
+            List<string> verificaPermisos = new List<string>();
+
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
+            var listauser = db.AspNetUsers.ToArray();
+            for (int i = 0; i < listauser.Length; i++)
+            {  //de todos los AspNetUser del sistema, encuentra el que tenga el email activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+
+            AspNetRoles role = fg.AspNetRoles.First();  //consigue el rol del usuario
+            var per = role.PERMISOS;                    //copia los permisos que tiene asignado
+
+            foreach (PERMISOS p in role.PERMISOS)
+            {     //los copia a un HashSet<string>
+                verificaPermisos.Add(p.ID); //Metodo que verifica el permiso del usuario actual.
+            }
+
+            ViewBag.Permisos = verificaPermisos;
+
+            return View(rEQUERIMIENTOS.ToList());
         }
 
 
-        // GET: Cambios/Details/5
-        public ActionResult ConsultarVers(string id)
+        public ActionResult Versiones(string id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CAMBIOS cAMBIOS = db.CAMBIOS.Find(id);
-            if (cAMBIOS == null)
+            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Where(s => s.ID.Contains(id));
+            if (rEQUERIMIENTOS == null)
             {
                 return HttpNotFound();
             }
-            return View(cAMBIOS);
+            return View(rEQUERIMIENTOS.ToList());
+        }
+     
+
+
+        // GET: Cambios/Details/5
+        public ActionResult ConsultarVers(string id, int version)
+        {
+            var Intermedio = new ModeloIntermedioCambios();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Intermedio.consultado = db.REQUERIMIENTOS.Find(id, version);
+            Intermedio.actual = db.REQUERIMIENTOS.Where(s => s.ID.Contains(id) && s.ESTADO_CAMBIOS.Contains("Aprobado")).First();
+            if (Intermedio.consultado == null)
+            {
+                return HttpNotFound();
+            }
+            return View(Intermedio);
         }
 
         // GET: Cambios/Create

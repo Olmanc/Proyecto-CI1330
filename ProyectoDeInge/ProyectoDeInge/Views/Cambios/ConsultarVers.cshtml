@@ -1,16 +1,16 @@
-@model ProyectoDeInge.Models.CAMBIOS
+@model ProyectoDeInge.Models.ModeloIntermedioCambios
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Consultar Versión</h2>
+<h2>Consultar Version</h2>
 
 <div>
-    <h4>Versión @Html.DisplayFor(model => model.NUEVO_VER_ID)</h4>
+    <h4>Version @Html.DisplayFor(model => model.actual.VERSION_ID)</h4>
     <hr />
-
+@**
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayName("Autor")
@@ -37,7 +37,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayName("Justificación:")
+            @Html.DisplayName("Justificacion:")
         </dt>
 
         <dd>
@@ -45,19 +45,20 @@
         </dd>
     </dl>
     <hr />
-    <h4>Comparación de Datos</h4>
+*@
+    <h4>Comparacion de Datos</h4>
     @*Tabla de REQ Actual y REQ viejo*@
     <table class="table">
         <tr>
             <th></th>
             <th>
                 <div style="solid #fbb; text-align: center;">
-                           Requerimiento Actual
+                           Requerimiento Consultado
                 </div>
             </th>
             <th>
                 <div style="solid #fbb; text-align: center">
-                        Requerimiento Viejo
+                        Requerimiento Actual
                 </div>
             </th>
         </tr>
@@ -68,13 +69,13 @@
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.ID, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.ID, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.ID, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.ID, "", new { @class = "text-danger" })
             </th>
         </tr>
 
@@ -85,13 +86,13 @@
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.NOMBRE, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.NOMBRE, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.NOMBRE, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.NOMBRE, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*Esfuerzo de los requerimientos*@
@@ -101,29 +102,29 @@
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.ESFUERZO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.ESFUERZO, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.ESFUERZO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.ESFUERZO, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.ESFUERZO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.ESFUERZO, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.ESFUERZO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.ESFUERZO, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*Descripción de los requerimientos*@
         <tr>
             <th>
-                Descripción
+                Descripcion
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.DESCRIPCION, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.DESCRIPCION, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.DESCRIPCION, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.DESCRIPCION, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-               @Html.EditorFor(model => model.REQUERIMIENTOS.DESCRIPCION, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-            @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.DESCRIPCION, "", new { @class = "text-danger" })
+               @Html.EditorFor(model => model.actual.DESCRIPCION, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+            @Html.ValidationMessageFor(model => model.actual.DESCRIPCION, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*Prioridad de los requerimientos*@
@@ -133,13 +134,13 @@
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.PRIORIDAD, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.PRIORIDAD, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.PRIORIDAD, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.PRIORIDAD, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.PRIORIDAD, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.PRIORIDAD, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.PRIORIDAD, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.PRIORIDAD, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*Observaciones de los requerimientos*@
@@ -149,29 +150,29 @@
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.OBSERVACIONES, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.OBSERVACIONES, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.OBSERVACIONES, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.OBSERVACIONES, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.OBSERVACIONES, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.OBSERVACIONES, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.OBSERVACIONES, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.OBSERVACIONES, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*Módulo de los requerimientos*@
         <tr>
             <th>
-                Módulo
+                Modulo
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.MODULO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.MODULO, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.MODULO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.MODULO, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.MODULO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.MODULO, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.MODULO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.MODULO, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*Fecha inicio de los requerimientos*@
@@ -181,29 +182,29 @@
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.FECHAINCIO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.FECHAINCIO, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.FECHAINCIO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.FECHAINCIO, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.FECHAINCIO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.FECHAINCIO, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.FECHAINCIO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.FECHAINCIO, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*Fecha finalización de los requerimientos*@
         <tr>
             <th>
-                Fecha finalización
+                Fecha finalizacion
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.FECHAFINAL, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.FECHAFINAL, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.FECHAFINAL, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.FECHAFINAL, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.FECHAFINAL, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.FECHAFINAL, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.FECHAFINAL, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.FECHAFINAL, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*Encargado de los requerimientos*@
@@ -213,13 +214,13 @@
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.ENCARGADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.ENCARGADO, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.ENCARGADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.ENCARGADO, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.ENCARGADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.ENCARGADO, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.ENCARGADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.ENCARGADO, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*Proyecto al que pertenecen los requerimientos*@
@@ -229,29 +230,29 @@
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.PRYCTOID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.PRYCTOID, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.PRYCTOID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.PRYCTOID, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.PRYCTOID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.PRYCTOID, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.PRYCTOID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.PRYCTOID, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*version de los requerimientos*@
         <tr>
             <th>
-                Versión
+                Version
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.VERSION_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.VERSION_ID, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.VERSION_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.VERSION_ID, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-               @Html.EditorFor(model => model.REQUERIMIENTOS.VERSION_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-               @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.VERSION_ID, "", new { @class = "text-danger" })
+               @Html.EditorFor(model => model.actual.VERSION_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+               @Html.ValidationMessageFor(model => model.actual.VERSION_ID, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*Estado de los requerimientos*@
@@ -261,13 +262,13 @@
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.ESTADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.ESTADO, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.ESTADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.ESTADO, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.ESTADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.ESTADO, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.ESTADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.ESTADO, "", new { @class = "text-danger" })
             </th>
         </tr>
         @*Sprint de los requerimientos*@
@@ -277,15 +278,15 @@
             </th>
             <th>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.REQUERIMIENTOS1.SPRINT, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                    @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.SPRINT, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.consultado.SPRINT, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                    @Html.ValidationMessageFor(model => model.consultado.SPRINT, "", new { @class = "text-danger" })
                 </div>
             </th>
             <th>
-                @Html.EditorFor(model => model.REQUERIMIENTOS.SPRINT, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS.SPRINT, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.actual.SPRINT, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+                @Html.ValidationMessageFor(model => model.actual.SPRINT, "", new { @class = "text-danger" })
             </th>
         </tr>
     </table>
-    @Html.ActionLink("Volver", "Versiones")
+    @Html.ActionLink("Volver", "Requerimientos")
 </p>
