@@ -1,4 +1,4 @@
-﻿@model ProyectoDeInge.Models.REQUERIMIENTOS
+@model ProyectoDeInge.Models.REQUERIMIENTOS
 @using ProyectoDeInge.Models  
 
 @{
@@ -16,6 +16,18 @@
         var pattern = new RegExp(ticks, "gi");
         content = content.replace(pattern, nextIndex);
         $(container).append(content);
+    }
+
+    function cambio() {
+        var input = document.getElementById("uploadBtn");
+
+        var fReader1 = new FileReader();
+        fReader1.readAsDataURL(input.files[0]);
+        fReader1.onloadend = function (event) {
+            var img = document.getElementById("RuPic");
+            img.src = event.target.result;
+            document.getElementById("rutaImagen").value = event.target.result;
+        }
     }
 
 </script>
@@ -94,12 +106,23 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IMAGEN, "Imagen", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.rutaImagen, "Imagen", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" id="Avatar" name="upload" />
+                @Html.EditorFor(model => model.rutaImagen, new { htmlAttributes = new { @id = "rutaImagen", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.rutaImagen, "", new { @class = "text-danger" })
+                <div class="fileUpload btn btn-primary">
+                    <span>Cargar</span>
+                    <input id="uploadBtn" type="file" class="upload" onchange="cambio()" />
+                </div>
             </div>
         </div>
 
+        <div class="form-group">
+            @Html.Label("Vista de imagen", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <img id="RuPic" src="@(Model.rutaImagen)" width="200" />
+            </div>
+        </div>
         <div class="form-group">
             @Html.LabelFor(model => model.OBSERVACIONES, "Observaciones", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
