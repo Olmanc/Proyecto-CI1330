@@ -1,4 +1,4 @@
-@model IEnumerable<ProyectoDeInge.Models.CAMBIOS>
+@model IEnumerable<ProyectoDeInge.Models.REQUERIMIENTOS>
 
 @{
     ViewBag.Title = "Versiones";
@@ -15,60 +15,79 @@
     }*@
 
 <table class="table">
-
     <tr>
-
         <th>
-            ID de Cambio
+            Nombre
         </th>
         <th>
-            ID de Requerimiento
+            Estado de Version
         </th>
         <th>
-            Version
-        </th>
-        <th>
-            Fecha
+            Esfuerzo
         </th>
         <th>
             Descripcion
         </th>
         <th>
-            Justificacion
+            Prioridad
         </th>
         <th>
-            Cedula
+            Modulo
         </th>
+        <th>
+            Fecha de inicio
+        </th>
+        <th>
+            Fecha de finalizacion
+        </th>
+        <th>
+            Estado
+        </th>
+        <th>
+            Encargado
+        </th>
+
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
+
             <td>
-                @Html.DisplayFor(modelItem => item.ID)
+                @Html.DisplayFor(modelItem => item.NOMBRE)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NUEVO_REQ_ID)
+                @Html.DisplayFor(modelItem => item.ESTADO_CAMBIOS)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NUEVO_VER_ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FECHA)
+                @Html.DisplayFor(modelItem => item.ESFUERZO)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DESCRIPCION)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.JUSTIFICACION)
+                @Html.DisplayFor(modelItem => item.PRIORIDAD)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CEDULA)
+                @Html.DisplayFor(modelItem => item.MODULO)
             </td>
             <td>
-                @Html.ActionLink("Consultar", "ConsultarVers", new { id = item.ID })
+                @Html.DisplayFor(modelItem => item.FECHAINCIO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FECHAFINAL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ESTADO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USUARIOS.NOMBRE)
+            </td>
+            <td>
+                        @Html.ActionLink("Consultar", "ConsultarVers", new { id = item.ID, version = item.VERSION_ID })              
             </td>
         </tr>
-    }
+                    }
+
 </table>
