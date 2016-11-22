@@ -29,6 +29,7 @@ namespace ProyectoDeInge.Models
         public byte[] IMAGEN { get; set; }
         public string DESCRIPCION { get; set; }
         public Nullable<int> PRIORIDAD { get; set; }
+        public string rutaImagen { get; set; }
         public string OBSERVACIONES { get; set; }
         public string MODULO { get; set; }
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
