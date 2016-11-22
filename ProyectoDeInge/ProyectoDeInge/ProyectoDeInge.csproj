@@ -387,6 +387,7 @@
     <Content Include="Views\Cambios\Versiones.cshtml" />
     <Content Include="Views\Cambios\IndexSolicitudes.cshtml" />
     <Content Include="Views\Cambios\DetallesSolicitud.cshtml" />
+    <Content Include="Views\Cambios\EditorTemplates\CRIT_ACEPTACION.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

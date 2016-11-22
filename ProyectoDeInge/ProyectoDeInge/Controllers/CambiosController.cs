@@ -46,13 +46,18 @@ namespace ProyectoDeInge.Controllers
         }
 
         // GET: Cambios/Create
-        public ActionResult Create()
+        public ActionResult Create(string id, int version)
         {
+            var cambio = new CAMBIOS();
+            REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id, version);
+            cambio.REQUERIMIENTOS = db.REQUERIMIENTOS.Find(id, version);
+            rEQUERIMIENTOS.VERSION_ID = rEQUERIMIENTOS.VERSION_ID + 1;
+            cambio.REQUERIMIENTOS1 = rEQUERIMIENTOS;
             ViewBag.VIEJO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE");
             ViewBag.CED_REV = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
             ViewBag.CEDULA = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
             ViewBag.NUEVO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE");
-            return View();
+            return View(cambio);
         }
 
         // POST: Cambios/Create
