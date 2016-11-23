@@ -10,5 +10,6 @@ namespace ProyectoDeInge.Models
     {
        public REQUERIMIENTOS actual;
        public REQUERIMIENTOS consultado;
+       public CAMBIOS Cambio;
     }
 }

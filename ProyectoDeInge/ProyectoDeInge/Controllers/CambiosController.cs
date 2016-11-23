@@ -63,7 +63,7 @@ namespace ProyectoDeInge.Controllers
 
 
         // GET: Cambios/Details/5
-        /*public ActionResult ConsultarVers(string id, int version)
+        public ActionResult ConsultarVers(string id, int version)
         {
             //var Intermedio = new ModeloIntermedioCambios();
             var Intermedio = new ModeloIntermedioCambios();
@@ -72,13 +72,21 @@ namespace ProyectoDeInge.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Intermedio.consultado = db.REQUERIMIENTOS.Find(id, version);
+            if (Intermedio.consultado.ESTADO_CAMBIOS == "Obsoleto")
+            {
+                Intermedio.Cambio = Intermedio.consultado.CAMBIOS.Where(s => s.NUEVO_REQ_ID.Contains(id)).First();
+            }
+            else
+            {
+                Intermedio.Cambio = Intermedio.consultado.CAMBIOS1.Where(s => s.NUEVO_REQ_ID.Contains(id)).First();
+            }           
             Intermedio.actual = db.REQUERIMIENTOS.Where(s => s.ID.Contains(id) && s.ESTADO_CAMBIOS.Contains("Aprobado")).First();
             if (Intermedio.consultado == null)
             {
                 return HttpNotFound();
             }
             return View(Intermedio);
-        }*/
+        }
 
         // GET: Cambios/Create
         public ActionResult Create(string id, int version)
