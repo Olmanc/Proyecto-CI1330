@@ -78,11 +78,7 @@
                 @Html.DisplayFor(modelItem => item.USUARIOS.NOMBRE)
             </td>
             <td>
-                @{if (ViewBag.Permisos.Contains("11"))
-                    {
-                        @Html.ActionLink("Consultar Versiones", "Versiones", new { id = item.ID })
-                        }
-                    }
+                @Html.ActionLink("Consultar Versiones", "Versiones", new { id = item.ID })
             </td>
             
         </tr>

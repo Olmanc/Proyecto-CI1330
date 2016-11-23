@@ -18,10 +18,10 @@ namespace ProyectoDeInge.Controllers
         // GET: Requerimientos
         public ActionResult Index(string pro)
         {
-            ViewBag.pro = new SelectList(db.PROYECTO, "ID", "NOMBRE");
+            ViewBag.pro = new SelectList(db.PROYECTO.Where(s => s.BORRADO != true), "ID", "NOMBRE");
             if (pro == "") pro = null;
             ViewBag.pid = pro;
-            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Where(s => s.PRYCTOID.Contains(pro));
+            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Where(s => s.PRYCTOID == pro && s.ESTADO_CAMBIOS == "Aprobado");
             List<string> verificaPermisos = new List<string>();
 
             var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
@@ -68,7 +68,7 @@ namespace ProyectoDeInge.Controllers
             var reque = new REQUERIMIENTOS();
             reque.PRYCTOID = pro;
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", pro);
-            ViewBag.ENCARGADO = new SelectList(db.USUARIOS.Where(s => s.PRYCTOID.Contains(pro)), "CEDULA", "NOMBRE");
+            ViewBag.ENCARGADO = new SelectList(db.USUARIOS.Where(s => s.PRYCTOID == pro), "CEDULA", "NOMBRE");
             reque.crearCriterios(0);
             return View(reque);
         }
@@ -194,7 +194,7 @@ namespace ProyectoDeInge.Controllers
                 return HttpNotFound();
             }
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", rEQUERIMIENTOS.PRYCTOID);
-            ViewBag.ENCARGADO = new SelectList(db.USUARIOS.Where(s => s.PRYCTOID.Contains(rEQUERIMIENTOS.PRYCTOID)), "CEDULA", "NOMBRE");
+            ViewBag.ENCARGADO = new SelectList(db.USUARIOS.Where(s => s.PRYCTOID == rEQUERIMIENTOS.PRYCTOID), "CEDULA", "NOMBRE");
 
             var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
             var listauser = db.AspNetUsers.ToArray();

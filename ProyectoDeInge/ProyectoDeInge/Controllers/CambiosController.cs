@@ -16,10 +16,10 @@ namespace ProyectoDeInge.Controllers
         
         public ActionResult Requerimientos(string pro)
         {
-            ViewBag.pro = new SelectList(db.PROYECTO, "ID", "NOMBRE");
+            ViewBag.pro = new SelectList(db.PROYECTO.Where(s => s.BORRADO != true), "ID", "NOMBRE");
             if (pro == "") pro = null;
             ViewBag.pid = pro;
-            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Where(s => s.PRYCTOID.Contains(pro) && s.ESTADO_CAMBIOS.Contains("Aprobado"));
+            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Where(s => s.PRYCTOID == pro && s.ESTADO_CAMBIOS == "Aprobado");
             List<string> verificaPermisos = new List<string>();
 
             var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
@@ -52,7 +52,7 @@ namespace ProyectoDeInge.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Where(s => s.ID.Contains(id));
+            var rEQUERIMIENTOS = db.REQUERIMIENTOS.Where(s => s.ID ==id);
             if (rEQUERIMIENTOS == null)
             {
                 return HttpNotFound();
@@ -74,13 +74,13 @@ namespace ProyectoDeInge.Controllers
             Intermedio.consultado = db.REQUERIMIENTOS.Find(id, version);
             if (Intermedio.consultado.ESTADO_CAMBIOS == "Obsoleto")
             {
-                Intermedio.Cambio = Intermedio.consultado.CAMBIOS.Where(s => s.NUEVO_REQ_ID.Contains(id)).First();
+                Intermedio.Cambio = Intermedio.consultado.CAMBIOS.Where(s => s.NUEVO_REQ_ID == id).First();
             }
             else
             {
-                Intermedio.Cambio = Intermedio.consultado.CAMBIOS1.Where(s => s.NUEVO_REQ_ID.Contains(id)).First();
+                Intermedio.Cambio = Intermedio.consultado.CAMBIOS1.Where(s => s.NUEVO_REQ_ID == id).First();
             }           
-            Intermedio.actual = db.REQUERIMIENTOS.Where(s => s.ID.Contains(id) && s.ESTADO_CAMBIOS.Contains("Aprobado")).First();
+            Intermedio.actual = db.REQUERIMIENTOS.Where(s => s.ID == id && s.ESTADO_CAMBIOS == "Aprobado").First();
             if (Intermedio.consultado == null)
             {
                 return HttpNotFound();
@@ -92,9 +92,9 @@ namespace ProyectoDeInge.Controllers
         public ActionResult Create(string id, int version)
         {
             var cambio = new CAMBIOS();
-            var correoUsuario = db.CORREOS.Where(s => s.CORREO.Contains(User.Identity.Name)).Single();
+            var correoUsuario = db.CORREOS.Where(s => s.CORREO == User.Identity.Name).Single();
             USUARIOS actual = correoUsuario.USUARIOS;
-            int v = db.REQUERIMIENTOS.Where(s => s.ID.Contains(id)).Select(s => s.VERSION_ID).Max() + 1;
+            int v = db.REQUERIMIENTOS.Where(s => s.ID == id).Select(s => s.VERSION_ID).Max() + 1;
             REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id, version);
             rEQUERIMIENTOS.VERSION_ID = v;
             rEQUERIMIENTOS.ESTADO_CAMBIOS = "Pendiente";
@@ -107,7 +107,26 @@ namespace ProyectoDeInge.Controllers
             cambio.NUEVO_REQ_ID = id;
             cambio.NUEVO_VER_ID = v;
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", rEQUERIMIENTOS.PRYCTOID);
-            ViewBag.ENCARGADO = new SelectList(db.USUARIOS.Where(s => s.PRYCTOID.Contains(rEQUERIMIENTOS.PRYCTOID)), "CEDULA", "NOMBRE", rEQUERIMIENTOS.ENCARGADO);
+            ViewBag.ENCARGADO = new SelectList(db.USUARIOS.Where(s => s.PRYCTOID == rEQUERIMIENTOS.PRYCTOID), "CEDULA", "NOMBRE", rEQUERIMIENTOS.ENCARGADO);
+
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
+
+            var listauser = db.AspNetUsers.ToArray();
+            for (int i = 0; i < listauser.Length; i++)
+            {                           //de todos los AspNetUser del sistema, encuentra el usuario activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+
+            AspNetRoles rol = fg.AspNetRoles.First();
+            if (rol.Name == "Desarrollador" || rol.Name == "Administrador") {
+                TempData["Desarrollador"] = "display:true";
+            }else
+            {
+                TempData["Desarrollador"] = "display:none";
+            }
             return View(cambio);
         }
 
