@@ -1,0 +1,93 @@
+﻿@model IEnumerable<ProyectoDeInge.Models.REQUERIMIENTOS>
+
+@{
+    ViewBag.Title = "Historial de Versiones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Requerimientos</h2>
+
+
+@using (Html.BeginForm())
+{
+    <p>
+        @Html.DropDownList("pro", null, "Seleccione un proyecto", htmlAttributes: new { @class = "form-control", onchange = "this.form.submit()" })
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Esfuerzo
+        </th>
+        <th>
+            Descripción
+        </th>
+        <th>
+            Prioridad
+        </th>
+        <th>
+            Modulo
+        </th>
+        <th>
+            Fecha de inicio
+        </th>
+        <th>
+            Fecha de finalización
+        </th>
+        <th>
+            Estado
+        </th>
+        <th>
+            Encargado
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.NOMBRE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ESFUERZO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DESCRIPCION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PRIORIDAD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MODULO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FECHAINCIO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FECHAFINAL)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ESTADO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USUARIOS.NOMBRE)
+            </td>
+            <td>
+                @{if (ViewBag.Permisos.Contains("11"))
+                {
+                        @Html.ActionLink("Consultar Versiones", "Versiones", new { id = item.ID })
+                    }
+
+                }
+
+
+            </td>
+        </tr>
+                    }
+
+</table>
