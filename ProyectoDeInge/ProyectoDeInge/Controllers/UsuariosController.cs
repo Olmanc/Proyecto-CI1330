@@ -137,22 +137,16 @@ namespace ProyectoDeInge.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(/*[Bind(Include = "CEDULA,NOMBRE,APELLIDO1,APELLIDO2,PRYCTOID,LIDER,TELEFONO,TELEFONO2,CORREO,CORREOS2")]*/ ModeloIntermedio modelo)
+        public async Task<ActionResult> Create([Bind(Include = "CEDULA,NOMBRE,APELLIDO1,APELLIDO2,PRYCTOID,LIDER,TELEFONO,TELEFONO2,CORREO,CORREOS2")]ModeloIntermedio modelo)
         {
             if (ModelState.IsValid)
             {
-                var UserManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                //var RoleManager = Request.GetOwinContext().Get<ApplicationRoleManager>();
-                //var ident = modelo.modeloUsuario.CEDULA;
-                var Password = "JHGK-1234";
-                //var User = new ApplicationUser { UserName = modelo.modeloCorreo.CORREO, Email = modelo.modeloCorreo.CORREO };
-                var User2 = new AspNetUsers { UserName = modelo.modeloCorreo.CORREO, Email = modelo.modeloCorreo.CORREO, PasswordHash = Password };
-                User2.EmailConfirmed = true;
-                User2.PhoneNumberConfirmed = true;
-                //var result = UserManager.CreateAsync(User2, Password);
-                //modelo.modeloAsp.Id = User.Id;
-                //modelo.modeloUsuario.ID_ASP = User.Id;
-                db.AspNetUsers.Add(User2);
+                var user = new AspNetUsers {Id = Guid.NewGuid().ToString().Substring(1, 50), UserName = modelo.modeloCorreo.CORREO, Email = modelo.modeloCorreo.CORREO, PasswordHash = "AAA-111" }; 
+                user.EmailConfirmed = true;
+                user.PhoneNumberConfirmed = true;
+                db.AspNetUsers.Add(user);
+                modelo.modeloUsuario.ID_ASP = user.Id;
+                //db.AspNetUsers.Add(user);
                 db.USUARIOS.Add(modelo.modeloUsuario);
                 if (modelo.modeloCorreo != null)
                 {

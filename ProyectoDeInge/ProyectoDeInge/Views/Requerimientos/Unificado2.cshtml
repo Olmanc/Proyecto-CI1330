@@ -62,6 +62,8 @@
 
         <div class="form-horizontal">
             <hr />
+            <h4>Datos del Requerimiento</h4>
+            <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(Model => Model.PRYCTOID, "Proyecto", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -96,6 +98,31 @@
             </div>
 
             <div class="form-group">
+                @Html.LabelFor(Model => Model.IMAGEN, "Imagen", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.IMAGEN, new { htmlAttributes = new { @class = "form-control" } })
+                    @*@Html.ValidationMessageFor(model => model.IMAGEN, "", new { @class = "text-danger" })*@
+                    <div class="col-md-10">
+                        <input type="file" id="Avatar" name="upload" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CRIT_ACEPTACION, "Criterios", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10" id="crite">
+                    @Html.AddLink("Agregar criterio", "#crite", ".criterios", "CRIT_ACEPTACION", typeof(ProyectoDeInge.Models.CRIT_ACEPTACION))
+                    @Html.EditorFor(model => model.CRIT_ACEPTACION)
+                    @Html.ValidationMessageFor(model => model.CRIT_ACEPTACION, "", new { @class = "text-danger" })
+
+                </div>
+            </div>
+
+            <hr />
+            <h4>Datos de Planeación</h4>
+            <hr />
+
+            <div class="form-group">
                 @Html.LabelFor(Model => Model.PRIORIDAD, "Prioridad", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(Model => Model.PRIORIDAD, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -108,6 +135,22 @@
                 <div class="col-md-10">
                     @Html.EditorFor(Model => Model.ESFUERZO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                     @Html.ValidationMessageFor(Model => Model.ESFUERZO, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.SPRINT, "Sprint", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.SPRINT, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.SPRINT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(Model => Model.MODULO, "Módulo", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(Model => Model.MODULO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(Model => Model.MODULO, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -127,18 +170,7 @@
                     @Html.ValidationMessageFor(Model => Model.FECHAFINAL, "", new { @class = "text-danger" })
                 </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(Model => Model.IMAGEN, "Imagen", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(Model => Model.IMAGEN, new { htmlAttributes = new { @class = "form-control" } })
-                    @*@Html.ValidationMessageFor(model => model.IMAGEN, "", new { @class = "text-danger" })*@
-                    <div class="col-md-10">
-                        <input type="file" id="Avatar" name="upload" />
-                    </div>
-                </div>
-            </div>
-
+          
 
             <div class="form-group">
                 @Html.LabelFor(Model => Model.OBSERVACIONES, "Observaciones", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -148,6 +180,10 @@
                 </div>
             </div>
 
+            <hr />
+            <h4>Estado del Requerimiento</h4>
+            <hr />
+
             <div class="form-group">
                 @Html.LabelFor(Model => Model.ENCARGADO, "Encargado", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -156,21 +192,6 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(Model => Model.SPRINT, "Sprint", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(Model => Model.SPRINT, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                    @Html.ValidationMessageFor(Model => Model.SPRINT, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(Model => Model.MODULO, "Modulo", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(Model => Model.MODULO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                    @Html.ValidationMessageFor(Model => Model.MODULO, "", new { @class = "text-danger" })
-                </div>
-            </div>
 
 
             <div class="form-group">
@@ -196,15 +217,6 @@
             </div>
 
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.CRIT_ACEPTACION, "Criterios", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10" id="crite">
-                    @Html.AddLink("Agregar criterio", "#crite", ".criterios", "CRIT_ACEPTACION", typeof(ProyectoDeInge.Models.CRIT_ACEPTACION))
-                    @Html.EditorFor(model => model.CRIT_ACEPTACION)
-                    @Html.ValidationMessageFor(model => model.CRIT_ACEPTACION, "", new { @class = "text-danger" })
-
-                </div>
-            </div>
 
             @Html.HiddenFor(Model => Model.ID)
             @Html.HiddenFor(Model => Model.PRYCTOID)

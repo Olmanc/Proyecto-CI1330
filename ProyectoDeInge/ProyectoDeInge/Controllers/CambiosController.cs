@@ -63,7 +63,7 @@ namespace ProyectoDeInge.Controllers
 
 
         // GET: Cambios/Details/5
-        /*public ActionResult ConsultarVers(string id, int version)
+        public ActionResult ConsultarVers(string id, int version)
         {
             //var Intermedio = new ModeloIntermedioCambios();
             var Intermedio = new ModeloIntermedioCambios();
@@ -72,13 +72,21 @@ namespace ProyectoDeInge.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Intermedio.consultado = db.REQUERIMIENTOS.Find(id, version);
+            if (Intermedio.consultado.ESTADO_CAMBIOS == "Obsoleto")
+            {
+                Intermedio.Cambio = Intermedio.consultado.CAMBIOS.Where(s => s.NUEVO_REQ_ID.Contains(id)).First();
+            }
+            else
+            {
+                Intermedio.Cambio = Intermedio.consultado.CAMBIOS1.Where(s => s.NUEVO_REQ_ID.Contains(id)).First();
+            }           
             Intermedio.actual = db.REQUERIMIENTOS.Where(s => s.ID.Contains(id) && s.ESTADO_CAMBIOS.Contains("Aprobado")).First();
             if (Intermedio.consultado == null)
             {
                 return HttpNotFound();
             }
             return View(Intermedio);
-        }*/
+        }
 
         // GET: Cambios/Create
         public ActionResult Create(string id, int version)
@@ -228,6 +236,50 @@ namespace ProyectoDeInge.Controllers
             modelo.vigente = db.REQUERIMIENTOS.Find(modelo.solicitud.VIEJO_REQ_ID, modelo.solicitud.VIEJO_VER_ID);
             modelo.solicitante = db.USUARIOS.Find(modelo.solicitud.CEDULA);
             return View(modelo);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DetallesSolicitud(CambiosViewModel modelo)
+        {
+            if (modelo == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            REQUERIMIENTOS cambioActualizado = db.REQUERIMIENTOS.Find( modelo.propuesto.ID, modelo.propuesto.VERSION_ID);
+            cambioActualizado.NOMBRE = modelo.propuesto.NOMBRE;
+            cambioActualizado.DESCRIPCION = modelo.propuesto.DESCRIPCION;
+            cambioActualizado.ENCARGADO = modelo.propuesto.ENCARGADO;
+            cambioActualizado.ESFUERZO = modelo.propuesto.ESFUERZO;
+            cambioActualizado.ESTADO = modelo.propuesto.ESTADO;
+            cambioActualizado.FECHAFINAL = modelo.propuesto.FECHAFINAL;
+            cambioActualizado.FECHAINCIO = modelo.propuesto.FECHAINCIO;
+            //cambioActualizado.IMAGEN = modelo.propuesto.IMAGEN;
+            //cambioActualizado.rutaImagen = modelo.propuesto.rutaImagen;
+            //cambioActualizado.CRIT_ACEPTACION = modelo.propuesto.CRIT_ACEPTACION;
+            cambioActualizado.MODULO = modelo.propuesto.MODULO;
+            cambioActualizado.OBSERVACIONES = modelo.propuesto.OBSERVACIONES;
+            cambioActualizado.PRIORIDAD = modelo.propuesto.PRIORIDAD;
+            //cambioActualizado.PROYECTO = modelo.propuesto.PROYECTO;
+            //cambioActualizado.PRYCTOID = modelo.propuesto.PRYCTOID;
+            cambioActualizado.SPRINT = modelo.propuesto.SPRINT;
+            //cambioActualizado.USUARIOS = modelo.propuesto.USUARIOS;
+            //cambioActualizado.VERSION_ID = modelo.propuesto.VERSION_ID;
+                
+            //if (ModelState.IsValid)
+            //{
+                db.Entry(cambioActualizado).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("DetallesSolicitud", new { ID = modelo.solicitud.ID });
+            //}
+            //return null;
+        }
+
+        public ActionResult AceptarSolicitud() {
+            return null;
+        }
+
+        public ActionResult rechazarSolicitud() {
+            return null;
         }
     }
 }
