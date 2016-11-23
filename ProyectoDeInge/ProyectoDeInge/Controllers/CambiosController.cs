@@ -13,16 +13,7 @@ namespace ProyectoDeInge.Controllers
     public class CambiosController : Controller
     {
         private BD_IngeGrupo2Entities2 db = new BD_IngeGrupo2Entities2();
-
-        // GET: Cambios
-        public ActionResult Index()
-        {
-            CambiosViewModel modelo = new CambiosViewModel();
-            modelo.listaCambios = db.CAMBIOS.ToList();
-            var cAMBIOS = db.CAMBIOS.Include(c => c.REQUERIMIENTOS).Include(c => c.USUARIOS).Include(c => c.USUARIOS1).Include(c => c.REQUERIMIENTOS1);
-            return View(/*cAMBIOS.ToList()*/modelo);
-        }
-
+        
         public ActionResult Requerimientos(string pro)
         {
             ViewBag.pro = new SelectList(db.PROYECTO, "ID", "NOMBRE");
@@ -72,8 +63,9 @@ namespace ProyectoDeInge.Controllers
 
 
         // GET: Cambios/Details/5
-        public ActionResult ConsultarVers(string id, int version)
+        /*public ActionResult ConsultarVers(string id, int version)
         {
+            //var Intermedio = new ModeloIntermedioCambios();
             var Intermedio = new ModeloIntermedioCambios();
             if (id == null)
             {
@@ -86,16 +78,26 @@ namespace ProyectoDeInge.Controllers
                 return HttpNotFound();
             }
             return View(Intermedio);
-        }
+        }*/
 
         // GET: Cambios/Create
-        public ActionResult Create()
+        public ActionResult Create(string id, int version)
         {
+            var cambio = new CAMBIOS();
+            int v = db.REQUERIMIENTOS.Where(s => s.ID.Contains(id)).Select(s => s.VERSION_ID).Max() + 1;
+            REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id, version);
+            rEQUERIMIENTOS.VERSION_ID = v;
+            rEQUERIMIENTOS.ESTADO_CAMBIOS = "Pendiente";
+            cambio.REQUERIMIENTOS1 = rEQUERIMIENTOS;
+            cambio.VIEJO_REQ_ID = id;
+            cambio.VIEJO_VER_ID = version;
+            cambio.NUEVO_REQ_ID = id;
+            cambio.NUEVO_VER_ID = v;
             ViewBag.VIEJO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE");
             ViewBag.CED_REV = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
             ViewBag.CEDULA = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
             ViewBag.NUEVO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE");
-            return View();
+            return View(cambio);
         }
 
         // POST: Cambios/Create
@@ -103,19 +105,15 @@ namespace ProyectoDeInge.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,CEDULA,FECHA,DESCRIPCION,JUSTIFICACION,VIEJO_REQ_ID,VIEJO_VER_ID,NUEVO_REQ_ID,NUEVO_VER_ID,JUST_REV,FECHA_REV,CED_REV")] CAMBIOS cAMBIOS)
+        public ActionResult Create(/*[Bind(Include = "ID,CEDULA,FECHA,DESCRIPCION,JUSTIFICACION,VIEJO_REQ_ID,VIEJO_VER_ID,NUEVO_REQ_ID,NUEVO_VER_ID,JUST_REV,FECHA_REV,CED_REV,REQUERIMIENTOS1")] */CAMBIOS cAMBIOS)
         {
             if (ModelState.IsValid)
             {
                 db.CAMBIOS.Add(cAMBIOS);
+                db.REQUERIMIENTOS.Add(cAMBIOS.REQUERIMIENTOS1);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.VIEJO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE", cAMBIOS.VIEJO_REQ_ID);
-            ViewBag.CED_REV = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", cAMBIOS.CED_REV);
-            ViewBag.CEDULA = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", cAMBIOS.CEDULA);
-            ViewBag.NUEVO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE", cAMBIOS.NUEVO_REQ_ID);
             return View(cAMBIOS);
         }
 
@@ -195,16 +193,22 @@ namespace ProyectoDeInge.Controllers
 
         /*/////////////////////////////////////////////////////////////////////////////////////////////////////////
          INDEX de las SOLICITUDES*/
+        /* EFECTO: muestra listado de solicitudes
+         * REQUIERE: N/A
+         * MODIFICA: N/A  */
         public ActionResult IndexSolicitudes()
         {
             CambiosViewModel modelo = new CambiosViewModel();
             modelo.listaCambios = db.CAMBIOS.ToList();
             //var cAMBIOS = db.CAMBIOS.Include(c => c.REQUERIMIENTOS).Include(c => c.USUARIOS).Include(c => c.USUARIOS1).Include(c => c.REQUERIMIENTOS1);
-            return View(/*cAMBIOS.ToList()*/modelo);
+            return View(modelo);
         }
 
         /*////////////////////////////////////////////////////////////////////////////////////////////////////////////
          Detalles de una solicitud*/
+        /* EFECTO: muestra todos los datos de una solicitud
+         * REQUIERE: id de la solicitud a consultar
+         * MODIFICA: N/A  */
         public ActionResult DetallesSolicitud(string id)
         {
             if (id == null)
@@ -217,10 +221,11 @@ namespace ProyectoDeInge.Controllers
             {
                 return HttpNotFound();
             }
-            modelo.propuesto = db.REQUERIMIENTOS.Find(modelo.solicitud.NUEVO_REQ_ID,modelo.solicitud.NUEVO_VER_ID);
-            modelo.vigente = db.REQUERIMIENTOS.Find(modelo.solicitud.VIEJO_REQ_ID,modelo.solicitud.VIEJO_VER_ID);
+            modelo.propuesto = db.REQUERIMIENTOS.Find(modelo.solicitud.NUEVO_REQ_ID, modelo.solicitud.NUEVO_VER_ID);
+            modelo.vigente = db.REQUERIMIENTOS.Find(modelo.solicitud.VIEJO_REQ_ID, modelo.solicitud.VIEJO_VER_ID);
             modelo.solicitante = db.USUARIOS.Find(modelo.solicitud.CEDULA);
             return View(modelo);
         }
     }
 }
+

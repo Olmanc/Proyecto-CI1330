@@ -1,124 +1,185 @@
 ﻿@model ProyectoDeInge.Models.CAMBIOS
+@using ProyectoDeInge.Models
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+    function removeNestedForm(element, container, deleteElement) {
+        $container = $(element).parents(container);
+        $container.find(deleteElement).val('True');
+        $container.hide();
+    }
+    function addNestedForm(container, counter, ticks, content) {
+        var nextIndex = $(counter).length;
+        var pattern = new RegExp(ticks, "gi");
+        content = content.replace(pattern, nextIndex);
+        $(container).append(content);
+    }
 
-<h2>Create</h2>
+</script>
+<h2>Agregar</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>CAMBIOS</h4>
+        <h4>Requerimientos</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.PRYCTOID, "Proyecto", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ID, "", new { @class = "text-danger" })
+                @Html.DropDownList("PRYCTOID", null, htmlAttributes: new { @class = "form-control", disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.PRYCTOID, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CEDULA, "CEDULA", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.ID, "Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CEDULA", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CEDULA, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.REQUERIMIENTOS1.ID, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FECHA, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.NOMBRE, "Nombre", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FECHA, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FECHA, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.REQUERIMIENTOS1.NOMBRE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.NOMBRE, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DESCRIPCION, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.DESCRIPCION, "Descripción", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DESCRIPCION, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DESCRIPCION, "", new { @class = "text-danger" })
+                @Html.TextArea("DESCRIPCION", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.DESCRIPCION, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.JUSTIFICACION, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.PRIORIDAD, "Prioridad", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.JUSTIFICACION, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.JUSTIFICACION, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.REQUERIMIENTOS1.PRIORIDAD, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.PRIORIDAD, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.VIEJO_REQ_ID, "VIEJO_REQ_ID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.ESFUERZO, "Esfuerzo", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("VIEJO_REQ_ID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.VIEJO_REQ_ID, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.REQUERIMIENTOS1.ESFUERZO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.ESFUERZO, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.VIEJO_VER_ID, "VIEJO_VER_ID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.FECHAINCIO, "Fecha de inicio", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("VIEJO_VER_ID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.VIEJO_VER_ID, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.REQUERIMIENTOS1.FECHAINCIO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.FECHAINCIO, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NUEVO_REQ_ID, "NUEVO_REQ_ID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.FECHAFINAL, "Fecha de finalización", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("NUEVO_REQ_ID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.NUEVO_REQ_ID, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.REQUERIMIENTOS1.FECHAFINAL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.FECHAFINAL, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NUEVO_VER_ID, "NUEVO_VER_ID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.IMAGEN, "Imagen", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("NUEVO_VER_ID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.NUEVO_VER_ID, "", new { @class = "text-danger" })
+                <input type="file" id="Avatar" name="upload" />
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.JUST_REV, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.OBSERVACIONES, "Observaciones", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.JUST_REV, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.JUST_REV, "", new { @class = "text-danger" })
+                @Html.TextArea("OBSERVACIONES", null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.OBSERVACIONES, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FECHA_REV, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.ENCARGADO, "Encargado", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FECHA_REV, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FECHA_REV, "", new { @class = "text-danger" })
+                @Html.DropDownList("ENCARGADO", null, "Seleccione encargado", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.ENCARGADO, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.SPRINT, "Sprint", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.REQUERIMIENTOS1.SPRINT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.SPRINT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.MODULO, "Modulo", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.REQUERIMIENTOS1.MODULO, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.MODULO, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CED_REV, "CED_REV", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.ESTADO, "Estado", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CED_REV", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CED_REV, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.REQUERIMIENTOS1.ESTADO, new List<SelectListItem>{
+                    new SelectListItem{Text="Pendiente", Value="Pendiente"},
+                    new SelectListItem{Text="Asignado", Value="Asignado"},
+                    new SelectListItem{Text="Ejecución", Value="Ejecucion"},
+                    new SelectListItem{Text="Finalizado", Value="Finalizado"},
+                    new SelectListItem{Text="Cerrado", Value="Cerrado"}
+                }, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.ESTADO, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.VERSION_ID, "Versión", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.REQUERIMIENTOS1.VERSION_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.VERSION_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.REQUERIMIENTOS1.CRIT_ACEPTACION, "Criterios", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="crite">
+                @Html.AddLink("Agregar criterio", "#crite", ".criterios", "CRIT_ACEPTACION", typeof(ProyectoDeInge.Models.CRIT_ACEPTACION))
+                @Html.EditorFor(model => model.REQUERIMIENTOS1.CRIT_ACEPTACION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.CRIT_ACEPTACION, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(Model => Model.REQUERIMIENTOS1.ID)
+        @Html.HiddenFor(Model => Model.REQUERIMIENTOS1.PRYCTOID)
+        @Html.HiddenFor(Model => Model.REQUERIMIENTOS1.VERSION_ID)
+        @Html.HiddenFor(Model => Model.REQUERIMIENTOS1.ESTADO_CAMBIOS)
+        @Html.HiddenFor(Model => Model.VIEJO_REQ_ID)
+        @Html.HiddenFor(Model => Model.VIEJO_VER_ID)
+        @Html.HiddenFor(Model => Model.NUEVO_REQ_ID)
+        @Html.HiddenFor(Model => Model.NUEVO_VER_ID)
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Aceptar" class="btn btn-default" />
+                <input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+<script type='text/javascript'>
+   function goBack() {
+       window.history.back();
+       //Response.Redirect("~/Home");
+   }
+</script>

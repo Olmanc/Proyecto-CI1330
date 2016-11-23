@@ -253,7 +253,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\ModeloIntermedioCambios.cs" />
     <Compile Include="Models\PERMISOS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -383,12 +382,11 @@
     <Content Include="Views\Cambios\Delete.cshtml" />
     <Content Include="Views\Cambios\ConsultarVers.cshtml" />
     <Content Include="Views\Cambios\Edit.cshtml" />
-    <Content Include="Views\Cambios\Index.cshtml" />
     <Content Include="Views\Cambios\Unificado.cshtml" />
     <Content Include="Views\Cambios\Versiones.cshtml" />
     <Content Include="Views\Cambios\IndexSolicitudes.cshtml" />
     <Content Include="Views\Cambios\DetallesSolicitud.cshtml" />
-    <Content Include="Views\Cambios\Requerimientos.cshtml" />
+    <Content Include="Views\Cambios\EditorTemplates\CRIT_ACEPTACION.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

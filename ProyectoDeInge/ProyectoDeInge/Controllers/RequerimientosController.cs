@@ -194,7 +194,7 @@ namespace ProyectoDeInge.Controllers
                 return HttpNotFound();
             }
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", rEQUERIMIENTOS.PRYCTOID);
-            ViewBag.ENCARGADO = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", rEQUERIMIENTOS.ENCARGADO);
+            ViewBag.ENCARGADO = new SelectList(db.USUARIOS.Where(s => s.PRYCTOID.Contains(rEQUERIMIENTOS.PRYCTOID)), "CEDULA", "NOMBRE");
 
             var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
             var listauser = db.AspNetUsers.ToArray();
@@ -213,7 +213,6 @@ namespace ProyectoDeInge.Controllers
             {     //los copia a un HashSet<string>
                 rEQUERIMIENTOS.verificaPermisos.Add(p.ID);
             }
-
             return View(rEQUERIMIENTOS);
         }
 

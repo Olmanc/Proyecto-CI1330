@@ -18,7 +18,18 @@
             @Html.ActionLink("Agregar proyecto", "Create")
         }/*else{ }*/
     }
-    
+
+@*Filtro de búsqueda*@
+    @using (Html.BeginForm())
+    {
+    <p>
+        Buscar: @Html.TextBox("buscar", ViewBag.filtro as string)
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"></span>
+        </button>
+    </p>
+    }
+
 </p>
 <table class="table">
     <tr>
