@@ -19,16 +19,49 @@
     }
 
 </script>
-<h2>Agregar</h2>
+<h2>Nueva solicitud de cambio</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
         <h4>Requerimientos</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.USUARIOS.NOMBRE, "Solicitante", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.USUARIOS.NOMBRE)
+                @Html.DisplayFor(model => model.USUARIOS.APELLIDO1)
+                @Html.DisplayFor(model => model.USUARIOS.APELLIDO2)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.FECHA, "Fecha", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.FECHA)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.DESCRIPCION, "Descripción", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.DESCRIPCION, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DESCRIPCION, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.JUSTIFICACION, "Justificación", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.JUSTIFICACION, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.JUSTIFICACION, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <hr />
+
         <div class="form-group">
             @Html.LabelFor(model => model.REQUERIMIENTOS1.PRYCTOID, "Proyecto", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -40,7 +73,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.REQUERIMIENTOS1.ID, "Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.REQUERIMIENTOS1.ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.REQUERIMIENTOS1.ID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
             </div>
         </div>
 
@@ -55,7 +88,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.REQUERIMIENTOS1.DESCRIPCION, "Descripción", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextArea("DESCRIPCION", null, new { @class = "form-control" })
+                @Html.TextAreaFor(m => m.REQUERIMIENTOS1.DESCRIPCION, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.DESCRIPCION, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -102,7 +135,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.REQUERIMIENTOS1.OBSERVACIONES, "Observaciones", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextArea("OBSERVACIONES", null, new { @class = "form-control" })
+                @Html.TextAreaFor(m => m.REQUERIMIENTOS1.OBSERVACIONES, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.OBSERVACIONES, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -110,7 +143,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.REQUERIMIENTOS1.ENCARGADO, "Encargado", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ENCARGADO", null, "Seleccione encargado", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.REQUERIMIENTOS1.ENCARGADO, (IEnumerable<SelectListItem>)ViewData["ENCARGADO"], new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.ENCARGADO, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -142,27 +175,23 @@
                 @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.ESTADO, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.REQUERIMIENTOS1.VERSION_ID, "Versión", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.REQUERIMIENTOS1.VERSION_ID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.VERSION_ID, "", new { @class = "text-danger" })
-            </div>
+        @*
+    <div class="form-group">
+        @Html.LabelFor(model => model.REQUERIMIENTOS1.CRIT_ACEPTACION, "Criterios", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10" id="crite">
+            @Html.AddLink("Agregar criterio", "#crite", ".criterios", "CRIT_ACEPTACION", typeof(ProyectoDeInge.Models.CRIT_ACEPTACION))
+            @Html.EditorFor(model => model.REQUERIMIENTOS1.CRIT_ACEPTACION, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.CRIT_ACEPTACION, "", new { @class = "text-danger" })
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.REQUERIMIENTOS1.CRIT_ACEPTACION, "Criterios", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10" id="crite">
-                @Html.AddLink("Agregar criterio", "#crite", ".criterios", "CRIT_ACEPTACION", typeof(ProyectoDeInge.Models.CRIT_ACEPTACION))
-                @Html.EditorFor(model => model.REQUERIMIENTOS1.CRIT_ACEPTACION, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.REQUERIMIENTOS1.CRIT_ACEPTACION, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    </div>
+        *@
         @Html.HiddenFor(Model => Model.REQUERIMIENTOS1.ID)
         @Html.HiddenFor(Model => Model.REQUERIMIENTOS1.PRYCTOID)
         @Html.HiddenFor(Model => Model.REQUERIMIENTOS1.VERSION_ID)
         @Html.HiddenFor(Model => Model.REQUERIMIENTOS1.ESTADO_CAMBIOS)
+        @Html.HiddenFor(Model => Model.FECHA)
+        @Html.HiddenFor(Model => Model.CEDULA)
+        @Html.HiddenFor(Model => Model.ID)
         @Html.HiddenFor(Model => Model.VIEJO_REQ_ID)
         @Html.HiddenFor(Model => Model.VIEJO_VER_ID)
         @Html.HiddenFor(Model => Model.NUEVO_REQ_ID)

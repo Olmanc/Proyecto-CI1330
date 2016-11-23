@@ -79,15 +79,13 @@
             </td>
             <td>
                 @{if (ViewBag.Permisos.Contains("11"))
-                {
+                    {
                         @Html.ActionLink("Consultar Versiones", "Versiones", new { id = item.ID })
+                        }
                     }
-
-                }
-
-
             </td>
+            
         </tr>
-                    }
+   }
 
 </table>

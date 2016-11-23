@@ -84,19 +84,22 @@ namespace ProyectoDeInge.Controllers
         public ActionResult Create(string id, int version)
         {
             var cambio = new CAMBIOS();
+            var correoUsuario = db.CORREOS.Where(s => s.CORREO.Contains(User.Identity.Name)).Single();
+            USUARIOS actual = correoUsuario.USUARIOS;
             int v = db.REQUERIMIENTOS.Where(s => s.ID.Contains(id)).Select(s => s.VERSION_ID).Max() + 1;
             REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id, version);
             rEQUERIMIENTOS.VERSION_ID = v;
             rEQUERIMIENTOS.ESTADO_CAMBIOS = "Pendiente";
+            cambio.USUARIOS = actual;
+            cambio.CEDULA = actual.CEDULA;
+            cambio.FECHA = DateTime.Now;
             cambio.REQUERIMIENTOS1 = rEQUERIMIENTOS;
             cambio.VIEJO_REQ_ID = id;
             cambio.VIEJO_VER_ID = version;
             cambio.NUEVO_REQ_ID = id;
             cambio.NUEVO_VER_ID = v;
-            ViewBag.VIEJO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE");
-            ViewBag.CED_REV = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
-            ViewBag.CEDULA = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE");
-            ViewBag.NUEVO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE");
+            ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", rEQUERIMIENTOS.PRYCTOID);
+            ViewBag.ENCARGADO = new SelectList(db.USUARIOS.Where(s => s.PRYCTOID.Contains(rEQUERIMIENTOS.PRYCTOID)), "CEDULA", "NOMBRE", rEQUERIMIENTOS.ENCARGADO);
             return View(cambio);
         }
 
@@ -109,12 +112,12 @@ namespace ProyectoDeInge.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.CAMBIOS.Add(cAMBIOS);
+                cAMBIOS.ID = Guid.NewGuid().ToString().Substring(0, 7);
                 db.REQUERIMIENTOS.Add(cAMBIOS.REQUERIMIENTOS1);
+                db.CAMBIOS.Add(cAMBIOS);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return View(cAMBIOS);
+            return RedirectToAction("Requerimientos");
         }
 
         // GET: Cambios/Edit/5

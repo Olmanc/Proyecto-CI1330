@@ -87,6 +87,9 @@
             <td>
                         @Html.ActionLink("Consultar", "ConsultarVers", new { id = item.ID, version = item.VERSION_ID })              
             </td>
+            <td>
+                @Html.ActionLink("Solicitar cambio", "Create", new { id = item.ID, version = item.VERSION_ID })
+            </td>
         </tr>
                     }
 
