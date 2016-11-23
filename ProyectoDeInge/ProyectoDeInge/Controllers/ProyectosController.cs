@@ -16,10 +16,19 @@ namespace ProyectoDeInge.Controllers
         private BD_IngeGrupo2Entities2 db = new BD_IngeGrupo2Entities2();
 
         // GET: Proyectos
-        public ActionResult Index()
+        public ActionResult Index(string buscar)
         {
             ProyectosViewModel modelo = new ProyectosViewModel();
-            modelo.listaProyectos = db.PROYECTO.ToList(); //lista de todos los proyectos en la BD
+            if (buscar != null)
+            {
+                var proyectos = db.PROYECTO.Where(s => s.ESTADO.Contains(buscar) || s.ID.Contains(buscar)
+                                                    || s.NOMBRE.Contains(buscar) || s.DESCRIPCION.Contains(buscar));
+                modelo.listaProyectos = proyectos.ToList();
+            }
+            else
+            {
+                modelo.listaProyectos = db.PROYECTO.ToList(); //lista de todos los proyectos en la BD
+            }
             List<PROYECTO> todoProyectos = db.PROYECTO.ToList(); //lista de todos los proyectos en la BD
             foreach (var proyecto in todoProyectos)
             {
@@ -28,6 +37,7 @@ namespace ProyectoDeInge.Controllers
                     modelo.listaProyectos.Remove(proyecto); //elimino proyectos que no se deben mostrar en la aplicación
                 }
             }
+
             modelo.verificaPermisos = obtienePermisos();
             var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual            
             var listauser = db.AspNetUsers.ToArray();
@@ -41,10 +51,13 @@ namespace ProyectoDeInge.Controllers
             }
 
             var rol = fg.AspNetRoles.First();   //obtiene el rol del ususario
-            if (rol.Id == "2") {                //si el usuario es desarrollador
+            if (rol.Id == "2")
+            {                //si el usuario es desarrollador
                 USUARIOS actual = db.USUARIOS.Where(i => i.ID_ASP == fg.Id).Single();
-                if (actual.PRYCTOID != null && actual.LIDER != null) {  //si el desarrollador es lider en un proyecto
-                    if (modelo.modeloProyecto != null) {
+                if (actual.PRYCTOID != null && actual.LIDER != null)
+                {  //si el desarrollador es lider en un proyecto
+                    if (modelo.modeloProyecto != null)
+                    {
                         if (modelo.modeloProyecto.ID != null)//esta en una vista con un proyecto especificado (vista de consulta(unificado))
                         {
                             if (actual.PRYCTOID == modelo.modeloProyecto.ID && actual.LIDER == true)
@@ -63,10 +76,10 @@ namespace ProyectoDeInge.Controllers
                                 modelo.verificaPermisos.Add("17");
                             }
                         }
-                    } 
-                }                    
+                    }
+                }
             }
-                       
+
             return View(modelo);
         }
 

@@ -382,7 +382,6 @@
     <Content Include="Views\Cambios\Delete.cshtml" />
     <Content Include="Views\Cambios\ConsultarVers.cshtml" />
     <Content Include="Views\Cambios\Edit.cshtml" />
-    <Content Include="Views\Cambios\Index.cshtml" />
     <Content Include="Views\Cambios\Unificado.cshtml" />
     <Content Include="Views\Cambios\Versiones.cshtml" />
     <Content Include="Views\Cambios\IndexSolicitudes.cshtml" />
