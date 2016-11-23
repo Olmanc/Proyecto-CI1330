@@ -1,31 +1,31 @@
-@model ProyectoDeInge.Models.ModeloIntermedioCambios
+﻿@model ProyectoDeInge.Models.ModeloIntermedioCambios
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Consultar Version</h2>
+<h2>Consultar Versión</h2>
 
 <div>
-    <h4>Version @Html.DisplayFor(model => model.actual.VERSION_ID)</h4>
+    <h4>Versión @Html.DisplayFor(model => model.actual.VERSION_ID)</h4>
     <hr />
-@**
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayName("Autor")
         </dt>
 
         <dd>
-            @Html.EditorFor(model => model.nombreCompleto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+            @Html.EditorFor(model => model.Cambio.nombreCompleto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
         </dd>
 
         <dt>
-            @Html.DisplayName("Descripcion:")
+            @Html.DisplayName("Descripción:")
         </dt>
 
         <dd>
-            @Html.EditorFor(model => model.DESCRIPCION, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+            @Html.EditorFor(model => model.Cambio.DESCRIPCION, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
         </dd>
 
         <dt>
@@ -33,20 +33,20 @@
         </dt>
 
         <dd>
-            @Html.EditorFor(model => model.FECHA, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+            @Html.EditorFor(model => model.Cambio.FECHA, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
         </dd>
 
         <dt>
-            @Html.DisplayName("Justificacion:")
+            @Html.DisplayName("Justificación:")
         </dt>
 
         <dd>
-            @Html.EditorFor(model => model.JUSTIFICACION, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
+            @Html.EditorFor(model => model.Cambio.JUSTIFICACION, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
         </dd>
     </dl>
     <hr />
-*@
-    <h4>Comparacion de Datos</h4>
+
+    <h4>Comparación de Datos</h4>
     @*Tabla de REQ Actual y REQ viejo*@
     <table class="table">
         <tr>
@@ -114,7 +114,7 @@
         @*Descripción de los requerimientos*@
         <tr>
             <th>
-                Descripcion
+                Descripción
             </th>
             <th>
                 <div class="col-md-10">
@@ -162,7 +162,7 @@
         @*Módulo de los requerimientos*@
         <tr>
             <th>
-                Modulo
+                Módulo
             </th>
             <th>
                 <div class="col-md-10">
@@ -194,7 +194,7 @@
         @*Fecha finalización de los requerimientos*@
         <tr>
             <th>
-                Fecha finalizacion
+                Fecha finalización
             </th>
             <th>
                 <div class="col-md-10">
@@ -242,7 +242,7 @@
         @*version de los requerimientos*@
         <tr>
             <th>
-                Version
+                Versión
             </th>
             <th>
                 <div class="col-md-10">
