@@ -162,7 +162,7 @@ namespace ProyectoDeInge.Controllers
 
             populateUsuarios_Create(proyecto.modeloProyecto); //llenar tabla de recursos asignados y disponibles
 
-            return View();
+            return View(proyecto);
         }
 
 
@@ -176,30 +176,40 @@ namespace ProyectoDeInge.Controllers
         */
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ModeloIntermedio pROYECTO)
+        public ActionResult Create(/*ModeloIntermedio pROYECTO*/ProyectosViewModel pROYECTO)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+
+            if (pROYECTO.modeloProyecto == null)//si la vista no devolvio un proyecto en el ProyectosViewmodel
+            {//tira error
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if ((pROYECTO.modeloProyecto.ID != null) && (pROYECTO.modeloProyecto.NOMBRE != null))
             {
                 ProyectosViewModel proyecto = new ProyectosViewModel();//nuevo viewModel
                 ViewBag.ESTADO = new SelectList(db.PROYECTO, "ESTADO"); //Viewbag de estados de proyecto
                 db.PROYECTO.Add(pROYECTO.modeloProyecto);
 
-                var proyectoID = pROYECTO.modeloUsuario.PRYCTOID; //id del proyecto donde se asignó el usuario
-                string cedula = string.Empty; // nuevo string
-                int val; //nuevo entero
-
-                for (int i = 0; i < proyectoID.Length; i++)
-                { //buscar id del usuario para asignarle el proyecto
-                    if (Char.IsDigit(proyectoID[i]))
-                        cedula += proyectoID[i];
-                }
-
-                if (cedula.Length > 0)
+                if (pROYECTO.modeloUsuario.PRYCTOID != null)
                 {
-                    val = int.Parse(cedula);
+                    var proyectoID = pROYECTO.modeloUsuario.PRYCTOID; //id del proyecto donde se asignó el usuario
+                    string cedula = string.Empty; // nuevo string
+                    int val; //nuevo entero
+
+                    for (int i = 0; i < proyectoID.Length; i++)
+                    { //buscar id del usuario para asignarle el proyecto
+                        if (Char.IsDigit(proyectoID[i]))
+                            cedula += proyectoID[i];
+                    }
+
+                    if (cedula.Length > 0)
+                    {
+                        val = int.Parse(cedula);
+                    }
+                    USUARIOS uSUARIO = db.USUARIOS.Find(cedula); //buscar usuario por cédula
+                    uSUARIO.PRYCTOID = pROYECTO.modeloProyecto.ID; //asignarle el proyecto al usuario
                 }
-                USUARIOS uSUARIO = db.USUARIOS.Find(cedula); //buscar usuario por cédula
-                uSUARIO.PRYCTOID = pROYECTO.modeloProyecto.ID; //asignarle el proyecto al usuario
 
                 if (pROYECTO.modeloProyecto.FECHAINICIO == null) //Si la fecha de inicio es nula la fecha por defecto corresponde la del día de creación del proyecto
                 {
@@ -231,13 +241,20 @@ namespace ProyectoDeInge.Controllers
                     }
                     int meses = totalDias / 30; // convertir de dias a meses
                     pROYECTO.modeloProyecto.DURACION = meses; //se le asigna al atributo duracion de modeloProyecto
-                    //totalDias = 67890;
+                                                              //totalDias = 67890;
                 }
                 db.SaveChanges(); //guarda todos los cambios
                 return RedirectToAction("Index"); //regresa al Index de proyectos
             }
+            else
+            {
+                Response.Write("<Script>alert('ERROR - No ingresó ID ni nombre del proyecto')</Script>");
+                return RedirectToAction("Create");
+            }
+            
+            //}
 
-            return View(pROYECTO);
+            //return View(pROYECTO);
         }
 
 

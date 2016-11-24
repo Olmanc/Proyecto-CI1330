@@ -22,9 +22,14 @@ namespace ProyectoDeInge.Models
             this.CAMBIOS1 = new HashSet<CAMBIOS>();
             this.CRIT_ACEPTACION = new HashSet<CRIT_ACEPTACION>();
         }
-    
+
+        [StringLength(7)]
+        [Required(ErrorMessage = "El ID es un campo requerido.")]
         public string ID { get; set; }
+
+        [Required(ErrorMessage = "El nombre del proyecto es un campo requerido.")]
         public string NOMBRE { get; set; }
+
         public Nullable<int> ESFUERZO { get; set; }
         public byte[] IMAGEN { get; set; }
         public string DESCRIPCION { get; set; }

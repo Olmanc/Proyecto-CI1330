@@ -22,15 +22,26 @@ namespace ProyectoDeInge.Models
             this.USUARIOS = new HashSet<USUARIOS>();
         }
 
+        [StringLength(7)]
+        [Required(ErrorMessage = "El ID es un campo requerido.")]
         public string ID { get; set; }
+        
+        [Required(ErrorMessage = "El nombre del proyecto es un campo requerido.")]
         public string NOMBRE { get; set; }
+
         public string DESCRIPCION { get; set; }
+
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> FECHAINICIO { get; set; }
+
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> FECHAFINAL { get; set; }
+
+        [Range(0, 1000000000000, ErrorMessage = "La duración debe ser un valor positivo")]
         public Nullable<int> DURACION { get; set; }
+
         public string ESTADO { get; set; }
+
         public Nullable<bool> BORRADO { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
