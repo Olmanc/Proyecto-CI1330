@@ -66,7 +66,7 @@
                 </div>
             </dd>
         </dl>
-
+    }
 
         <hr />
         <br />
@@ -539,76 +539,75 @@
                 }
             </tr>
         </table>
-        @*</div>*@ @*fin de los campos que puede modificar el solicitante*@
+    </div> @*fin de los campos que puede modificar el solicitante*@
 
 
-        <div class="revisarSolicitud">
-            <hr />
-            <br /> @*cambio de linea*@
-            <h4>Datos de la Revisión</h4>
-            <hr />
+<div class="revisarSolicitud">
+     <hr />
+    <br /> @*cambio de linea*@
+    <h4>Datos de la Revisión</h4>
+    <hr />
 
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayName("Estado de Revisión: ")
-                </dt>
+        <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Estado de Revisión: ")
+        </dt>
 
-                <dd>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.propuesto.ESTADO_CAMBIOS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
-                        @Html.ValidationMessageFor(model => model.propuesto.ESTADO_CAMBIOS, "", new { @class = "text-danger" })
-                    </div>
-                </dd>
-                <p>
-                <dt>
-                    @Html.DisplayName("Realizada por: ")
-                </dt>
-                <dd>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.solicitud.CED_REV, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
-                        @Html.ValidationMessageFor(model => model.solicitud.CED_REV, "", new { @class = "text-danger" })
-                    </div>
+        <dd>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.propuesto.ESTADO_CAMBIOS, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
+                @Html.ValidationMessageFor(model => model.propuesto.ESTADO_CAMBIOS, "", new { @class = "text-danger" })
+            </div>
+        </dd>
 
-                </dd>
-                </p>
+        <p>
+        <dt>
+            @Html.DisplayName("Realizada por: ")
+        </dt>
 
-                <dt>
-                    @Html.DisplayName("Fecha en que se realizó: ")
-                </dt>
+        <dd>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.solicitud.CED_REV, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
+                @Html.ValidationMessageFor(model => model.solicitud.CED_REV, "", new { @class = "text-danger" })
+            </div>
+        </dd>
+        </p>
 
-                <dd>
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.solicitud.FECHA_REV, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
-                        @Html.ValidationMessageFor(model => model.solicitud.FECHA_REV, "", new { @class = "text-danger" })
-                    </div>
-                </dd>
+        <dt>
+        @Html.DisplayName("Fecha en que se realizó: ")
+        </dt>
 
-                <p>
-                <dt>
-                    @Html.DisplayName("Justificación: ")
-                </dt>
+        <dd>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.solicitud.FECHA_REV, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
+                @Html.ValidationMessageFor(model => model.solicitud.FECHA_REV, "", new { @class = "text-danger" })
+            </div>
+        </dd>
 
-                <dd>
-                    <div class="col-md-10">
+        <p>
+        <dt>
+            @Html.DisplayName("Justificación: ")
+        </dt>
+
+        <dd>
+            <div class="col-md-10">
                         @Html.EditorFor(model => model.solicitud.JUST_REV, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
                         @Html.ValidationMessageFor(model => model.solicitud.JUST_REV, "", new { @class = "text-danger" })
-                    </div>
-                </dd>
-                </p>
-            </dl>
-        </div>
-
-        <div class="botonesModificar" style="display:none">
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" id="btnSubmit" value="Aceptar" class="btn btn-default" />
-                    <a class="btn btn-default" onclick="window.location = '@Url.Action("DetallesSolicitud", new { id = Model.solicitud.ID })';">Cancelar</a>
-                </div>
             </div>
-        </div>
+        </dd>
+        </p>
+    </dl>
+</div>
 
-    }
-</div>      
+<div class="botonesModificar" style="display:none">
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+        <input type="submit" id="btnSubmit" value="Aceptar" class="btn btn-default" />
+            <a class="btn btn-default" onclick="window.location = '@Url.Action("DetallesSolicitud", new { id = Model.solicitud.ID })';">Cancelar</a>
+        </div>
+    </div>
+</div>
+     
 <div>
     @*link para volver*@
     <p>
