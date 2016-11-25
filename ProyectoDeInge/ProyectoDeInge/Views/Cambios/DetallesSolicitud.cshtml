@@ -16,10 +16,12 @@
 </div>
 <hr /> @*raya*@
 <div />
-<div class="modificarSolicitud">
+
+@using (Html.BeginForm())
+{
+    <div class="modificarSolicitud">
     @*Clase con los datos que puede modificar el solicitante*@
-    @using (Html.BeginForm())
-    {
+    
         @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.solicitud.ID)
         @Html.HiddenFor(model => model.propuesto.ID)
@@ -66,7 +68,7 @@
                 </div>
             </dd>
         </dl>
-    }
+
 
         <hr />
         <br />
@@ -598,6 +600,7 @@
         </p>
     </dl>
 </div>
+}
 
 <div class="botonesModificar" style="display:none">
     <div class="form-group">
