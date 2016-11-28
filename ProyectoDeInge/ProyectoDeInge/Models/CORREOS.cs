@@ -19,7 +19,7 @@ namespace ProyectoDeInge.Models
 
         [StringLength(20)]
         [EmailAddress]
-        [Required(ErrorMessage = "El correo electrónico es un campo requerido.")]
+        //[Required(ErrorMessage = "El correo electrónico es un campo requerido.")]
         [Display(Name = "Correo electrónico:")]
         public string CORREO { get; set; }
 

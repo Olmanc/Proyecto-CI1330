@@ -40,6 +40,7 @@
         <th>
             Correo
         </th>
+        <th></th>
         
     </tr>
 
@@ -69,11 +70,14 @@
             </td>
             <td>
                 @{
-                    /*var id = Model.listaUsuarios.ElementAt(i).ID_ASP;
+                    var id = Model.listaUsuarios.ElementAt(i).ID_ASP;
                     var um = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
                     var ur = um.GetRoles(id);
-                    var rol = ur[0];
-                    @Html.DisplayFor(modelItem => rol)*/
+                    if (ur.Count() > 0)
+                    {
+                        var rol = ur[0];
+                        @Html.DisplayFor(modelItem => rol)
+                    }
                 }
             </td>            
             <td>

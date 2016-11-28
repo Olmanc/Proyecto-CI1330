@@ -19,6 +19,33 @@ namespace ProyectoDeInge.Controllers
     {
         private BD_IngeGrupo2Entities2 db = new BD_IngeGrupo2Entities2();
 
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
         // GET: Usuarios
         public ActionResult Index()
         {
@@ -45,7 +72,7 @@ namespace ProyectoDeInge.Controllers
             {     //los copia a un HashSet<string>
                 modelo.verificaPermisos.Add(p.ID);
             }
-
+            
             return View(modelo);
         }
 
@@ -128,7 +155,8 @@ namespace ProyectoDeInge.Controllers
         // GET: Usuarios/Create
         public ActionResult Create()
         {
-            return View();
+            var modelo = new ModeloIntermedio();
+            return View(modelo);
         }
 
 
@@ -137,71 +165,102 @@ namespace ProyectoDeInge.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "CEDULA,NOMBRE,APELLIDO1,APELLIDO2,PRYCTOID,LIDER,TELEFONO,TELEFONO2,CORREO,CORREOS2")]ModeloIntermedio modelo)
+        public async Task<ActionResult> Create(ModeloIntermedio modelo)
         {
             if (ModelState.IsValid)
             {
-                var user = new AspNetUsers {Id = Guid.NewGuid().ToString().Substring(1, 50), UserName = modelo.modeloCorreo.CORREO, Email = modelo.modeloCorreo.CORREO, PasswordHash = "AAA-111" }; 
+                var user = new ApplicationUser { UserName = modelo.modeloCorreo.CORREO, Email = modelo.modeloCorreo.CORREO };
                 user.EmailConfirmed = true;
                 user.PhoneNumberConfirmed = true;
-                db.AspNetUsers.Add(user);
-                modelo.modeloUsuario.ID_ASP = user.Id;
-                //db.AspNetUsers.Add(user);
-                db.USUARIOS.Add(modelo.modeloUsuario);
-                if (modelo.modeloCorreo != null)
+                var result = await UserManager.CreateAsync(user, "Pass.123");
+
+                if (result.Succeeded)
                 {
-                    modelo.modeloCorreo.CEDULA = modelo.modeloUsuario.CEDULA;
-                    db.CORREOS.Add(modelo.modeloCorreo);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);  //para iniciar sesion de una vez                  
+                }
+                else
+                {
+                    Response.Write("<Script>alert('ERROR - no creo AspNetUser.')</Script>");
                 }
 
-                if (modelo.modeloCorreo2 != null)
-                {
-                    modelo.modeloCorreo2.CEDULA = modelo.modeloUsuario.CEDULA;
-                    db.CORREOS.Add(modelo.modeloCorreo2);
-                }
+                var usuarioNuevo = modelo.modeloUsuario;
 
-                if (modelo.modeloTelefono != null)
-                {
-                    modelo.modeloTelefono.CEDULA = modelo.modeloUsuario.CEDULA;
-                    db.TELEFONOS.Add(modelo.modeloTelefono);
-                }
+                var aspUser = new AspNetUsers();
+                var listauser = db.AspNetUsers.ToArray();
 
-                if (modelo.modeloTelefono2 != null)
+                for (int i = 0; i < listauser.Length; i++)
                 {
-                    modelo.modeloTelefono2.CEDULA = modelo.modeloUsuario.CEDULA;
-                    db.TELEFONOS.Add(modelo.modeloTelefono2);
+                    if (listauser[i].Email == modelo.modeloCorreo.CORREO)
+                    {
+                        aspUser = listauser[i];
+                    }
+                }
+                var role = db.AspNetRoles.Where(r => r.Id == modelo.rol).First();
+                aspUser.AspNetRoles.Add(role);
+                var id = aspUser.Id;
+                usuarioNuevo.ID_ASP = id;
+                db.USUARIOS.Add(usuarioNuevo);
+
+                //correo1 nunca va a ser nulo
+                CORREOS cor1 = modelo.modeloCorreo;
+                cor1.CEDULA = usuarioNuevo.CEDULA;
+                db.CORREOS.Add(cor1);
+
+                if (modelo.modeloCorreo2.CORREO != null)
+                {
+                    CORREOS cor2 = modelo.modeloCorreo2;
+                    cor2.CEDULA = usuarioNuevo.CEDULA;
+                    db.CORREOS.Add(cor2);
+                }
+                if (modelo.modeloTelefono.NUMERO != null)
+                {
+                    TELEFONOS tel1 = modelo.modeloTelefono;
+                    tel1.CEDULA = usuarioNuevo.CEDULA;
+                    db.TELEFONOS.Add(tel1);
+                }
+                if (modelo.modeloTelefono2.NUMERO != null)
+                {
+                    TELEFONOS tel2 = modelo.modeloTelefono2;
+                    tel2.CEDULA = usuarioNuevo.CEDULA;
+                    db.TELEFONOS.Add(tel2);
                 }
                 db.SaveChanges();
-                /*string text = string.Format("Your Password is: " + Password);
-                System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
-                msg.From = new MailAddress("voncita20@outlook.com");
-                msg.To.Add(new MailAddress(modelo.modeloCorreo.CORREO));
-                msg.Subject = "Your Password";
-                msg.Body = text;
-                msg.IsBodyHtml = true;*/
 
-                // msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain)); 
-                // msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html)); 
+                //string text = string.Format("Your Password is: Pass.123");
+                //System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
+                //msg.From = new MailAddress("voncita20@outlook.com");
+                //msg.To.Add(new MailAddress(modelo.correo1.CORREO));
+                //msg.Subject = "Your Password";
+                //msg.Body = text;
+                //msg.IsBodyHtml = true;
 
-               /* using (var smtp = new SmtpClient())
-                {
-                    var credential = new NetworkCredential
-                    {
-                        UserName = "voncita20@outlook.com",
-                        Password = "Javi-200495"
-                    };
+                //// msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain)); 
+                ////msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
 
-                    smtp.Credentials = credential;
-                    smtp.Host = "smtp-mail.outlook.com";
-                    smtp.Port = 587;
-                    smtp.EnableSsl = true;
-                    await smtp.SendMailAsync(msg);
-                    //return RedirectToAction("") 
-                }
-                return RedirectToAction("Index");*/
+                //using (var smtp = new SmtpClient())
+                //{
+                //    var credential = new NetworkCredential
+                //    {
+                //        UserName = "voncita20@outlook.com",
+                //        Password = "Javi-200495"
+                //    };
+
+                //    smtp.Credentials = credential;
+
+                //    smtp.Host = "smtp-mail.outlook.com";
+
+                //    smtp.Host = "smtp.live.com";
+
+                //    smtp.Port = 587;
+                //    smtp.EnableSsl = true;
+                //    await smtp.SendMailAsync(msg);
+                //    //return RedirectToAction("") 
+                //}
             }
-            ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", modelo.modeloUsuario.PRYCTOID);
-            return View(modelo);
+
+            return RedirectToAction("Index");
+            //ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", modelo.modeloUsuario.PRYCTOID);
+            //return View(modelo);
         }
 
         // GET: Usuarios/Edit/5
@@ -369,8 +428,19 @@ namespace ProyectoDeInge.Controllers
 
         public ActionResult eliminarPersona(string id)
         {
+            var correos = db.CORREOS.Where(c => c.CEDULA == id);
+            foreach( var c in correos){
+                db.CORREOS.Remove(c);
+            }
+            var telefonos = db.TELEFONOS.Where(t => t.CEDULA == id);
+            foreach (var t in telefonos) {
+                db.TELEFONOS.Remove(t);
+            }
             USUARIOS persona = db.USUARIOS.Find(id);
+            string aspId = persona.ID_ASP;
             db.USUARIOS.Remove(persona);
+            var user = db.AspNetUsers.Find(aspId);
+            db.AspNetUsers.Remove(user);
             db.SaveChanges();
             return Json(new { success = true });
         }
