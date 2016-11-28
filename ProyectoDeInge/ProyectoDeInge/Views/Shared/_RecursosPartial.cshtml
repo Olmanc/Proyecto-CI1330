@@ -1,0 +1,109 @@
+﻿@model ProyectoDeInge.Models.ProyectosViewModel
+
+@if (TempData["Parcial"] == null)
+{
+    <div class="row" style="margin-left: 25px">
+        <div class="col-md-2">&nbsp;</div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Recursos Asignados</label>
+            @Html.DisplayFor(model => model.listaRecursos)
+            @Html.ListBox("recursosAsignados", (MultiSelectList)ViewBag.Asignados, new { @class = "form-control" })
+            @*@Html.ListBox("recursosAsignados", (MultiSelectList)Model.listaRecursos, new { @class = "form-control" })*@
+
+        </div>
+        <div class="botones" style="display:none ">
+            <div class="form-group col-md-1" style="margin-left: 25px">
+                <div class="form-group">
+                    <button type="button" id="btnRight" class="btn btn-primary btn-lg">
+                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="btnLeft" class="btn btn-primary btn-lg">
+                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                    </button>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="listaDisp" style="display:none ">
+            <div class="form-group col-md-4" style="margin-left: 5px">
+                <label class="control-label">Recursos Disponibles</label>
+                @Html.ListBox("recursosDisponibles", (MultiSelectList)ViewBag.Disponibles, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row" style="margin-left: 25px">
+        <div class="col-md-2">&nbsp;</div>
+        <div class="form-group col-md-4">
+            <label class="control-label">Recursos Asignados</label>
+            @Html.DisplayFor(model => model.listaRecursos)
+            @Html.ListBox("recursosAsignados", (MultiSelectList)ViewBag.Asignados, new { @class = "form-control" })
+            @*@Html.ListBox("recursosAsignados", (MultiSelectList)Model.listaRecursos, new { @class = "form-control" })*@
+
+        </div>
+        <div class="botones" @*style="display:none*@ ">
+            <div class="form-group col-md-1" style="margin-left: 25px">
+                <div class="form-group">
+                    <button type="button" id="btnRight" class="btn btn-primary btn-lg">
+                        <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="btnLeft" class="btn btn-primary btn-lg">
+                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                    </button>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="listaDisp" @*style="display:none*@ ">
+            <div class="form-group col-md-4" style="margin-left: 5px">
+                <label class="control-label">Recursos Disponibles</label>
+                @Html.ListBox("recursosDisponibles", (MultiSelectList)ViewBag.Disponibles, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $('#btnRight').click(function (e) {
+        var seleccionados = $('#recursosAsignados option:selected');
+        if (seleccionados.length == 0) {
+            alert("no hay recursos seleccionados");
+            e.preventDefault();
+        }
+
+        $('#recursosDisponibles').append($(seleccionados).clone());
+        $(seleccionados).remove();
+        e.preventDefault();
+    });
+
+    $('#btnLeft').click(function (e) {
+        var seleccionados = $('#recursosDisponibles option:selected');
+        if (seleccionados.length == 0) {
+            alert("no hay recursos seleccionados");
+            e.preventDefault();
+        }
+
+        $('#recursosAsignados').append($(seleccionados).clone());
+        $(seleccionados).remove();
+        e.preventDefault();
+    });
+
+    $('#btnSubmit').click(function (e) {
+        $('#recursosAsignados option').prop('selected', true);
+        $('#recursosDisponibles option').prop('selected', true);
+    });
+
+</script>
+ 
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqeuryval")
+    @Scripts.Render("~/bundles/multiselect")
+}

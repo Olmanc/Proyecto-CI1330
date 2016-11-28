@@ -161,7 +161,7 @@ namespace ProyectoDeInge.Controllers
             }
 
             populateUsuarios_Create(proyecto.modeloProyecto); //llenar tabla de recursos asignados y disponibles
-
+            TempData["Parcial"] = "crear";
             return View(proyecto);
         }
 
@@ -358,6 +358,53 @@ namespace ProyectoDeInge.Controllers
             ViewBag.Disponibles = new MultiSelectList(recursosDisponibles, "Cedula", "nombreCompleto");
         }
 
+        public PartialViewResult llenaRecursos(string id) {
+            var todosRecursos = buscaResursos();//obtiene a todos los desarrolladores            
+            var modeloParcial = new ProyectosViewModel();
+
+            //var recursos = new HashSet<string>(proyecto.USUARIOS.Select(u => u.CEDULA));//
+            var recursosasignados = new List<RecursosViewModel>();//lista para recursos asignados al proyecto
+            var recursosdisponibles = new List<RecursosViewModel>();//lista para recursos sin proyecto asignado
+
+            var lider = db.USUARIOS.Find(id);
+
+            foreach (var rec in todosRecursos)//de de todos los desarrolladores
+            {
+                if (rec.PRYCTOID == lider.PRYCTOID && rec.CEDULA != id)//si estan asignados al proyecto, es agregado a la lista de recursos
+                {
+                    recursosasignados.Add(new RecursosViewModel
+                    {
+                        Cedula = rec.CEDULA,
+                        Nombre = rec.NOMBRE,
+                        usuarioProyecto = rec.PRYCTOID,
+                        Apellido1 = rec.APELLIDO1,
+                        Apelliso2 = rec.APELLIDO2,
+                        usuarioID = rec.ID_ASP
+                    });
+                }
+                else
+                {//if(rec.PRYCTOID == null), para que no cargue los que ya estan trabajando en otro proyecto
+                    if (rec.PRYCTOID == null)
+                    {//agrega a la lista de desarrolladores disponibles
+                        recursosdisponibles.Add(new RecursosViewModel
+                        {
+                            Cedula = rec.CEDULA,
+                            Nombre = rec.NOMBRE,
+                            usuarioProyecto = rec.PRYCTOID,
+                            Apellido1 = rec.APELLIDO1,
+                            Apelliso2 = rec.APELLIDO2,
+                            usuarioID = rec.ID_ASP
+                        });
+                    }
+                }
+            }
+            TempData["Parcial"] = "parcial";
+            //llena viewBags para cada lista
+            ViewBag.Asignados = new MultiSelectList(recursosasignados, "Cedula", "nombreCompleto");
+            ViewBag.Disponibles = new MultiSelectList(recursosdisponibles, "Cedula", "nombreCompleto");
+            return PartialView("_RecursosPartial", modeloParcial);
+        }
+
 
         /*
          REQ: proyecto que se va a consultar/modificar/eliminar
@@ -371,12 +418,15 @@ namespace ProyectoDeInge.Controllers
             //var recursos = new HashSet<string>(proyecto.USUARIOS.Select(u => u.CEDULA));//
             var recursosAsignados = new List<RecursosViewModel>();//lista para recursos asignados al proyecto
             var recursosDisponibles = new List<RecursosViewModel>();//lista para recursos sin proyecto asignado
-            
+            var listaLideres = new List<RecursosViewModel>();
+
+            var lider = db.USUARIOS.Where(u => u.PRYCTOID == proyecto.ID && u.LIDER == true).Single();
+
             foreach (var rec in todosRecursos)//de de todos los desarrolladores
             {
-                if (rec.PRYCTOID == proyecto.ID)//si estan asignados al proyecto, es agregado a la lista de recursos
+                if (rec.PRYCTOID == proyecto.ID/* && rec.CEDULA != lider.CEDULA*/)//si estan asignados al proyecto, es agregado a la lista de recursos
                 {
-                    recursosAsignados.Add(new RecursosViewModel
+                    listaLideres.Add(new RecursosViewModel
                     {
                         Cedula = rec.CEDULA,
                         Nombre = rec.NOMBRE,
@@ -385,6 +435,17 @@ namespace ProyectoDeInge.Controllers
                         Apelliso2 = rec.APELLIDO2,
                         usuarioID = rec.ID_ASP
                     });
+                    if (rec.LIDER == false) {
+                        recursosAsignados.Add(new RecursosViewModel
+                        {
+                            Cedula = rec.CEDULA,
+                            Nombre = rec.NOMBRE,
+                            usuarioProyecto = rec.PRYCTOID,
+                            Apellido1 = rec.APELLIDO1,
+                            Apelliso2 = rec.APELLIDO2,
+                            usuarioID = rec.ID_ASP
+                        });
+                    }                    
                 }
                 else
                 {//if(rec.PRYCTOID == null), para que no cargue los que ya estan trabajando en otro proyecto
@@ -398,13 +459,13 @@ namespace ProyectoDeInge.Controllers
                             Apelliso2 = rec.APELLIDO2,
                             usuarioID = rec.ID_ASP
                         });
-                    }
-                    
+                    }                    
                 }
             }
             //llena viewBags para cada lista
             ViewBag.Asignados = new MultiSelectList(recursosAsignados, "Cedula", "nombreCompleto");
             ViewBag.Disponibles = new MultiSelectList(recursosDisponibles, "Cedula", "nombreCompleto");
+            ViewBag.Lideres = new MultiSelectList(listaLideres, "Cedula", "nombreCompleto");
         }
 
         /*
@@ -424,6 +485,8 @@ namespace ProyectoDeInge.Controllers
             {//si el proyecto no existe, tira error
                 return HttpNotFound();
             }
+
+            proyecto.modeloUsuario = db.USUARIOS.Where(u => u.PRYCTOID == id && u.LIDER == true).Single();
                      
             proyecto.verificaPermisos = obtienePermisos();//obtiene los permisos del rol del usuario
 
@@ -518,12 +581,19 @@ namespace ProyectoDeInge.Controllers
 
             //intenta actualizar los datos del proyecto
             try
-            {   //si esta en la lista de recursos asignados, es asignado al proyecto
+            {
+                var lider = db.USUARIOS.Find(modelo.modeloUsuario.CEDULA);//asigna recurso como lider del proyecto
+                lider.LIDER = true;
+                db.Entry(lider).State = EntityState.Modified;
+                db.SaveChanges();
+
+                //si esta en la lista de recursos asignados, es asignado al proyecto
                 if (recursosAsignados != null)
                 {
                     foreach (var r in recursosAsignados)
                     {
                         var variable = db.USUARIOS.Find(r);
+                        variable.LIDER = false;                     //desasigna lider anterior
                         variable.PRYCTOID = modelo.modeloProyecto.ID;
                         db.Entry(variable).State = EntityState.Modified;
                         db.SaveChanges();
@@ -619,7 +689,5 @@ namespace ProyectoDeInge.Controllers
                 return Json(new { success = false });
             }
         }
-
-
     }
 }
