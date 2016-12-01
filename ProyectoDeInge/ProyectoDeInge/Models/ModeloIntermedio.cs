@@ -4,9 +4,23 @@ using System.Linq;
 using System.Web;
 using ProyectoDeInge.Models;
 using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProyectoDeInge.Models
 {
+
+    public class SendEmailViewModel
+    {
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+    }
+
     public class ModeloIntermedio
     {
         public USUARIOS modeloUsuario { get; set; }

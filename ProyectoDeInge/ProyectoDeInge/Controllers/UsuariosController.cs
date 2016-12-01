@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using System.Net.Mail;
+using System.IO;
+using System.Web.Hosting;
+using System.Globalization;
 
 namespace ProyectoDeInge.Controllers
 {
@@ -226,36 +229,13 @@ namespace ProyectoDeInge.Controllers
                 }
                 db.SaveChanges();
 
-                //string text = string.Format("Your Password is: Pass.123");
-                //System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
-                //msg.From = new MailAddress("voncita20@outlook.com");
-                //msg.To.Add(new MailAddress(modelo.correo1.CORREO));
-                //msg.Subject = "Your Password";
-                //msg.Body = text;
-                //msg.IsBodyHtml = true;
+                SendEmailViewModel email = new SendEmailViewModel();
+                email.FirstName = modelo.modeloUsuario.NOMBRE;
+                email.Email = modelo.modeloCorreo.CORREO;
+                var message = await EMailTemplate("WelcomeEmail");
+                message = message.Replace("@ViewBag.Name", CultureInfo.CurrentCulture.TextInfo.ToTitleCase(email.FirstName));
+                await MessageServices.SendEmailAsync(email.Email, "Bienvenido", message);
 
-                //// msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain)); 
-                ////msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
-
-                //using (var smtp = new SmtpClient())
-                //{
-                //    var credential = new NetworkCredential
-                //    {
-                //        UserName = "voncita20@outlook.com",
-                //        Password = "Javi-200495"
-                //    };
-
-                //    smtp.Credentials = credential;
-
-                //    smtp.Host = "smtp-mail.outlook.com";
-
-                //    smtp.Host = "smtp.live.com";
-
-                //    smtp.Port = 587;
-                //    smtp.EnableSsl = true;
-                //    await smtp.SendMailAsync(msg);
-                //    //return RedirectToAction("") 
-                //}
             }
 
             return RedirectToAction("Index");
@@ -484,6 +464,16 @@ namespace ProyectoDeInge.Controllers
             }
             return View(modelo);
         }
+
+        public static async Task<string> EMailTemplate(string template)
+        {
+            var templateFilePath = HostingEnvironment.MapPath("~/Content/templates/") + template + ".cshtml";
+            StreamReader objstreamreaderfile = new StreamReader(templateFilePath);
+            var body = await objstreamreaderfile.ReadToEndAsync();
+            objstreamreaderfile.Close();
+            return body;
+        }
+
         /*
         public async Task<string> GetRolesForUser(string userId)
         {
