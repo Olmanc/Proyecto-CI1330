@@ -229,13 +229,22 @@ namespace ProyectoDeInge.Controllers
         public ActionResult IndexSolicitudes()
         {
             CambiosViewModel modelo = new CambiosViewModel();
-            modelo.listaCambios = db.CAMBIOS.ToList();
+            List<CAMBIOS> lista = db.CAMBIOS.ToList();
+            modelo.listaCambios = new List<CAMBIOS>();
+
+            foreach (var l in lista)
+            {
+                if ((l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "Pendiente") || (l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "En revisión"))
+                {
+                    modelo.listaCambios.Add(l);
+                }
+            }
             //var cAMBIOS = db.CAMBIOS.Include(c => c.REQUERIMIENTOS).Include(c => c.USUARIOS).Include(c => c.USUARIOS1).Include(c => c.REQUERIMIENTOS1);
             return View(modelo);
         }
 
         /*////////////////////////////////////////////////////////////////////////////////////////////////////////////
-         Detalles de una solicitud*/
+                Detalles de una solicitud*/
         /* EFECTO: muestra todos los datos de una solicitud
          * REQUIERE: id de la solicitud a consultar
          * MODIFICA: N/A  */
@@ -247,6 +256,7 @@ namespace ProyectoDeInge.Controllers
             }
             CambiosViewModel modelo = new CambiosViewModel();
             modelo.solicitud = db.CAMBIOS.Find(id);
+
             if (modelo.solicitud == null)
             {
                 return HttpNotFound();
@@ -254,6 +264,24 @@ namespace ProyectoDeInge.Controllers
             modelo.propuesto = db.REQUERIMIENTOS.Find(modelo.solicitud.NUEVO_REQ_ID, modelo.solicitud.NUEVO_VER_ID);
             modelo.vigente = db.REQUERIMIENTOS.Find(modelo.solicitud.VIEJO_REQ_ID, modelo.solicitud.VIEJO_VER_ID);
             modelo.solicitante = db.USUARIOS.Find(modelo.solicitud.CEDULA);
+
+            modelo.actual = db.REQUERIMIENTOS.Where(s => s.ID == modelo.solicitud.NUEVO_REQ_ID && s.ESTADO_CAMBIOS == "Aprobado").First();
+
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
+
+            var listauser = db.AspNetUsers.ToArray();
+            for (int i = 0; i < listauser.Length; i++)
+            {                           //de todos los AspNetUser del sistema, encuentra el usuario activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+
+            var usuario = db.USUARIOS.Where(u => u.ID_ASP.Equals(fg.Id)).Single();
+            modelo.solicitud.CED_REV = usuario.CEDULA;
+            ViewBag.ENCARGADO = new SelectList(db.USUARIOS.Where(s => s.PRYCTOID == modelo.propuesto.PRYCTOID), "CEDULA", "nombreCompleto", modelo.propuesto.ENCARGADO);
+
             return View(modelo);
         }
 
@@ -261,10 +289,13 @@ namespace ProyectoDeInge.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DetallesSolicitud(CambiosViewModel modelo)
         {
-            if (modelo == null) {
+            if (modelo == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            REQUERIMIENTOS cambioActualizado = db.REQUERIMIENTOS.Find( modelo.propuesto.ID, modelo.propuesto.VERSION_ID);
+
+            REQUERIMIENTOS cambioActualizado = db.REQUERIMIENTOS.Find(modelo.propuesto.ID, modelo.propuesto.VERSION_ID);
+            REQUERIMIENTOS reqAntiguo = db.REQUERIMIENTOS.Find(modelo.actual.ID, modelo.actual.VERSION_ID);
             cambioActualizado.NOMBRE = modelo.propuesto.NOMBRE;
             cambioActualizado.DESCRIPCION = modelo.propuesto.DESCRIPCION;
             cambioActualizado.ENCARGADO = modelo.propuesto.ENCARGADO;
@@ -283,23 +314,107 @@ namespace ProyectoDeInge.Controllers
             cambioActualizado.SPRINT = modelo.propuesto.SPRINT;
             //cambioActualizado.USUARIOS = modelo.propuesto.USUARIOS;
             //cambioActualizado.VERSION_ID = modelo.propuesto.VERSION_ID;
-                
+
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
+
+            var listauser = db.AspNetUsers.ToArray();
+            for (int i = 0; i < listauser.Length; i++)
+            {                           //de todos los AspNetUser del sistema, encuentra el usuario activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+
+            var usuario = db.USUARIOS.Where(u => u.ID_ASP.Equals(fg.Id)).Single();
+
+            CAMBIOS cambio = db.CAMBIOS.Find(modelo.solicitud.ID);
+
+            cambio.DESCRIPCION = modelo.solicitud.DESCRIPCION;
+            cambio.FECHA = DateTime.Now;
+            cambio.JUSTIFICACION = modelo.solicitud.JUSTIFICACION;
+
+            if (cambioActualizado.ESTADO_CAMBIOS != modelo.propuesto.ESTADO_CAMBIOS)
+            {
+                cambio.CED_REV = usuario.CEDULA;
+                if (modelo.solicitud.FECHA_REV == null)
+                {
+                    cambio.FECHA_REV = DateTime.Now;
+                }
+                else
+                {
+                    cambio.FECHA_REV = modelo.solicitud.FECHA_REV;
+                }
+                cambio.JUST_REV = modelo.solicitud.JUST_REV;
+                AceptarSolicitud(modelo, reqAntiguo, cambioActualizado, cambio);
+            }
+
+            cambioActualizado.ESTADO_CAMBIOS = modelo.propuesto.ESTADO_CAMBIOS;
             //if (ModelState.IsValid)
             //{
-                db.Entry(cambioActualizado).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("DetallesSolicitud", new { ID = modelo.solicitud.ID });
+            db.Entry(reqAntiguo).State = EntityState.Modified;
+            db.Entry(cambioActualizado).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("DetallesSolicitud", new { ID = modelo.solicitud.ID });
             //}
             //return null;
         }
 
-        public ActionResult AceptarSolicitud() {
-            return null;
+        public /*ActionResult*/ void AceptarSolicitud(CambiosViewModel modelo, REQUERIMIENTOS antiguo, REQUERIMIENTOS nuevo, CAMBIOS cambio/*, CAMBIOS actual*/)
+        {
+            if (modelo.propuesto.ESTADO_CAMBIOS == "Aprobado")
+            {
+                //antiguo.ESTADO_CAMBIOS = "Obsoleto";
+                REQUERIMIENTOS pivote = nuevo;
+                nuevo = antiguo;
+                antiguo = pivote;
+                nuevo.ESTADO_CAMBIOS = "Obsoleto";
+                cambio.VIEJO_REQ_ID = cambio.NUEVO_REQ_ID;
+                cambio.VIEJO_VER_ID = cambio.NUEVO_VER_ID;
+                modelo.vigente = antiguo;
+                //modelo.propuesto.ESTADO_CAMBIOS = modelo.propuesto.ESTADO_CAMBIOS;
+                //actual = cambio;
+            }
+            //return modelo;
         }
 
-        public ActionResult rechazarSolicitud() {
-            return null;
+        public /*ActionResult*/ void RechazarSolicitud(CambiosViewModel modelo)
+        {
+            modelo.propuesto.ESTADO_CAMBIOS = "Rechazado";
+            //return null;
         }
+
+        public ActionResult eliminarSolicitud(string id)
+        {
+            CAMBIOS cambio = db.CAMBIOS.Find(id);
+            REQUERIMIENTOS req = db.REQUERIMIENTOS.Find(cambio.NUEVO_REQ_ID, cambio.NUEVO_VER_ID);
+
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
+
+            var listauser = db.AspNetUsers.ToArray();
+            for (int i = 0; i < listauser.Length; i++)
+            {                           //de todos los AspNetUser del sistema, encuentra el usuario activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+
+            var usuario = db.USUARIOS.Where(u => u.ID_ASP.Equals(fg.Id)).Single();
+
+            if ((cambio.CEDULA == usuario.CEDULA) && (req.ESTADO_CAMBIOS == "Pendiente"))
+            {
+                db.CAMBIOS.Remove(cambio);
+                db.REQUERIMIENTOS.Remove(req);
+                db.SaveChanges();
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
+        }
+
     }
 }
 

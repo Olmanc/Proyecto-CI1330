@@ -24,9 +24,11 @@ namespace ProyectoDeInge.Models
 
         [StringLength(7)]
         [Required(ErrorMessage = "El ID es un campo requerido.")]
+        [RegularExpression(@"^[0-9a-zA-Z]+$", ErrorMessage = "El ID solo puede estar compuesto por caracteres alfanuméricos")]
         public string ID { get; set; }
         
         [Required(ErrorMessage = "El nombre del proyecto es un campo requerido.")]
+        [RegularExpression(@"^[0-9a-zA-Z]+$", ErrorMessage = "El nombre solo puede estar compuesto por caracteres alfanuméricos")]
         public string NOMBRE { get; set; }
 
         public string DESCRIPCION { get; set; }

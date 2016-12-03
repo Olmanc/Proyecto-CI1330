@@ -185,7 +185,7 @@ namespace ProyectoDeInge.Controllers
             {//tira error
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            if ((pROYECTO.modeloProyecto.ID != null) && (pROYECTO.modeloProyecto.NOMBRE != null))
+            if ((pROYECTO.modeloProyecto.ID != null) || (pROYECTO.modeloProyecto.NOMBRE != null))
             {
                 ProyectosViewModel proyecto = new ProyectosViewModel();//nuevo viewModel
                 ViewBag.ESTADO = new SelectList(db.PROYECTO, "ESTADO"); //Viewbag de estados de proyecto

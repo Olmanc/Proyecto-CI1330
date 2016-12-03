@@ -57,6 +57,8 @@ namespace ProyectoDeInge.Models
 
         public string ID_ASP { get; set; }
 
+        public string nombreCompleto { get { return string.Format("{0} {1} {2}", NOMBRE, APELLIDO1, APELLIDO2); } }
+
         public virtual AspNetUsers AspNetUsers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CAMBIOS> CAMBIOS { get; set; }

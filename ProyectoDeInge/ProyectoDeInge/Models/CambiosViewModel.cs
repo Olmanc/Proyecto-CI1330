@@ -12,7 +12,7 @@ namespace ProyectoDeInge.Models
         //public USUARIOS revision { get; set; }
         //public REQUERIMIENTOS requerimiento { get; set; }
         public CAMBIOS cambio { get; set; }
-        public CAMBIOS actual { get; set; }
+        public REQUERIMIENTOS actual { get; set; } //era de tipo CAMBIOS
 
         public List<CAMBIOS> listaCambios = new List<CAMBIOS>();
         //public List<USUARIOS> listaUsuarios = new List<USUARIOS>();

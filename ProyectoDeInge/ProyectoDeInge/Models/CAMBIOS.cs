@@ -11,12 +11,16 @@ namespace ProyectoDeInge.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class CAMBIOS
     {
         public string ID { get; set; }
         public string CEDULA { get; set; }
+
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> FECHA { get; set; }
+
         public string DESCRIPCION { get; set; }
         public string JUSTIFICACION { get; set; }
         public string VIEJO_REQ_ID { get; set; }
@@ -24,7 +28,10 @@ namespace ProyectoDeInge.Models
         public string NUEVO_REQ_ID { get; set; }
         public Nullable<int> NUEVO_VER_ID { get; set; }
         public string JUST_REV { get; set; }
+
+        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> FECHA_REV { get; set; }
+
         public string CED_REV { get; set; }
         public string nombreCompleto { get { return string.Format("{0} {1} {2}", USUARIOS1.NOMBRE, USUARIOS1.APELLIDO1, USUARIOS1.APELLIDO2); } }
         public virtual REQUERIMIENTOS REQUERIMIENTOS { get; set; }
