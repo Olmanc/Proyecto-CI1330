@@ -6,7 +6,30 @@
     ViewBag.Title = "Unificado2";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+@*-----SweetAlert-----*@
+<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+
 <script>
+    $(document).ready(function () {
+        if ('@TempData["Unificado2"]' == "Exito") {
+            toastr.success('Cambios en el requerimientos guardados exitosamente!', 'EXITO', {
+                positionClass: "toast-bottom-right"
+            });
+        }
+        if ('@TempData["Unificado2"]' == "Error") {
+            toastr.success('Error al modificar el requerimiento, los cambios no fueron guardados', 'ERROR', {
+                positionClass: "toast-bottom-right"
+            });
+        }
+    });
+
     function removeNestedForm(element, container, deleteElement) {
         $container = $(element).parents(container);
         $container.find(deleteElement).val('True');
@@ -26,27 +49,36 @@
         $('.ocultar2').show();
     }
 
-    function confirmarEliminar(ID, VERSION_ID) { @*REQ: ID y Versión del Requerimiento
-                                                   MOD: La base de Datos (Se borra el requerimiento)*@
-
-        var respuesta = confirm('¿Confirma que desea eliminar este requerimiento del sistema? ');
-
-        if (respuesta == true)
-        {
+    @*REQ: ID y Versión del Requerimiento
+    MOD: La base de Datos (Se borra el requerimiento)*@
+    function confirmarEliminar(ID, VERSION_ID) {
+        swal({
+            title: "Esta seguro que desea eliminar a este requerimieno?",
+            text: "Esta acción no es reversible!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Confirmar!",
+            closeOnConfirm: true
+        },
+        function () {
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("eliminarReq")',
                 data: 'id='+ID+'&version=' +VERSION_ID,
                 success: function (result) {
-                    if (result.success)
-					{
-						alert('Requerimiento eliminado con éxito');
-						var url = '@Url.Action("Index", "Requerimientos")';
-						window.location.href = url;
-					}
+                    if (result.success) {
+                        toastr.success('Requerimiento eliminado con éxito!', 'EXITO', {
+                            onHidden: function () {
+                                var url = '@Url.Action("Index", "Requerimientos")';
+                                window.location.href = url;
+                            }, positionClass: 'toast-bottom-right'
+                        })
+                    }
                 },
             });
-        }
+
+        });        
     }
 
 </script>
@@ -225,8 +257,8 @@
             <div class="ocultar2" style="display:none">
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Aceptar" class="btn btn-default" />
-                        <a class="btn btn-default" onclick="window.location = '@Url.Action("Unificado2", new { id = Model.ID, version = Model.VERSION_ID })';">Cancelar</a>
+                        <input type="submit" value="Aceptar" class="btn btn-primary" />
+                        <a class="btn btn-info" onclick="window.location = '@Url.Action("Unificado2", new { id = Model.ID, version = Model.VERSION_ID })';">Cancelar</a>
                     </div>
                 </div>
             </div>

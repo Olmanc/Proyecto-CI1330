@@ -5,6 +5,30 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+@*-----SweetAlert-----*@
+<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+
+<script>
+    $(document).ready(function () {
+        if ('@TempData["Create"]' = "Exito") {
+            toastr.success('Requerimiento creado exitosamente', 'EXITO', {
+                positionClass: "toast-bottom-right"
+            });
+        }
+        if ('@TempData["Create"]' == "Error") {
+            toastr.success('Error al crear el requerimiento', 'ERROR', {
+                positionClass: "toast-bottom-right"
+            });
+        }
+    });
+</script>
+
 <h2>Gestión de requerimientos</h2>
 
 <p>

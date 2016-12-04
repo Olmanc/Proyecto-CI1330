@@ -5,6 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+@*-----SweetAlert-----*@
+<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+
 <h2>Agregar Proyectos</h2>
 
 @using (Html.BeginForm())
@@ -118,18 +127,34 @@
              
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" id="btnSubmit" value="Aceptar" class="btn btn-default" />
-                   <input type="reset" value="Cancelar" class="btn btn-default"/>
+                    <input type="submit" id="btnSubmit" value="Aceptar" class="btn btn-primary" />
+                   <input type="reset" value="Cancelar" class="btn btn-info"/>
                 </div>
             </div>
         
     </div>
 }
-<script type='text/javascript'>
-   function goBack() {
-       window.history.back();
-       //Response.Redirect("~/Home");
-   }
+<script>
+    $(document).ready(function () {
+
+        switch ('@TempData["Create"]') {
+            case "Existe":
+                toastr.error('Ya existe un proyecto con este ID en el sistema!', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Exito":
+                toastr.success('Proyecto creado exitosamente', 'EXITO', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Error":
+                toastr.error('No ingresó ningún ID/Nombre para el proyecto', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+        }
+    });
 </script>
 
 @section Scripts {

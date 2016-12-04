@@ -5,6 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+@*-----SweetAlert-----*@
+<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+
 <h2>Gestión de Proyectos</h2>
 @{ 
     if ((string)TempData["exito"] == "exito") {
@@ -73,3 +82,14 @@
         </tr>
     }
 </table>
+
+<script>
+    $(document).ready(function () {
+        //notificaciones de error y éxito
+        if ('@TempData["Create"]' == "Exito") {
+            toastr.success('Proyecto creado exitosamente.', 'EXITO', {
+                positionClass: "toast-bottom-right"
+            });
+        }
+    });
+</script>

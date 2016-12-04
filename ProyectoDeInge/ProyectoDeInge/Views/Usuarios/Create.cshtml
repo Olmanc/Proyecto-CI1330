@@ -5,6 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+@*-----SweetAlert-----*@
+<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+
 <h2>Agregar Usuario</h2>
 
 
@@ -94,8 +103,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Aceptar" class="btn btn-default" />
-                <input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" />
+                <input type="submit" value="Aceptar" class="btn btn-primary" />
+                <input type="reset" value="Cancelar" class="btn btn-info" />
             </div>
         </div>
     </div>
@@ -104,11 +113,32 @@
 <div>
     Html.ActionLink("Back to List", "Index")
 </div>-->
-<script type='text/javascript'>
-   function goBack() {
-       window.history.back();
-       //Response.Redirect("~/Home");
-   }
+<script type='text/javascript'>  
+
+   $(document).ready(function () {
+       
+       //swal('Ventaja','Mensaje de la ventana :)','info');
+
+       //toastr.info('Mensaje de notificación :)', 'Notificación');
+
+       switch ('@TempData["Create"]') {
+           case "Existe":
+               toastr.error('Ya existe un usuario con esta cedula en el sistema!', 'ERROR', {
+                   positionClass: "toast-bottom-right"
+               });
+               break;
+           case "Exito":
+               toastr.success('Usuario creado exitosamente', 'EXITO', {
+                   positionClass: "toast-bottom-right"
+               });
+               break;
+           case "Error":
+               toastr.erro('Error al crear un usuario nuevo', 'ERROR', {
+                   positionClass: "toast-bottom-right"
+               });
+               break;
+       }
+   });
 </script>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

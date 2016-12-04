@@ -84,6 +84,10 @@ namespace ProyectoDeInge.Controllers
         [ValidateAntiForgeryToken]
           public ActionResult Create([Bind(Include = "ID,NOMBRE,ESFUERZO,IMAGEN,DESCRIPCION,PRIORIDAD,OBSERVACIONES,MODULO,FECHAINCIO,FECHAFINAL,ESTADO,ENCARGADO,PRYCTOID,VERSION_ID,CRIT_ACEPTACION, rutaImagen")] REQUERIMIENTOS rEQUERIMIENTOS)
         {
+            if (db.REQUERIMIENTOS.Find(rEQUERIMIENTOS.ID, rEQUERIMIENTOS.VERSION_ID) != null) {
+                TempData["Create"] = "Existe";
+                return RedirectToAction("Create");
+            }
             if (ModelState.IsValid)
             {
                 foreach (CRIT_ACEPTACION criterio in rEQUERIMIENTOS.CRIT_ACEPTACION.ToList())
@@ -100,72 +104,13 @@ namespace ProyectoDeInge.Controllers
                 rEQUERIMIENTOS.IMAGEN = Encoding.ASCII.GetBytes(rEQUERIMIENTOS.rutaImagen);
                 db.REQUERIMIENTOS.Add(rEQUERIMIENTOS);                  // Guarda los cambios en la base de datos.
                 db.SaveChanges();
+                TempData["Create"] = "Exito";
                 return RedirectToAction("Index");
             }
             ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", rEQUERIMIENTOS.PRYCTOID);
             ViewBag.ENCARGADO = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", rEQUERIMIENTOS.ENCARGADO);
+            TempData["Create"] = "Error";
             return View(rEQUERIMIENTOS);
-        }
-
-        // GET: Requerimientos/Edit/5
-        public ActionResult Edit(string id, int version)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id, version);
-            if (rEQUERIMIENTOS == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", rEQUERIMIENTOS.PRYCTOID);
-            ViewBag.ENCARGADO = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", rEQUERIMIENTOS.ENCARGADO);
-            return View(rEQUERIMIENTOS);
-        }
-
-        // POST: Requerimientos/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,NOMBRE,ESFUERZO,IMAGEN,DESCRIPCION,PRIORIDAD,OBSERVACIONES,MODULO,FECHAINCIO,FECHAFINAL,ESTADO,ENCARGADO,PRYCTOID,VERSION_ID,CRIT_ACEPTACION")] REQUERIMIENTOS rEQUERIMIENTOS)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(rEQUERIMIENTOS).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", rEQUERIMIENTOS.PRYCTOID);
-            ViewBag.ENCARGADO = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", rEQUERIMIENTOS.ENCARGADO);
-            return View(rEQUERIMIENTOS);
-        }
-
-        // GET: Requerimientos/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id);
-            if (rEQUERIMIENTOS == null)
-            {
-                return HttpNotFound();
-            }
-            return View(rEQUERIMIENTOS);
-        }
-
-        // POST: Requerimientos/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id, int version)
-        {
-            REQUERIMIENTOS rEQUERIMIENTOS = db.REQUERIMIENTOS.Find(id, version);
-            db.REQUERIMIENTOS.Remove(rEQUERIMIENTOS);
-            db.SaveChanges();
-            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
@@ -223,6 +168,10 @@ namespace ProyectoDeInge.Controllers
         public ActionResult eliminarReq(string id, int version)
         {
             REQUERIMIENTOS req = db.REQUERIMIENTOS.Find(id, version); //Encuentra el requerimiento en la BD.
+            var lista = db.CRIT_ACEPTACION.Where(c => c.REQUERIMIENTO_ID == id && c.VERSION_ID == version);
+            foreach (var c in lista) {
+                db.CRIT_ACEPTACION.Remove(c);
+            }
             db.REQUERIMIENTOS.Remove(req);
             db.SaveChanges();
             return Json(new { success = true });
@@ -269,8 +218,10 @@ namespace ProyectoDeInge.Controllers
                 var id = req.ID;
                 var vers = req.VERSION_ID;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["Unificado2"] = "Exito";
+                return RedirectToAction("Unificado2" , new { id = req.ID, version = req.VERSION_ID });
             }
+            TempData["Unificado2"] = "Error";
             return View(req);
         }
     }

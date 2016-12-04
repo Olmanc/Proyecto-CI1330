@@ -5,7 +5,37 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+@*-----SweetAlert-----*@
+<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+
 <script>
+    $(document).ready(function () {       
+        switch ('@TempData["Create"]') { 
+            case "Existe":
+                toastr.error('Ya existe un requerimiento con este ID y versión en el sistema', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Exito":
+                toastr.success('Requerimiento creado exitosamente', 'EXITO', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Error":
+                toastr.erro('Error al crear el requerimiento nuevo', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+        }
+    });
+
     function removeNestedForm(element, container, deleteElement) {
         $container = $(element).parents(container);
         $container.find(deleteElement).val('True');
@@ -192,8 +222,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Aceptar" class="btn btn-default" />
-                <input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" />
+                <input type="submit" value="Aceptar" class="btn btn-primary" />
+                <input type="submit" value="Cancelar" class="btn btn-info" onclick="goBack()" />
             </div>
         </div>
     </div>

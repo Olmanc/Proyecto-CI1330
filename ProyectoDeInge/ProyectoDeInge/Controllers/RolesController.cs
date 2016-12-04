@@ -59,7 +59,7 @@ namespace ProyectoDeInge.Controllers
         {         
             if (resultado.Count < db.AspNetRoles.Count()+1)//verifica que todos los roles tienen al menos un permiso asignado
             {
-                Response.Write("<Script>alert('ERROR - No pueden haber roles sin permisos.')</Script>");
+                TempData["Permisos"] = "Roles";
                 return this.Edit();                
             }
             permisosViewModel Administrador = new permisosViewModel();  //crea un administrador
@@ -80,7 +80,7 @@ namespace ProyectoDeInge.Controllers
             var lista = listaAd.Split(',');         
             
             if (lista.Count() < prueba.Permisos.Count) {    //verifica que el administrador tiene todos los permisos
-                Response.Write("<Script>alert('ERROR - El administrador debe tener TODOS los permisos asignados.')</Script>");
+                TempData["Permisos"] = "Administrador";
                 return this.Edit();
             }
             
@@ -94,7 +94,7 @@ namespace ProyectoDeInge.Controllers
             {
                 if (!lista.Contains("03"))
                 {
-                    Response.Write("<Script>alert('ERROR - No es posible asignar permiso de Modificar/Eliminar sin permiso para Consultar.')</Script>");
+                    TempData["Permisos"] = "Permisos";
                     return this.Edit();
                 }
             }
@@ -108,7 +108,7 @@ namespace ProyectoDeInge.Controllers
             {
                 if (!lista.Contains("03"))
                 {
-                    Response.Write("<Script>alert('ERROR - No es posible asignar permiso de Modificar/Eliminar sin permiso para Consultar.')</Script>");
+                    TempData["Permisos"] = "Permisos";
                     return this.Edit();
                 }
             }
@@ -212,15 +212,17 @@ namespace ProyectoDeInge.Controllers
                         db.Entry(usuActualiza).State = System.Data.Entity.EntityState.Modified;     //actualiza la base de datos
                         db.SaveChanges();       //guarda los cambios
                     }
-                    TempData["Exito"] = "Permisos asignados exitosamente!";
-                    TempData["Error"] = null;                 
+                    TempData["Permisos"] = "Exito";
+
                     return RedirectToAction("Index");
                 }
             }
             catch
             {   //si falla, retorna a la misma pantalla
+                TempData["Permisos"] = "Error";
                 return this.Edit();
             }
+            TempData["Permisos"] = "Error";
             return RedirectToAction("Index");       //cuando es exitoso, es redirigido a una vista para ver los permisos de cada rol
         }
     }  

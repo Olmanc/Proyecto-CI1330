@@ -181,6 +181,11 @@ namespace ProyectoDeInge.Controllers
             //if (ModelState.IsValid)
             //{
 
+            if (db.PROYECTO.Find(pROYECTO.modeloProyecto.ID) != null) {
+                TempData["Create"] = "Existe";
+                return RedirectToAction("Create");
+            }
+
             if (pROYECTO.modeloProyecto == null)//si la vista no devolvio un proyecto en el ProyectosViewmodel
             {//tira error
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -244,11 +249,12 @@ namespace ProyectoDeInge.Controllers
                                                               //totalDias = 67890;
                 }
                 db.SaveChanges(); //guarda todos los cambios
+                TempData["Create"] = "Exito";
                 return RedirectToAction("Index"); //regresa al Index de proyectos
             }
             else
             {
-                Response.Write("<Script>alert('ERROR - No ingresó ID ni nombre del proyecto')</Script>");
+                TempData["Create"] = "Error";                
                 return RedirectToAction("Create");
             }
             
@@ -555,7 +561,7 @@ namespace ProyectoDeInge.Controllers
                         }
                         else
                         {//si hay requerimientos sin finalizar, muestra mensaje de error
-                            Response.Write("<Script>alert('ERROR - No es posible cambiar el estado del proyecto a Finalizado. Todavia tiene requerimientos sin finalizar/cancelar')</Script>");
+                            TempData["Unificado"] = "Finalizado";
                             //devuelve a la pantalla de consulta del proyecto
                             return this.Unificado(modelo.modeloProyecto.ID);
                         }
@@ -563,7 +569,7 @@ namespace ProyectoDeInge.Controllers
                 }
             }
 
-            if (modelo.modeloProyecto.FECHAINICIO == null) //fecha por dEFE: La del día de creación del proyecto (del sistema)
+            if (modelo.modeloProyecto.FECHAINICIO == null) //fecha por dEFE: El del día de creación del proyecto (del sistema)
             {
                 var fechaInicial = DateTime.Now;
                 modelo.modeloProyecto.FECHAINICIO = fechaInicial;
@@ -572,7 +578,7 @@ namespace ProyectoDeInge.Controllers
             {//si se especificó una fecha de finalizacion
                 if (modelo.modeloProyecto.FECHAFINAL < modelo.modeloProyecto.FECHAINICIO)
                 {//verifica que la fecha de inicio es antes que la fecha de finalizacion
-                    Response.Write("<Script>alert('ERROR - El proyecto no puede tener una fecha de inicio posterior a la fecha de finalización')</Script>");
+                    TempData["Unificado"] = "Fecha";
                     //devuelve a la pantalla de consulta del proyecto
                     return this.Unificado(modelo.modeloProyecto.ID);
                 }
@@ -638,27 +644,33 @@ namespace ProyectoDeInge.Controllers
                     modelo.modeloProyecto.DURACION = meses;//asigna duracion para el proyecto
                     totalDias = 67890;
                 }
-
+                var p = db.PROYECTO.Find(modelo.modeloProyecto.ID);
+                p.NOMBRE = modelo.modeloProyecto.NOMBRE;
+                p.DESCRIPCION = modelo.modeloProyecto.DESCRIPCION;
+                p.FECHAINICIO = modelo.modeloProyecto.FECHAINICIO;
+                p.FECHAFINAL = modelo.modeloProyecto.FECHAFINAL;
+                p.DURACION = modelo.modeloProyecto.DURACION;
+                p.ESTADO = modelo.modeloProyecto.ESTADO;
                 //si el modelo fue modificado
-                db.Entry(modelo.modeloProyecto).State = EntityState.Modified;
+                db.Entry(p).State = EntityState.Modified;
                 //guarda cambios en la base de datos
                 db.SaveChanges();
                 //mensaje de cambio exitoso
-                TempData["exito"] = "exito";//Response.Write("<Script>alert('Proyecto modificado exitosamente')</Script>");                
+                TempData["Unificado"] = "Exito";//Response.Write("<Script>alert('Proyecto modificado exitosamente')</Script>");                
                 //devuelve al listado de proyectos
-                return RedirectToAction("Index");
+                return RedirectToAction("Unificado", new { id = modelo.modeloProyecto.ID });
             }
             catch (RetryLimitExceededException)
             {   //si no funciona el try, devuelve mensaje de error
-                Response.Write("<Script>alert('ERROR - No fue posible modificar este proyecto')</Script>");
+                TempData["Unificado"] = "Error";                
             }
-
             //mensaje de error
+            TempData["Unificado"] = "Error";
             modelo.verificaPermisos = obtienePermisos();
             populateUsuarios(modelo.modeloProyecto);
             //devuelve al listado de proyectos
             //return this.Unificado(modelo.modeloProyecto.ID);
-            return View(modelo);
+            return RedirectToAction("Unificado", new { id = modelo.modeloProyecto.ID });
         }
 
 

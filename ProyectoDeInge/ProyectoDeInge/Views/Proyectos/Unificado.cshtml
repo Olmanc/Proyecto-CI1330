@@ -5,6 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+@*-----SweetAlert-----*@
+<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+
 <h2>Gestión de Proyectos</h2>
 
 <div class="modos">@*botones de los modos*@
@@ -112,8 +121,8 @@
             <div class="botonesModificar" style="display:none">
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" id="btnSubmit" value="Aceptar" class="btn btn-default" />
-                        <a class="btn btn-default" onclick="window.location = '@Url.Action("Unificado", new { id = Model.modeloProyecto.ID })';">Cancelar</a>
+                        <input type="submit" id="btnSubmit" value="Aceptar" class="btn btn-primary" />
+                        <a class="btn btn-info" onclick="window.location = '@Url.Action("Unificado", new { id = Model.modeloProyecto.ID })';">Cancelar</a>
                     </div>
                 </div>
             </div>
@@ -126,6 +135,31 @@
 
 <script>
 
+    $(document).ready(function () {
+        //notificaciones de error y éxito
+        switch ('@TempData["Unificado"]') {
+            case "Finalizado":
+                toastr.error('No puede cambiar el estado de proyecto a Finalizado, si hay requerimientos sin finalizar.', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Fecha":
+                toastr.error('La fecha de finalización no puede ser anterior a la fecha de inicio.', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Exito":
+                toastr.success('Proyecto modificado exitosamente.', 'EXITO', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Error":
+                toastr.error('Error al guardar los cambios.', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+        }
+    });
     function habilitaModificar() {//habilita los campos para modificar los datos del proyecto
         $('.modificarProyecto').find('input, textarea, select').attr('readonly', false);
         $('.modificarProyecto').find('input, textarea, select').attr('disabled', false);
@@ -139,8 +173,42 @@
     ELIMINAR PROYECTO*@
 
     function confirmarEliminar(id) {
-
-        var respuesta = confirm('Confirma que desea eliminar este proyecto del sistema?');
+        swal({
+            title: "Esta seguro que desea eliminar este proyecto del sistema?",
+            text: "Esta acción no es reversible!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Confirmar!",
+            closeOnConfirm: true
+        },
+        function () {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("eliminarProyecto")',
+                data: 'id=' + id,
+                success: function (result) {
+                    if (result.success) {
+                        toastr.success('El proyecto fue eliminado con éxito! :)', 'EXITO', {
+                            onHidden: function () {
+                                var url = '@Url.Action("Index", "PROYECTOS")';
+                                window.location.href = url;
+                            }, positionClass: 'toast-bottom-right'
+                        })
+                    }
+                    else
+                    {   @*//Si el estado de proyecto no está Finalizado o Cerrado *@
+                        toastr.error('El proyecto no se puede eliminar porque no está finalizado o cerrado.', 'ERROR', {
+                            onHidden: function () {
+                                var url = '@Url.Action("Index", "PROYECTOS")';
+                                window.location.href = url;
+                            }, positionClass: 'toast-bottom-right'
+                        })
+                    }
+                },
+            });
+        });
+        @*var respuesta = confirm('Confirma que desea eliminar este proyecto del sistema?');
 
         if (respuesta == true)
         {
@@ -150,25 +218,25 @@
                 data: 'id=' + id,
                 success: function (result) {
                     if (result.success)
-					{   @*//Si se confirmo que estado de proyecto está Finalizado o Cerrado *@
+					{   //Si se confirmo que estado de proyecto está Finalizado o Cerrado 
 						alert('Proyecto eliminado con éxito.');
 						var url = '@Url.Action("Index", "PROYECTOS")';
 						window.location.href = url;
                     }
                     else
-                    {   @*//Si el estado de proyecto no está Finalizado o Cerrado *@
+                    {   //Si el estado de proyecto no está Finalizado o Cerrado 
                         alert('El proyecto no se puede eliminar porque no está finalizado o cerrado.');
                         var url = '@Url.Action("Index", "PROYECTOS")';
                         window.location.href = url;
                     }
                 },
             });
-        }
+        }*@
     }
 
-    function marcar (val) {        
+    function marcar (val) {
         $.ajax(
-        {               
+        {
             url: '/Proyectos/llenaRecursos?id=' + val,
             type: 'GET',
             data: "",

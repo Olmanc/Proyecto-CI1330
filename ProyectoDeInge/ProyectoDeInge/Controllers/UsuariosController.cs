@@ -227,83 +227,26 @@ namespace ProyectoDeInge.Controllers
                     }
                     db.SaveChanges();
 
-                    SendEmailViewModel email = new SendEmailViewModel();
-                    email.FirstName = modelo.modeloUsuario.NOMBRE;
-                    email.Email = modelo.modeloCorreo.CORREO;
-                    var message = await EMailTemplate("WelcomeEmail");
-                    message = message.Replace("@ViewBag.Name", CultureInfo.CurrentCulture.TextInfo.ToTitleCase(email.FirstName));
-                    await MessageServices.SendEmailAsync(email.Email, "Bienvenido", message);
+                    //SendEmailViewModel email = new SendEmailViewModel();
+                    //email.FirstName = modelo.modeloUsuario.NOMBRE;
+                    //email.Email = modelo.modeloCorreo.CORREO;
+                    //var message = await EMailTemplate("WelcomeEmail");
+                    //message = message.Replace("@ViewBag.Name", CultureInfo.CurrentCulture.TextInfo.ToTitleCase(email.FirstName));
+                    //await MessageServices.SendEmailAsync(email.Email, "Bienvenido", message);
+
+                    TempData["Create"] = "Exito";
                 }
                 else
                 {
-                    Response.Write("<Script>alert('ERROR - no creo AspNetUser.')</Script>");
+                    TempData["Create"] = "Error";
                 }                
             }
-
-            return RedirectToAction("Index");
+            
+            return RedirectToAction("Create");
             //ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", modelo.modeloUsuario.PRYCTOID);
             //return View(modelo);
         }
-
-        // GET: Usuarios/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            USUARIOS uSUARIOS = db.USUARIOS.Find(id);
-            if (uSUARIOS == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", uSUARIOS.PRYCTOID);
-            return View(uSUARIOS);
-        }
-
-        // POST: Usuarios/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CEDULA,NOMBRE,PRYCTOID,LIDER")] USUARIOS uSUARIOS)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(uSUARIOS).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.PRYCTOID = new SelectList(db.PROYECTO, "ID", "NOMBRE", uSUARIOS.PRYCTOID);
-            return View(uSUARIOS);
-        }
-
-        // GET: Usuarios/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            USUARIOS uSUARIOS = db.USUARIOS.Find(id);
-            if (uSUARIOS == null)
-            {
-                return HttpNotFound();
-            }
-            return View(uSUARIOS);
-        }
-
-        // POST: Usuarios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            USUARIOS uSUARIOS = db.USUARIOS.Find(id);
-            db.USUARIOS.Remove(uSUARIOS);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
+              
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -368,11 +311,7 @@ namespace ProyectoDeInge.Controllers
                 }
             }
 
-
-
-
             modelo.modeloAsp = db.AspNetUsers.Find(user.ID_ASP);
-
 
             //ViewBag.Rol = GetRolesForUser(user.ID_ASP);
 
@@ -462,8 +401,10 @@ namespace ProyectoDeInge.Controllers
                     db.CORREOS.Add(modelo.modeloCorreo2);
                 }
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                TempData["Unificado"] = "Exito";
+                return RedirectToAction("Unificado", new { id = modelo.modeloUsuario.CEDULA });
             }
+            TempData["Unificado"] = "Error";
             return View(modelo);
         }
 

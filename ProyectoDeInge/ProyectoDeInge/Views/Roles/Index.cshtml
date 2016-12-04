@@ -5,18 +5,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Información de permisos</h2>
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
 
-@if (TempData["Exito"] != null)
-{
-   <!-- <p>TempData["Exito"]</p>-->
-    <Script>alert('Permisos actualizados exitosamente')</Script>
-}
-else if (TempData["Error"] != null)
-{
-    <Script>alert('Error - No actualizaron los permisos asignados')</Script>
-    <!--<p>Error - Cambio en permisos no fue exitoso.</p>-->
-}
+@*-----SweetAlert-----*@
+@*<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />*@
+
+<h2>Información de permisos</h2>
 
 <table class="table">
     <tr>
@@ -39,3 +37,35 @@ else if (TempData["Error"] != null)
     </tr>
 }
 </table>
+
+<script>
+    $(document).ready(function () {
+        switch ('@TempData["Permisos"]') {
+            case "Roles":
+                toastr.error('No puede haber un rol sin permisos asignados.', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Administrador":
+                toastr.success('El rol de Administrador debe tener TODOS los permisos asignados.', 'EXITO', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Permisos":
+                toastr.error('Un rol debe tener el permiso de consulta para tener el permiso para eliminar/modificar.', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Exito":
+                toastr.success('Permisos asignados con éxito', 'EXITO', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Error":
+                toastr.error('Error al asignar permisos, los cambios no fueron guardados.', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+        }
+    });
+</script>

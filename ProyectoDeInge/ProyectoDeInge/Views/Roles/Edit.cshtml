@@ -5,6 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+@*-----SweetAlert-----*@
+<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+
 <h2>Gestión de permisos</h2>
 
 @using (Html.BeginForm())
@@ -40,26 +49,55 @@
         }
     </table>
     <div class="form-group">
-        <input type="submit" value="Aceptar" class="btn btn-default" disabled="@(!Model.verificaPermisos.Contains("01") ? "disabled":null)" />    <!--si el rol no tiene permisos para asignar permisos, es deshabilitado-->    
-        <input type="submit" value="Cancelar" class="btn btn-default" onclick="goBack()" disabled="@(!Model.verificaPermisos.Contains("01") ? "disabled":null)" />
+        <input type="submit" value="Aceptar" class="btn btn-primary" disabled="@(!Model.verificaPermisos.Contains("01") ? "disabled":null)" />    <!--si el rol no tiene permisos para asignar permisos, es deshabilitado-->    
+        <input type="submit" value="Cancelar" class="btn btn-info" onclick="goBack()" disabled="@(!Model.verificaPermisos.Contains("01") ? "disabled":null)" />
     </div>
 }
 
 
-<script type='text/javascript'>
+<script>
+    $(document).ready(function () {
+
+        //swal('Ventaja','Mensaje de la ventana :)','info');
+
+        //toastr.info('Mensaje de notificación :)', 'Notificación');        
+        switch ('@TempData["Permisos"]') {
+            case "Roles":
+                toastr.error('No puede haber un rol sin permisos asignados.', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Administrador":
+                toastr.error('El rol de Administrador debe tener TODOS los permisos asignados.', 'EXITO', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Permisos":
+                toastr.error('Un rol debe tener el permiso de consulta para tener el permiso para eliminar/modificar.', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Exito":
+                toastr.success('Permisos asignados con éxito', 'EXITO', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Error":
+                toastr.error('Error al asignar permisos, los cambios no fueron guardados.', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+        }
+    });
+
    function goBack() {
        window.history.back();
-       //Response.Redirect("~/Home");
+   }
+   function chequeados() {
+       return document.getElementsByClassName("asignaPermisos").checked;
    }
 </script>
-<script type="text/javascript">
-    function chequeados() {
 
-        return document.getElementsByClassName("asignaPermisos").checked;
-
-
-    }
-</script>
 <script src="~/Scripts/jquery-2.1.1.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
