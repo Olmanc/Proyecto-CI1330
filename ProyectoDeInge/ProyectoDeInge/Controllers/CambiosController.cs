@@ -88,7 +88,9 @@ namespace ProyectoDeInge.Controllers
             return View(Intermedio);
         }
 
-        // GET: Cambios/Create
+        /* EFECTO: Muestra la vista para crear una solicitud de cambio
+         * REQUIERE: Selecionar un requerimiento previamente (id y version)
+         * MODIFICA: N/A  */
         public ActionResult Create(string id, int version)
         {
             var cambio = new CAMBIOS();
@@ -130,9 +132,9 @@ namespace ProyectoDeInge.Controllers
             return View(cambio);
         }
 
-        // POST: Cambios/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /* EFECTO: Guarda en la base de datos la solicitud nueva
+         * REQUIERE: El modelo con los datos iingresados por el usuario
+         * MODIFICA: La base de datos con los nuevos datos*/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(/*[Bind(Include = "ID,CEDULA,FECHA,DESCRIPCION,JUSTIFICACION,VIEJO_REQ_ID,VIEJO_VER_ID,NUEVO_REQ_ID,NUEVO_VER_ID,JUST_REV,FECHA_REV,CED_REV,REQUERIMIENTOS1")] */CAMBIOS cAMBIOS)
