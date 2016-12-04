@@ -14,6 +14,11 @@ namespace ProyectoDeInge.Controllers
     {
         private BD_IngeGrupo2Entities2 db = new BD_IngeGrupo2Entities2();
         
+       
+      /*  EFECTO: Despliega la lista de Requerimientos de un proyecto en la vista REQUERIMIENTOS del módulo cambios.
+          REQUIERE: String pro (Proyecto)
+          MODIFICA: -
+        */
         public ActionResult Requerimientos(string pro)
         {
             ViewBag.pro = new SelectList(db.PROYECTO.Where(s => s.BORRADO != true), "ID", "NOMBRE");
@@ -44,8 +49,15 @@ namespace ProyectoDeInge.Controllers
 
             return View(rEQUERIMIENTOS.ToList());
         }
+        
+        
+        
+         
 
-
+       /* EFECTO: Despliega la lista de Versiones de un requerimiento.
+          REQUIERE: String id (Id de requerimiento)
+          MODIFICA: -
+        */
         public ActionResult Versiones(string id)
         {
             if (id == null)
@@ -63,7 +75,11 @@ namespace ProyectoDeInge.Controllers
      
 
 
-        // GET: Cambios/Details/5
+       
+        /*EFECTO: Consulta la versión del requerimiento seleccionado y la compara con el requerimiento actual (El único aprobado)
+          REQUIERE: String id, int Version (Requerimiento)
+          MODIFICA: -
+        */
         public ActionResult ConsultarVers(string id, int version)
         {
             //var Intermedio = new ModeloIntermedioCambios();
@@ -75,12 +91,12 @@ namespace ProyectoDeInge.Controllers
             Intermedio.consultado = db.REQUERIMIENTOS.Find(id, version);
             if (Intermedio.consultado.ESTADO_CAMBIOS == "Obsoleto")
             {
-                Intermedio.Cambio = Intermedio.consultado.CAMBIOS.Where(s => s.NUEVO_REQ_ID == id).First();
+                Intermedio.Cambio = Intermedio.consultado.CAMBIOS.Where(s => s.NUEVO_REQ_ID == id).First(); //Se usa para desplegar el requerimiento consultado y comparar
             }
             else
             {
                 if (Intermedio.consultado.CAMBIOS1.Count != 0) {
-                    Intermedio.Cambio = Intermedio.consultado.CAMBIOS1.Where(s => s.NUEVO_REQ_ID == id).First();
+                    Intermedio.Cambio = Intermedio.consultado.CAMBIOS1.Where(s => s.NUEVO_REQ_ID == id).First(); 
                 }                
             }           
             Intermedio.actual = db.REQUERIMIENTOS.Where(s => s.ID == id && s.ESTADO_CAMBIOS == "Aprobado").First();
