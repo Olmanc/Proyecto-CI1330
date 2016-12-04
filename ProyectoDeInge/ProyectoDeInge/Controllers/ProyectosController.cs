@@ -363,7 +363,9 @@ namespace ProyectoDeInge.Controllers
             ViewBag.Asignados = new MultiSelectList(recursosAsignados, "Cedula", "nombreCompleto");
             ViewBag.Disponibles = new MultiSelectList(recursosDisponibles, "Cedula", "nombreCompleto");
         }
-
+        //REQ: proyecto que se va a consultar/modificar/eliminar
+        // EFE: carga ViewBags con los desarrolladores asignados al proyecto(parametro) y los que no estan asignados a ningun proyecto (esto segun el lider escogido en el combobox)
+        //MOD: NA
         public PartialViewResult llenaRecursos(string id) {
             var todosRecursos = buscaResursos();//obtiene a todos los desarrolladores            
             var modeloParcial = new ProyectosViewModel();

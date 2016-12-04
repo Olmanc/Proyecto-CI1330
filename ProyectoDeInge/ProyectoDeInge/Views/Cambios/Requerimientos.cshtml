@@ -4,6 +4,14 @@
     ViewBag.Title = "Historial de Versiones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+@*-----SweetAlert-----*@
+<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
 
 <h2>Versiones de Requerimiento</h2>
 
@@ -78,10 +86,29 @@
                 @Html.DisplayFor(modelItem => item.USUARIOS.NOMBRE)
             </td>
             <td>
-                @Html.ActionLink("Consultar Versiones", "Versiones", new { id = item.ID })
+                @if(ViewBag.Permisos.Contains("19"))
+                {
+                @Html.ActionLink("Consultar Versiones", "Versiones", new { id = item.ID })  @*19*@
+                }
             </td>
             
         </tr>
    }
 
 </table>
+<script>
+    $(document).ready(function () {
+        switch ('@TempData["Create"]') {
+            case "Exito":
+                toastr.success('Solicitud creada exitósamente', 'EXITO', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Error":
+                toastr.error('No fue posible crear la solicitud de cambio :(', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+        }
+    });
+</script>

@@ -85,10 +85,16 @@
                 @Html.DisplayFor(modelItem => item.USUARIOS.NOMBRE)
             </td>
             <td>
-                        @Html.ActionLink("Consultar", "ConsultarVers", new { id = item.ID, version = item.VERSION_ID })              
+                @if (ViewBag.Permisos.Contains("20"))
+                {
+                    @Html.ActionLink("Consultar", "ConsultarVers", new { id = item.ID, version = item.VERSION_ID })    @*20*@
+                }                      
             </td>
             <td>
-                @Html.ActionLink("Solicitar cambio", "Create", new { id = item.ID, version = item.VERSION_ID })
+                @if (ViewBag.Permisos.Contains("14"))
+                {
+                    @Html.ActionLink("Solicitar cambio", "Create", new { id = item.ID, version = item.VERSION_ID })     @*14*@
+                }                
             </td>
         </tr>
                     }

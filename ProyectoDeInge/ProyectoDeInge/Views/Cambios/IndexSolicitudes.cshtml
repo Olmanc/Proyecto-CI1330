@@ -61,7 +61,10 @@
                 @Html.DisplayFor(modelItem => item.REQUERIMIENTOS.ESTADO)
             </td>
             <td>
-                @Html.ActionLink("Consultar", "DetallesSolicitud", new { id = item.ID })
+                @if (ViewBag.Permisos.Contains("15"))
+                {
+                    @Html.ActionLink("Consultar", "DetallesSolicitud", new { id = item.ID })    @*15*@
+                }                
             </td>
         </tr>
     }

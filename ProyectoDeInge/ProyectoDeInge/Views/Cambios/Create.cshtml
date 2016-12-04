@@ -5,7 +5,31 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+@*-----SweetAlert-----*@
+<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+
 <script>
+    $(document).ready(function () {
+        switch ('@TempData["Create"]') {            
+            case "Exito":
+                toastr.success('Solicitud creada exitósamente', 'EXITO', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Error":
+                toastr.error('No fue posible crear la solicitud de cambio :(', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+        }
+    });
     function removeNestedForm(element, container, deleteElement) {
         $container = $(element).parents(container);
         $container.find(deleteElement).val('True');

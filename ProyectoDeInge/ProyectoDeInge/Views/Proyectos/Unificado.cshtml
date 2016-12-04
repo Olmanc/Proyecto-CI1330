@@ -149,7 +149,7 @@
                 });
                 break;
             case "Exito":
-                toastr.success('Proyecto modificado exitosamente.', 'EXITO', {
+                toastr.success('Proyecto modificado exitósamente.', 'EXITO', {
                     positionClass: "toast-bottom-right"
                 });
                 break;
@@ -199,39 +199,12 @@
                     else
                     {   @*//Si el estado de proyecto no está Finalizado o Cerrado *@
                         toastr.error('El proyecto no se puede eliminar porque no está finalizado o cerrado.', 'ERROR', {
-                            onHidden: function () {
-                                var url = '@Url.Action("Index", "PROYECTOS")';
-                                window.location.href = url;
-                            }, positionClass: 'toast-bottom-right'
+                            positionClass: 'toast-bottom-right'
                         })
                     }
                 },
             });
-        });
-        @*var respuesta = confirm('Confirma que desea eliminar este proyecto del sistema?');
-
-        if (respuesta == true)
-        {
-           $.ajax({
-                type: 'POST',
-                url: '@Url.Action("eliminarProyecto")',
-                data: 'id=' + id,
-                success: function (result) {
-                    if (result.success)
-					{   //Si se confirmo que estado de proyecto está Finalizado o Cerrado 
-						alert('Proyecto eliminado con éxito.');
-						var url = '@Url.Action("Index", "PROYECTOS")';
-						window.location.href = url;
-                    }
-                    else
-                    {   //Si el estado de proyecto no está Finalizado o Cerrado 
-                        alert('El proyecto no se puede eliminar porque no está finalizado o cerrado.');
-                        var url = '@Url.Action("Index", "PROYECTOS")';
-                        window.location.href = url;
-                    }
-                },
-            });
-        }*@
+        });        
     }
 
     function marcar (val) {

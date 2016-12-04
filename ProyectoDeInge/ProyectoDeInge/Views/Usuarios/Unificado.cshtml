@@ -19,7 +19,7 @@
 <script>
     $(document).ready(function () {
         if ('@TempData["Unificado"]' == "Exito") {
-            toastr.success('Cambios en el usuario guardados exitosamente!', 'EXITO', {
+            toastr.success('Cambios en el usuario guardados exitósamente!', 'EXITO', {
                 positionClass: "toast-bottom-right"
             });
         }
@@ -57,8 +57,12 @@
                         toastr.success('El usuario fue eliminado con exito! :)', 'EXITO', {
                             onHidden: function () {
                                 var url = '@Url.Action("Index", "USUARIOS")';
-						        window.location.href = url;
+                                window.location.href = url;
                             }, positionClass: 'toast-bottom-right'
+                        })
+                    } else {
+                        toastr.error('Error al intentar eliminar el usuario.', 'ERROR', {
+                            positionClass: 'toast-bottom-right'
                         })
                     }
                 },

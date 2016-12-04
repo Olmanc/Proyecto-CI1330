@@ -39,7 +39,7 @@ namespace ProyectoDeInge.Controllers
             {     //los copia a un HashSet<string>
                 verificaPermisos.Add(p.ID); //Metodo que verifica el permiso del usuario actual.
             }
-
+            
             ViewBag.Permisos = verificaPermisos;
 
             return View(rEQUERIMIENTOS.ToList());
@@ -57,6 +57,7 @@ namespace ProyectoDeInge.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Permisos = obtienePermisos();
             return View(rEQUERIMIENTOS.ToList());
         }
      
@@ -78,7 +79,9 @@ namespace ProyectoDeInge.Controllers
             }
             else
             {
-                Intermedio.Cambio = Intermedio.consultado.CAMBIOS1.Where(s => s.NUEVO_REQ_ID == id).First();
+                if (Intermedio.consultado.CAMBIOS1.Count != 0) {
+                    Intermedio.Cambio = Intermedio.consultado.CAMBIOS1.Where(s => s.NUEVO_REQ_ID == id).First();
+                }                
             }           
             Intermedio.actual = db.REQUERIMIENTOS.Where(s => s.ID == id && s.ESTADO_CAMBIOS == "Aprobado").First();
             if (Intermedio.consultado == null)
@@ -92,7 +95,7 @@ namespace ProyectoDeInge.Controllers
          * REQUIERE: Selecionar un requerimiento previamente (id y version)
          * MODIFICA: N/A  */
         public ActionResult Create(string id, int version)
-        {
+        {            
             var cambio = new CAMBIOS();
             var correoUsuario = db.CORREOS.Where(s => s.CORREO == User.Identity.Name).Single();
             USUARIOS actual = correoUsuario.USUARIOS;
@@ -145,75 +148,15 @@ namespace ProyectoDeInge.Controllers
                 db.REQUERIMIENTOS.Add(cAMBIOS.REQUERIMIENTOS1);
                 db.CAMBIOS.Add(cAMBIOS);
                 db.SaveChanges();
+                TempData["Create"] = "Exito";
+            }
+            else {
+                TempData["Create"] = "Error";
+                return RedirectToAction("Create");
             }
             return RedirectToAction("Requerimientos");
         }
-
-        // GET: Cambios/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CAMBIOS cAMBIOS = db.CAMBIOS.Find(id);
-            if (cAMBIOS == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.VIEJO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE", cAMBIOS.VIEJO_REQ_ID);
-            ViewBag.CED_REV = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", cAMBIOS.CED_REV);
-            ViewBag.CEDULA = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", cAMBIOS.CEDULA);
-            ViewBag.NUEVO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE", cAMBIOS.NUEVO_REQ_ID);
-            return View(cAMBIOS);
-        }
-
-        // POST: Cambios/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,CEDULA,FECHA,DESCRIPCION,JUSTIFICACION,VIEJO_REQ_ID,VIEJO_VER_ID,NUEVO_REQ_ID,NUEVO_VER_ID,JUST_REV,FECHA_REV,CED_REV")] CAMBIOS cAMBIOS)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cAMBIOS).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.VIEJO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE", cAMBIOS.VIEJO_REQ_ID);
-            ViewBag.CED_REV = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", cAMBIOS.CED_REV);
-            ViewBag.CEDULA = new SelectList(db.USUARIOS, "CEDULA", "NOMBRE", cAMBIOS.CEDULA);
-            ViewBag.NUEVO_REQ_ID = new SelectList(db.REQUERIMIENTOS, "ID", "NOMBRE", cAMBIOS.NUEVO_REQ_ID);
-            return View(cAMBIOS);
-        }
-
-        // GET: Cambios/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CAMBIOS cAMBIOS = db.CAMBIOS.Find(id);
-            if (cAMBIOS == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cAMBIOS);
-        }
-
-        // POST: Cambios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            CAMBIOS cAMBIOS = db.CAMBIOS.Find(id);
-            db.CAMBIOS.Remove(cAMBIOS);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -231,17 +174,66 @@ namespace ProyectoDeInge.Controllers
         public ActionResult IndexSolicitudes()
         {
             CambiosViewModel modelo = new CambiosViewModel();
-            List<CAMBIOS> lista = db.CAMBIOS.ToList();
+            List<CAMBIOS> listaCambios = db.CAMBIOS.ToList();
             modelo.listaCambios = new List<CAMBIOS>();
 
-            foreach (var l in lista)
-            {
-                if ((l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "Pendiente") || (l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "En revisión"))
+            HashSet<string> permisos = obtienePermisos();//permisos del usuario
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
+
+            var listauser = db.AspNetUsers.ToArray();
+            for (int i = 0; i < listauser.Length; i++)
+            {                           //de todos los AspNetUser del sistema, encuentra el usuario activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
                 {
-                    modelo.listaCambios.Add(l);
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+            USUARIOS usuarioActual = db.USUARIOS.Where(u => u.ID_ASP == fg.Id).First();
+            AspNetRoles rol = fg.AspNetRoles.First();
+            //Administrador
+            if (rol.Name == "Administrador") {
+                foreach (var l in listaCambios)
+                {//todos las solicitudes
+                    if ((l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "Pendiente") || (l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "En revisión"))
+                    {
+                        modelo.listaCambios.Add(l);
+                    }
+                }
+            }
+            //lider
+            if (rol.Name == "Desarrollador") {
+                if (usuarioActual.LIDER == true)//es lider
+                {
+                    foreach (var l in listaCambios)
+                    {//solicitudes pendientes/en revisión del proyecto donde es lider
+                        if (((l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "Pendiente") || (l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "En revisión")) && (l.REQUERIMIENTOS.PRYCTOID == usuarioActual.PRYCTOID))
+                        {
+                            modelo.listaCambios.Add(l);
+                        }
+                    }
+                }
+                else {
+                    foreach (var l in listaCambios)
+                    {//solicitudes pendientes/en revisión que solicitó
+                        if (((l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "Pendiente") || (l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "En revisión")) && (l.CEDULA == usuarioActual.CEDULA))
+                        {
+                            modelo.listaCambios.Add(l);
+                        }
+                    }
+                }
+            }
+            //otro - usuario
+            if (rol.Name == "Usuario") {
+                foreach (var l in listaCambios)
+                {//solicitudes pendientes/en revisión que solicitó
+                    if (((l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "Pendiente") || (l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "En revisión")) && (l.CEDULA == usuarioActual.CEDULA))
+                    {
+                        modelo.listaCambios.Add(l);
+                    }
                 }
             }
             //var cAMBIOS = db.CAMBIOS.Include(c => c.REQUERIMIENTOS).Include(c => c.USUARIOS).Include(c => c.USUARIOS1).Include(c => c.REQUERIMIENTOS1);
+            ViewBag.Permisos = obtienePermisos();
             return View(modelo);
         }
 
@@ -269,6 +261,8 @@ namespace ProyectoDeInge.Controllers
 
             modelo.actual = db.REQUERIMIENTOS.Where(s => s.ID == modelo.solicitud.NUEVO_REQ_ID && s.ESTADO_CAMBIOS == "Aprobado").First();
 
+            HashSet<string> permisos = obtienePermisos();//permisos del rol del usuario
+
             var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
 
             var listauser = db.AspNetUsers.ToArray();
@@ -281,9 +275,17 @@ namespace ProyectoDeInge.Controllers
             }
 
             var usuario = db.USUARIOS.Where(u => u.ID_ASP.Equals(fg.Id)).Single();
+            if (usuario.LIDER == true && usuario.PRYCTOID == modelo.solicitud.REQUERIMIENTOS.PRYCTOID) {
+                permisos.Add("21");
+            }
+            if (modelo.solicitud.CEDULA == usuario.CEDULA) {
+                permisos.Add("16");
+                permisos.Add("17");
+            }
             modelo.solicitud.CED_REV = usuario.CEDULA;
             ViewBag.ENCARGADO = new SelectList(db.USUARIOS.Where(s => s.PRYCTOID == modelo.propuesto.PRYCTOID), "CEDULA", "nombreCompleto", modelo.propuesto.ENCARGADO);
-
+            ViewBag.Permisos = permisos;
+            ViewBag.Cedula = usuario.CEDULA;
             return View(modelo);
         }
 
@@ -357,6 +359,7 @@ namespace ProyectoDeInge.Controllers
             db.Entry(reqAntiguo).State = EntityState.Modified;
             db.Entry(cambioActualizado).State = EntityState.Modified;
             db.SaveChanges();
+            TempData["DetallesSolicitud"] = "Exito";
             return RedirectToAction("DetallesSolicitud", new { ID = modelo.solicitud.ID });
             //}
             //return null;
@@ -415,6 +418,31 @@ namespace ProyectoDeInge.Controllers
             {
                 return Json(new { success = false });
             }
+        }
+
+        public HashSet<string> obtienePermisos()
+        {
+            var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
+            HashSet<string> permisos = new HashSet<string>();
+            var listauser = db.AspNetUsers.ToArray();
+
+            for (int i = 0; i < listauser.Length; i++)
+            {                           //de todos los AspNetUser del sistema, encuentra el que tenga el email activo actualmente
+                if (listauser[i].Email == User.Identity.Name)
+                {
+                    fg = listauser[i];                  //obtiene el AspNetUser actual
+                }
+            }
+
+            AspNetRoles role = fg.AspNetRoles.First();  //consigue el rol del usuario
+            var per = role.PERMISOS;                    //copia los permisos que tiene asignado
+
+            foreach (PERMISOS p in role.PERMISOS)
+            {     //los copia a un HashSet<string>
+                permisos.Add(p.ID);
+            }
+
+            return permisos;
         }
 
     }

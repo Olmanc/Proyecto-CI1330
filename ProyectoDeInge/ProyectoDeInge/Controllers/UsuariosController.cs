@@ -144,18 +144,9 @@ namespace ProyectoDeInge.Controllers
             return View(modelo);
         }
 
-        /*public async Task<ActionResult> GetRolesForUser(string userId)
-        {
-            using (
-                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
-            {
-                var rolesForUser = await userManager.GetRolesAsync(userId);
-
-                return this.View(rolesForUser);
-            }
-        }*/
-
-        // GET: Usuarios/Create
+        /* EFECTO: Muestra formulario para crear usuario
+         * REQUIERE: El modelo para guardar los datos
+         * MODIFICA: NA*/
         public ActionResult Create()
         {
             var modelo = new ModeloIntermedio();
@@ -163,9 +154,9 @@ namespace ProyectoDeInge.Controllers
         }
 
 
-        // POST: Usuarios/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /* EFECTO: Guarda en la base de datos un usuario nuevo
+         * REQUIERE: El modelo con los datos ingresados por el usuario
+         * MODIFICA: crea nueva tupla en la base de datos con los datos provistos*/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ModeloIntermedio modelo)
@@ -346,22 +337,21 @@ namespace ProyectoDeInge.Controllers
         }
 
         //Método para Javascript para eliminar una persona, se llama en el jquery
-
         public ActionResult eliminarPersona(string id)
         {
-            var correos = db.CORREOS.Where(c => c.CEDULA == id);
+            var correos = db.CORREOS.Where(c => c.CEDULA == id);//elimina los correos asociados al usuario
             foreach( var c in correos){
                 db.CORREOS.Remove(c);
             }
-            var telefonos = db.TELEFONOS.Where(t => t.CEDULA == id);
+            var telefonos = db.TELEFONOS.Where(t => t.CEDULA == id);//elimina los telefonos asociados al usuario
             foreach (var t in telefonos) {
                 db.TELEFONOS.Remove(t);
             }
             USUARIOS persona = db.USUARIOS.Find(id);
             string aspId = persona.ID_ASP;
-            db.USUARIOS.Remove(persona);
+            db.USUARIOS.Remove(persona);//elimina al usuario
             var user = db.AspNetUsers.Find(aspId);
-            db.AspNetUsers.Remove(user);
+            db.AspNetUsers.Remove(user);//elimina al usuario de ASP (asociado) del sistema
             db.SaveChanges();
             return Json(new { success = true });
         }

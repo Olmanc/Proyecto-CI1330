@@ -5,14 +5,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@*-----Toastr-----*@
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/toastr.js"></script>
+<link href="~/Content/toastr.css" rel="stylesheet" />
+
+@*-----SweetAlert-----*@
+<script src="~/Scripts/sweet-alert.js"></script>
+<link href="~/Content/sweetalert/sweet-alert.css" rel="stylesheet" />
+
 <h2>Detalles de la Solicitud de Cambio</h2>
 
 <div>
     <h4> <br />Solicitud de Cambio @Html.DisplayFor(model => model.solicitud.ID)</h4>
     @*botones de los modos*@
-    <a class="btn btn-default" @*disabled="@(!Model.verificaPermisos.Contains("08") ? "disabled":null)"*@ onclick="habilitaModificar()">Modificar</a>
-    <a class="btn btn-default" @*disabled="@(!Model.verificaPermisos.Contains("09") ? "disabled":null)"*@ onclick="confirmarEliminar('@(Model.solicitud.ID)')">Eliminar</a>
-    <a class="btn btn-default" @*disabled="@(!Model.verificaPermisos.Contains("08") ? "disabled"*@ onclick="habilitarRevision()">Revisar Solicitud</a>
+    <div class="modos">
+        <a class="btn btn-default" disabled="@(!ViewBag.Permisos.Contains("16") ? "disabled":null)" onclick="habilitaModificar()">Modificar</a>
+        <a class="btn btn-default" disabled="@(!ViewBag.Permisos.Contains("17") ? "disabled":null)" onclick="confirmarEliminar('@(Model.solicitud.ID)')">Eliminar</a>
+        <a class="btn btn-default" disabled="@(!ViewBag.Permisos.Contains("21") ? "disabled":null)" onclick="habilitarRevision()">Revisar Solicitud</a>
+    </div>
+    
 </div>
 <hr /> @*raya*@
 <div />
@@ -749,7 +761,21 @@
 }
 
 <script>
-
+    $(document).ready(function () {        
+        //notificaciones de error y éxito
+        switch ('@TempData["DetallesSolicitud"]') {
+            case "Exito":
+                toastr.success('solicitud modificado exitósamente.', 'EXITO', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+            case "Error":
+                toastr.error('Error al guardar los cambios.', 'ERROR', {
+                    positionClass: "toast-bottom-right"
+                });
+                break;
+        }
+    });
     function habilitaModificar() {
         //$('.modificarSolicitud').find('input, textarea, select').attr('readonly', false);
         //$('.id').find('input, textarea, select').attr('readonly', false);
@@ -799,8 +825,38 @@
     ELIMINAR PROYECTO*@
 
     function confirmarEliminar(id) {
-
-        var respuesta = confirm('Confirma que desea eliminar esta solicitud de requerimiento del sistema?');
+        swal({
+            title: "Esta seguro que desea eliminar esta solicitud de cambio del sistema?",
+            text: "Esta acción no es reversible!",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Confirmar!",
+            closeOnConfirm: true
+        },
+        function () {
+             $.ajax({
+                type: 'POST',
+                url: '@Url.Action("eliminarSolicitud")',
+                data: 'id=' + id,
+                success: function (result) {
+                    if (result.success) {
+                        toastr.success('La solicitud fue eliminada con éxito! :)', 'EXITO', {
+                            onHidden: function () {
+                                var url = '@Url.Action("IndexSolicitudes", "CAMBIOS")';
+                                window.location.href = url;
+                            }, positionClass: 'toast-bottom-right'
+                        })
+                    }
+                    else {
+                        toastr.error('La solicitud no se puede eliminar, porque no está pendiente.', 'ERROR', {
+                            positionClass: 'toast-bottom-right'
+                        })
+                    }
+                },
+            });
+        });
+        @*var respuesta = confirm('Confirma que desea eliminar esta solicitud de requerimiento del sistema?');
 
         if (respuesta == true) {
             $.ajax({
@@ -820,7 +876,7 @@
                     }
                 },
             });
-        }
+        }*@
     }
 
 </script>

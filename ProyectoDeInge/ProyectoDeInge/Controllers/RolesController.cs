@@ -89,10 +89,34 @@ namespace ProyectoDeInge.Controllers
                 permisosAdmin.Add(lista[i]);
             }
 
-            lista = listaDe.Split(',');     
+            lista = listaDe.Split(',');
             if (lista.Contains("05") || lista.Contains("04")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
             {
                 if (!lista.Contains("03"))
+                {
+                    TempData["Permisos"] = "Permisos";
+                    return this.Edit();
+                }
+            }
+            if (lista.Contains("09") || lista.Contains("08")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
+            {
+                if (!lista.Contains("07"))
+                {
+                    TempData["Permisos"] = "Permisos";
+                    return this.Edit();
+                }
+            }
+            if (lista.Contains("13") || lista.Contains("12")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
+            {
+                if (!lista.Contains("11"))
+                {
+                    TempData["Permisos"] = "Permisos";
+                    return this.Edit();
+                }
+            }
+            if (lista.Contains("17") || lista.Contains("16")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
+            {
+                if (!lista.Contains("15"))
                 {
                     TempData["Permisos"] = "Permisos";
                     return this.Edit();
@@ -107,6 +131,30 @@ namespace ProyectoDeInge.Controllers
             if (lista.Contains("05") || lista.Contains("04")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
             {
                 if (!lista.Contains("03"))
+                {
+                    TempData["Permisos"] = "Permisos";
+                    return this.Edit();
+                }
+            }
+            if (lista.Contains("09") || lista.Contains("08")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
+            {
+                if (!lista.Contains("07"))
+                {
+                    TempData["Permisos"] = "Permisos";
+                    return this.Edit();
+                }
+            }
+            if (lista.Contains("13") || lista.Contains("12")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
+            {
+                if (!lista.Contains("11"))
+                {
+                    TempData["Permisos"] = "Permisos";
+                    return this.Edit();
+                }
+            }
+            if (lista.Contains("17") || lista.Contains("16")) //verifica que el rol no pueda modificar/eliminar usuarios si no los puede consultar
+            {
+                if (!lista.Contains("15"))
                 {
                     TempData["Permisos"] = "Permisos";
                     return this.Edit();
