@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using System.Net.Mail;
+using System.IO;
+using System.Web.Hosting;
+using System.Globalization;
 
 namespace ProyectoDeInge.Controllers
 {
@@ -167,6 +170,11 @@ namespace ProyectoDeInge.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ModeloIntermedio modelo)
         {
+            if (db.USUARIOS.Find(modelo.modeloUsuario.CEDULA) != null) {
+                TempData["Create"] = "Existe";
+                return RedirectToAction("Create");
+            }
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = modelo.modeloCorreo.CORREO, Email = modelo.modeloCorreo.CORREO };
@@ -176,86 +184,60 @@ namespace ProyectoDeInge.Controllers
 
                 if (result.Succeeded)
                 {
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);  //para iniciar sesion de una vez                  
+                    var usuarioNuevo = modelo.modeloUsuario;
+
+                    var aspUser = new AspNetUsers();
+                    var listauser = db.AspNetUsers.ToArray();
+
+                    for (int i = 0; i < listauser.Length; i++)
+                    {
+                        if (listauser[i].Email == modelo.modeloCorreo.CORREO)
+                        {
+                            aspUser = listauser[i];
+                        }
+                    }
+                    var role = db.AspNetRoles.Where(r => r.Id == modelo.rol).First();
+                    aspUser.AspNetRoles.Add(role);
+                    var id = aspUser.Id;
+                    usuarioNuevo.ID_ASP = id;
+                    db.USUARIOS.Add(usuarioNuevo);
+
+                    //correo1 nunca va a ser nulo
+                    CORREOS cor1 = modelo.modeloCorreo;
+                    cor1.CEDULA = usuarioNuevo.CEDULA;
+                    db.CORREOS.Add(cor1);
+
+                    if (modelo.modeloCorreo2.CORREO != null)
+                    {
+                        CORREOS cor2 = modelo.modeloCorreo2;
+                        cor2.CEDULA = usuarioNuevo.CEDULA;
+                        db.CORREOS.Add(cor2);
+                    }
+                    if (modelo.modeloTelefono.NUMERO != null)
+                    {
+                        TELEFONOS tel1 = modelo.modeloTelefono;
+                        tel1.CEDULA = usuarioNuevo.CEDULA;
+                        db.TELEFONOS.Add(tel1);
+                    }
+                    if (modelo.modeloTelefono2.NUMERO != null)
+                    {
+                        TELEFONOS tel2 = modelo.modeloTelefono2;
+                        tel2.CEDULA = usuarioNuevo.CEDULA;
+                        db.TELEFONOS.Add(tel2);
+                    }
+                    db.SaveChanges();
+
+                    SendEmailViewModel email = new SendEmailViewModel();
+                    email.FirstName = modelo.modeloUsuario.NOMBRE;
+                    email.Email = modelo.modeloCorreo.CORREO;
+                    var message = await EMailTemplate("WelcomeEmail");
+                    message = message.Replace("@ViewBag.Name", CultureInfo.CurrentCulture.TextInfo.ToTitleCase(email.FirstName));
+                    await MessageServices.SendEmailAsync(email.Email, "Bienvenido", message);
                 }
                 else
                 {
                     Response.Write("<Script>alert('ERROR - no creo AspNetUser.')</Script>");
-                }
-
-                var usuarioNuevo = modelo.modeloUsuario;
-
-                var aspUser = new AspNetUsers();
-                var listauser = db.AspNetUsers.ToArray();
-
-                for (int i = 0; i < listauser.Length; i++)
-                {
-                    if (listauser[i].Email == modelo.modeloCorreo.CORREO)
-                    {
-                        aspUser = listauser[i];
-                    }
-                }
-                var role = db.AspNetRoles.Where(r => r.Id == modelo.rol).First();
-                aspUser.AspNetRoles.Add(role);
-                var id = aspUser.Id;
-                usuarioNuevo.ID_ASP = id;
-                db.USUARIOS.Add(usuarioNuevo);
-
-                //correo1 nunca va a ser nulo
-                CORREOS cor1 = modelo.modeloCorreo;
-                cor1.CEDULA = usuarioNuevo.CEDULA;
-                db.CORREOS.Add(cor1);
-
-                if (modelo.modeloCorreo2.CORREO != null)
-                {
-                    CORREOS cor2 = modelo.modeloCorreo2;
-                    cor2.CEDULA = usuarioNuevo.CEDULA;
-                    db.CORREOS.Add(cor2);
-                }
-                if (modelo.modeloTelefono.NUMERO != null)
-                {
-                    TELEFONOS tel1 = modelo.modeloTelefono;
-                    tel1.CEDULA = usuarioNuevo.CEDULA;
-                    db.TELEFONOS.Add(tel1);
-                }
-                if (modelo.modeloTelefono2.NUMERO != null)
-                {
-                    TELEFONOS tel2 = modelo.modeloTelefono2;
-                    tel2.CEDULA = usuarioNuevo.CEDULA;
-                    db.TELEFONOS.Add(tel2);
-                }
-                db.SaveChanges();
-
-                //string text = string.Format("Your Password is: Pass.123");
-                //System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
-                //msg.From = new MailAddress("voncita20@outlook.com");
-                //msg.To.Add(new MailAddress(modelo.correo1.CORREO));
-                //msg.Subject = "Your Password";
-                //msg.Body = text;
-                //msg.IsBodyHtml = true;
-
-                //// msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(text, null, MediaTypeNames.Text.Plain)); 
-                ////msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
-
-                //using (var smtp = new SmtpClient())
-                //{
-                //    var credential = new NetworkCredential
-                //    {
-                //        UserName = "voncita20@outlook.com",
-                //        Password = "Javi-200495"
-                //    };
-
-                //    smtp.Credentials = credential;
-
-                //    smtp.Host = "smtp-mail.outlook.com";
-
-                //    smtp.Host = "smtp.live.com";
-
-                //    smtp.Port = 587;
-                //    smtp.EnableSsl = true;
-                //    await smtp.SendMailAsync(msg);
-                //    //return RedirectToAction("") 
-                //}
+                }                
             }
 
             return RedirectToAction("Index");
@@ -484,6 +466,16 @@ namespace ProyectoDeInge.Controllers
             }
             return View(modelo);
         }
+
+        public static async Task<string> EMailTemplate(string template)
+        {
+            var templateFilePath = HostingEnvironment.MapPath("~/Content/templates/") + template + ".cshtml";
+            StreamReader objstreamreaderfile = new StreamReader(templateFilePath);
+            var body = await objstreamreaderfile.ReadToEndAsync();
+            objstreamreaderfile.Close();
+            return body;
+        }
+
         /*
         public async Task<string> GetRolesForUser(string userId)
         {
