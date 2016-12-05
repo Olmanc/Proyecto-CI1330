@@ -311,6 +311,9 @@ namespace ProyectoDeInge.Controllers
             return View(modelo);
         }
 
+        /* EFECTO: hace cambios en datos basados en la información introducida por el usuario
+         * REQUIERE: el modelo con la información llenada por el usuario
+         * MODIFICA: base de datos partiendo de la información que introdujo el usuario  */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DetallesSolicitud(CambiosViewModel modelo)
@@ -385,7 +388,10 @@ namespace ProyectoDeInge.Controllers
             //}
             //return null;
         }
-
+        
+        /* EFECTO: Requerimiento antiguo
+         * REQUIERE: Que el estado sea Aprobado
+         * MODIFICA: El requerimiento que será el nuevo aprobado y el anterior  */
         public /*ActionResult*/ void AceptarSolicitud(CambiosViewModel modelo, REQUERIMIENTOS antiguo, REQUERIMIENTOS nuevo, CAMBIOS cambio/*, CAMBIOS actual*/)
         {
             if (modelo.propuesto.ESTADO_CAMBIOS == "Aprobado")
@@ -404,12 +410,16 @@ namespace ProyectoDeInge.Controllers
             //return modelo;
         }
 
+        // No se utiliza este método
         public /*ActionResult*/ void RechazarSolicitud(CambiosViewModel modelo)
         {
             modelo.propuesto.ESTADO_CAMBIOS = "Rechazado";
             //return null;
         }
 
+        /* EFECTO: Elimina una solicitud de cambio, hecha por el propio usuario
+         * REQUIERE: ID 
+         * MODIFICA: La información de la base de datos  */
         public ActionResult eliminarSolicitud(string id)
         {
             CAMBIOS cambio = db.CAMBIOS.Find(id);
