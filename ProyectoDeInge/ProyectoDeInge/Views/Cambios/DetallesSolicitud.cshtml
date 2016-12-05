@@ -170,13 +170,13 @@
                 {
                     <th>
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.vigente.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
+                            @Html.EditorFor(model => model.vigente.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @required = "required"/*, disabled = "disabled"*/ } })
                             @Html.ValidationMessageFor(model => model.vigente.NOMBRE, "", new { @class = "text-danger" })
                         </div>
                     </th>
                             <th>
                                 <div class="nombre">
-                                    @Html.EditorFor(model => model.propuesto.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
+                                    @Html.EditorFor(model => model.propuesto.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @required = "required"/*, disabled = "disabled"*/ } })
                                     @Html.ValidationMessageFor(model => model.propuesto.NOMBRE, "", new { @class = "text-danger" })
                                 </div>
                             </th>
@@ -185,13 +185,13 @@
                 {
                     <th bgcolor="lightgrey">
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.vigente.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
+                            @Html.EditorFor(model => model.vigente.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @required = "required"/*, disabled = "disabled"*/ } })
                             @Html.ValidationMessageFor(model => model.vigente.NOMBRE, "", new { @class = "text-danger" })
                         </div>
                     </th>
                             <th bgcolor="lightgrey">
                                 <div class="nombre">
-                                    @Html.EditorFor(model => model.propuesto.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
+                                    @Html.EditorFor(model => model.propuesto.NOMBRE, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @required = "required"/*, disabled = "disabled"*/ } })
                                     @Html.ValidationMessageFor(model => model.propuesto.NOMBRE, "", new { @class = "text-danger" })
                                 </div>
                             </th>
