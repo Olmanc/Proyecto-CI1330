@@ -183,7 +183,7 @@ namespace ProyectoDeInge.Controllers
         }
 
         /*/////////////////////////////////////////////////////////////////////////////////////////////////////////
-         INDEX de las SOLICITUDES*/
+        INDEX de las SOLICITUDES*/
         /* EFECTO: muestra listado de solicitudes
          * REQUIERE: N/A
          * MODIFICA: N/A  */
@@ -207,7 +207,8 @@ namespace ProyectoDeInge.Controllers
             USUARIOS usuarioActual = db.USUARIOS.Where(u => u.ID_ASP == fg.Id).First();
             AspNetRoles rol = fg.AspNetRoles.First();
             //Administrador
-            if (rol.Name == "Administrador") {
+            if (rol.Name == "Administrador")
+            {
                 foreach (var l in listaCambios)
                 {//todos las solicitudes
                     if ((l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "Pendiente") || (l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "En revisión"))
@@ -217,7 +218,8 @@ namespace ProyectoDeInge.Controllers
                 }
             }
             //lider
-            if (rol.Name == "Desarrollador") {
+            if (rol.Name == "Desarrollador")
+            {
                 if (usuarioActual.LIDER == true)//es lider
                 {
                     foreach (var l in listaCambios)
@@ -228,7 +230,8 @@ namespace ProyectoDeInge.Controllers
                         }
                     }
                 }
-                else {
+                else
+                {
                     foreach (var l in listaCambios)
                     {//solicitudes pendientes/en revisión que solicitó
                         if (((l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "Pendiente") || (l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "En revisión")) && (l.CEDULA == usuarioActual.CEDULA))
@@ -239,7 +242,8 @@ namespace ProyectoDeInge.Controllers
                 }
             }
             //otro - usuario
-            if (rol.Name == "Usuario") {
+            if (rol.Name == "Usuario")
+            {
                 foreach (var l in listaCambios)
                 {//solicitudes pendientes/en revisión que solicitó
                     if (((l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "Pendiente") || (l.REQUERIMIENTOS1.ESTADO_CAMBIOS == "En revisión")) && (l.CEDULA == usuarioActual.CEDULA))
@@ -291,10 +295,12 @@ namespace ProyectoDeInge.Controllers
             }
 
             var usuario = db.USUARIOS.Where(u => u.ID_ASP.Equals(fg.Id)).Single();
-            if (usuario.LIDER == true && usuario.PRYCTOID == modelo.solicitud.REQUERIMIENTOS.PRYCTOID) {
+            if (usuario.LIDER == true && usuario.PRYCTOID == modelo.solicitud.REQUERIMIENTOS.PRYCTOID)
+            {
                 permisos.Add("21");
             }
-            if (modelo.solicitud.CEDULA == usuario.CEDULA) {
+            if (modelo.solicitud.CEDULA == usuario.CEDULA)
+            {
                 permisos.Add("16");
                 permisos.Add("17");
             }
@@ -354,7 +360,7 @@ namespace ProyectoDeInge.Controllers
             cambio.FECHA = DateTime.Now;
             cambio.JUSTIFICACION = modelo.solicitud.JUSTIFICACION;
 
-            if (cambioActualizado.ESTADO_CAMBIOS != modelo.propuesto.ESTADO_CAMBIOS)
+            if ((cambioActualizado.ESTADO_CAMBIOS != modelo.propuesto.ESTADO_CAMBIOS) || (modelo.propuesto.ESTADO_CAMBIOS == "En revisión"))
             {
                 cambio.CED_REV = usuario.CEDULA;
                 if (modelo.solicitud.FECHA_REV == null)
@@ -375,7 +381,6 @@ namespace ProyectoDeInge.Controllers
             db.Entry(reqAntiguo).State = EntityState.Modified;
             db.Entry(cambioActualizado).State = EntityState.Modified;
             db.SaveChanges();
-            TempData["DetallesSolicitud"] = "Exito";
             return RedirectToAction("DetallesSolicitud", new { ID = modelo.solicitud.ID });
             //}
             //return null;
@@ -436,7 +441,9 @@ namespace ProyectoDeInge.Controllers
             }
         }
 
-        public HashSet<string> obtienePermisos()
+    
+
+    public HashSet<string> obtienePermisos()
         {
             var fg = new AspNetUsers();                 //instancia AspNetUser para usuario actual
             HashSet<string> permisos = new HashSet<string>();

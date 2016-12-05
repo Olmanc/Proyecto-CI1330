@@ -452,43 +452,44 @@
                             </th>
                 }
             </tr>
-            @*Encargado de los requerimientos*@
-            <tr>
+           @*Encargado de los requerimientos*@
+        <tr>
+            <th>
+                Encargado
+            </th>
+            @*@Html.HiddenFor(model => model.propuesto.ENCARGADO)*@
+            @if (Model.propuesto.ENCARGADO.Equals(Model.vigente.ENCARGADO))
+                {
                 <th>
-                    Encargado
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.vigente.ENCARGADO, (IEnumerable<SelectListItem>)ViewData["ENCARGADO"], new { @class = "form-control", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.vigente.ENCARGADO, "", new { @class = "text-danger" })
+                    </div>
                 </th>
-                @Html.HiddenFor(model => model.propuesto.ENCARGADO)
-                @if (Model.propuesto.ENCARGADO.Equals(Model.vigente.USUARIOS.NOMBRE))
-                {
                     <th>
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.vigente.ENCARGADO, (IEnumerable<SelectListItem>)ViewData["ENCARGADO"], new { @class = "form-control", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(model => model.vigente.USUARIOS.NOMBRE, "", new { @class = "text-danger" })
+                        <div class="encargado">
+                            @Html.DropDownListFor(model => model.propuesto.ENCARGADO, (IEnumerable<SelectListItem>)ViewData["ENCARGADO"], new { @class = "form-control", @disabled = "disabled" })
+                            @Html.ValidationMessageFor(model => model.propuesto.ENCARGADO, "", new { @class = "text-danger" })
                         </div>
                     </th>
-                            <th>
-                                <div class="encargado">
-                                    @Html.DropDownListFor(model => model.propuesto.ENCARGADO, (IEnumerable<SelectListItem>)ViewData["ENCARGADO"], new { @class = "form-control", @readonly = "readonly" })
-                                    @Html.ValidationMessageFor(model => model.propuesto.ENCARGADO, "", new { @class = "text-danger" })
-                                </div>
-                            </th>
-                }
-                else
-                {
+            }
+            else
+            {
+                <th bgcolor="lightgrey">
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.vigente.ENCARGADO, (IEnumerable<SelectListItem>)ViewData["ENCARGADO"], new { @class = "form-control", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.vigente.ENCARGADO, "", new { @class = "text-danger" })
+                    </div>
+                </th>
                     <th bgcolor="lightgrey">
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(model => model.vigente.USUARIOS.NOMBRE, (IEnumerable<SelectListItem>)ViewData["ENCARGADO"], new { @class = "form-control", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(model => model.vigente.ENCARGADO, "", new { @class = "text-danger" })
+                        <div class="encargado">
+                            @Html.DropDownListFor(model => model.propuesto.ENCARGADO, (IEnumerable<SelectListItem>)ViewData["ENCARGADO"], new { @class = "form-control", @disabled = "disabled" })
+                            @Html.ValidationMessageFor(model => model.propuesto.ENCARGADO, "", new { @class = "text-danger" })
                         </div>
                     </th>
-                            <th bgcolor="lightgrey">
-                                <div class="encargado">
-                                    @Html.DropDownListFor(model => model.propuesto.ENCARGADO, (IEnumerable<SelectListItem>)ViewData["ENCARGADO"], new { @class = "form-control", @readonly = "readonly" })
-                                    @Html.ValidationMessageFor(model => model.propuesto.USUARIOS.NOMBRE, "", new { @class = "text-danger" })
-                                </div>
-                            </th>
-                }
-            </tr>
+            }
+        </tr>
+
             @*Proyecto al que pertenecen los requerimientos*@
             <tr>
                 <th>
@@ -571,7 +572,7 @@
                     <th>
                         <div class="col-md-10">
                             @*@Html.EditorFor(model => model.vigente.ESTADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })
-                                @Html.ValidationMessageFor(model => model.vigente.ESTADO, "", new { @class = "text-danger" })*@
+                        @Html.ValidationMessageFor(model => model.vigente.ESTADO, "", new { @class = "text-danger" })*@
                             @*</div>*@
 
                             @Html.DropDownListFor(model => model.vigente.ESTADO, new SelectList(
@@ -586,10 +587,10 @@
                             @Html.ValidationMessageFor(model => model.vigente.ESTADO, "", new { @class = "text-danger" })
                         </div>
                     </th>
-                            <th>
-                                <div class="estado">
-                                    @*@Html.EditorFor(model => model.propuesto.ESTADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })*@
-                                    @Html.DropDownListFor(model => model.propuesto.ESTADO, new SelectList(
+                    <th>
+                        <div class="estado">
+                            @*@Html.EditorFor(model => model.propuesto.ESTADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })*@
+                            @Html.DropDownListFor(model => model.propuesto.ESTADO, new SelectList(
                                         new List<Object>{
                                             new { value = "Pendiente" , text = "Pendiente"  },
                                             new { value = "Asignado" , text = "Asignado" },
@@ -598,9 +599,9 @@
                                             new { value = "Cerrado" , text = "Cerrado"}
                                         },
                                      "value", "text", 2), htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
-                                    @Html.ValidationMessageFor(model => model.propuesto.ESTADO, "", new { @class = "text-danger" })
-                                </div>
-                            </th>
+                            @Html.ValidationMessageFor(model => model.propuesto.ESTADO, "", new { @class = "text-danger" })
+                        </div>
+                    </th>
                 }
                 else
                 {
@@ -619,10 +620,10 @@
                             @Html.ValidationMessageFor(model => model.vigente.ESTADO, "", new { @class = "text-danger" })
                         </div>
                     </th>
-                            <th bgcolor="lightgrey">
-                                <div class="estado">
-                                    @*@Html.EditorFor(model => model.propuesto.ESTADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })*@
-                                    @Html.DropDownListFor(model => model.propuesto.ESTADO, new SelectList(
+                    <th bgcolor="lightgrey">
+                        <div class="estado">
+                            @*@Html.EditorFor(model => model.propuesto.ESTADO, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"/*, disabled = "disabled"*/ } })*@
+                            @Html.DropDownListFor(model => model.propuesto.ESTADO, new SelectList(
                                         new List<Object>{
                                             new { value = "Pendiente" , text = "Pendiente"  },
                                             new { value = "Asignado" , text = "Asignado" },
@@ -631,9 +632,9 @@
                                             new { value = "Cerrado" , text = "Cerrado"}
                                         },
                                      "value", "text", 2), htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
-                                    @Html.ValidationMessageFor(model => model.propuesto.ESTADO, "", new { @class = "text-danger" })
-                                </div>
-                            </th>
+                            @Html.ValidationMessageFor(model => model.propuesto.ESTADO, "", new { @class = "text-danger" })
+                        </div>
+                    </th>
                 }
             </tr>
             @*Sprint de los requerimientos*@
@@ -709,7 +710,7 @@
 
             <dd>
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.solicitud.nombreCompleto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled"} })
+                    @Html.EditorFor(model => model.solicitud.nombreCompleto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", disabled = "disabled" } })
                     @Html.ValidationMessageFor(model => model.solicitud.nombreCompleto, "", new { @class = "text-danger" })
                 </div>
             </dd>
@@ -788,10 +789,10 @@
         $('.modulo').find('input, textarea, select').attr('readonly', false);
         $('.fechainicio').find('input, textarea, select').attr('readonly', false);
         $('.fechafin').find('input, textarea, select').attr('readonly', false);
-        $('.encargado').find('input, textarea, select').attr('readonly', false);
+        $('.encargado').find('input, textarea, select').attr('disabled', false);
         //$('.proyecto').find('input, textarea, select').attr('readonly', false);
         //$('.version').find('input, textarea, select').attr('readonly', false);
-        $('.estado').find('input, textarea, select').attr('disabled', false);
+        //$('.estado').find('input, textarea, select').attr('disabled', false);
         $('.sprint').find('input, textarea, select').attr('readonly', false);
         $('.revisarSolicitud').find('input, textarea, select').attr('readonly', true);
         $('.modos').children().attr('disabled', true);
@@ -809,10 +810,10 @@
         $('.modulo').find('input, textarea, select').attr('readonly', false);
         $('.fechainicio').find('input, textarea, select').attr('readonly', false);
         $('.fechafin').find('input, textarea, select').attr('readonly', false);
-        $('.encargado').find('input, textarea, select').attr('readonly', false);
+        $('.encargado').find('input, textarea, select').attr('disabled', false);
         //$('.proyecto').find('input, textarea, select').attr('readonly', false);
         //$('.version').find('input, textarea, select').attr('readonly', false);
-        $('.estado').find('input, textarea, select').attr('disabled', false);
+        //$('.estado').find('input, textarea, select').attr('disabled', false);
         $('.sprint').find('input, textarea, select').attr('readonly', false);
         $('.revisarSolicitud').find('input, textarea, select').attr('readonly', false);
         $('.modos').children().attr('disabled', true);
@@ -856,27 +857,6 @@
                 },
             });
         });
-        @*var respuesta = confirm('Confirma que desea eliminar esta solicitud de requerimiento del sistema?');
-
-        if (respuesta == true) {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("eliminarSolicitud")',
-                data: 'id=' + id,
-                success: function (result) {
-                    if (result.success) {
-                        alert('Solicitud eliminada con éxito.');
-                        var url = '@Url.Action("IndexSolicitudes", "CAMBIOS")';
-                        window.location.href = url;
-                    }
-                    else {
-                        alert('La solicitud no se puede eliminar.');
-                        var url = '@Url.Action("IndexSolicitudes", "CAMBIOS")';
-                        window.location.href = url;
-                    }
-                },
-            });
-        }*@
     }
 
 </script>
